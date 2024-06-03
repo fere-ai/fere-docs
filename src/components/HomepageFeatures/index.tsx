@@ -10,32 +10,37 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Simple & Effective',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        FereAI is built to be simple to use and effective in its purpose. It
+        provides a simple interface to interact with the AI. It's ability to
+        process tons of pricing data, historical trends, social media and news
+        data, and much more, makes it a powerful tool for any investor.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'A.I. (Accurate Information)',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        FereAI is connected to internet and various other data providers, which
+        allows it to provide accurate information and predictions. It's
+        algorithms are constantly learning and improving, which makes it
+        extremely accurate.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Features you\'ll love',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Pin your chats to build your own powerful dashboard. Or share them with
+        your friends to get input on your decisions. FereAI is a powerful tool
+        that you'll love to use.
       </>
     ),
   },
