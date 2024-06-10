@@ -9,6 +9,51 @@
   src: url('../../static/fonts/Noto_Sans_Sundanese/NotoSansSundanese-VariableFont_wght.ttf') format('ttf');
 }
 
+@font-face {
+  font-family: 'Spartan Black';
+  src: url('../../static/fonts/Spartan/Spartan-Black.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan Bold';
+  src: url('../../static/fonts/Spartan/Spartan-Bold.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan ExtraBold';
+  src: url('../../static/fonts/Spartan/Spartan-ExtraBold.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan ExtraLight';
+  src: url('../../static/fonts/Spartan/Spartan-ExtraLight.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan Light';
+  src: url('../../static/fonts/Spartan/Spartan-Light.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan Medium';
+  src: url('../../static/fonts/Spartan/Spartan-Medium.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan Regular';
+  src: url('../../static/fonts/Spartan/Spartan-Regular.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan SemiBold';
+  src: url('../../static/fonts/Spartan/Spartan-SemiBold.otf') format('otf');
+}
+
+@font-face {
+  font-family: 'Spartan Thin';
+  src: url('../../static/fonts/Spartan/Spartan-Thin.otf') format('otf');
+}
+
 /* You can override the default Infima variables here. */
 :root {
   --ifm-color-primary: #000000;
@@ -19,7 +64,8 @@
   --ifm-color-primary-lighter: #000000;
   --ifm-color-primary-lightest: #000000;
   --ifm-background-color: #ebebeb;
-  --ifm-font-family-base: 'NotoSandSundanese', sans-serif;
+  --ifm-font-family-base: 'Spartan Regular', sans-serif;
+  --ifm-font-family-monospace: "Spartan Regular";
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
