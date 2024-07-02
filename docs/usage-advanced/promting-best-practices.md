@@ -6,7 +6,7 @@ sidebar_position: 3
 
 ## How do I get better responses?
 
-Coming Soon.
+Test 1
 
 ## How do I set the context of previous chats?
 
