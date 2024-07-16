@@ -4,9 +4,12 @@ sidebar_position: 2
 
 # Content Policy
 
+Updated on: 18 July 2024
+
 Welcome to FereAI. This Content Policy outlines the rules and guidelines for using our AI-powered cryptocurrency chatbot ("Service"). By using our Service, you agree to comply with this policy.
 
-**Prohibited Content**
+## Prohibited Content
+---
 
 You may not use our Service to create, share, or distribute content that:
 
@@ -18,7 +21,8 @@ You may not use our Service to create, share, or distribute content that:
 - Is discriminatory or promotes hate speech based on race, ethnicity, national origin, religion, disability, gender, age, or sexual orientation.
 - Contains malware, spyware, or other malicious code.
 
-**User-Generated Content**
+## User-Generated Content
+---
 
 1. Responsibility
 
@@ -28,7 +32,8 @@ You are solely responsible for the content you create, share, or distribute usin
 
 We reserve the right to monitor, review, and remove any content that violates this Content Policy. We may also suspend or terminate your access to our Service for violations of this policy.
 
-**Intellectual Property**
+## Intellectual Property
+---
 
 1. Ownership
 
@@ -44,7 +49,8 @@ If you believe that your intellectual property rights have been infringed upon b
 - A statement by you that you have a good faith belief that the disputed use is not authorized by the copyright owner, its agent, or the law.
 - A statement by you, made under penalty of perjury, that the information in your notice is accurate and that you are the copyright owner or authorized to act on the copyright owner's behalf.
 
-**User Conduct**
+## User Conduct
+---
 
 You agree not to engage in any of the following prohibited activities:
 
@@ -53,7 +59,8 @@ You agree not to engage in any of the following prohibited activities:
 - Attempting to gain unauthorized access to our systems or networks.
 - Collecting or storing personal data about other users without their consent.
 
-**Crypto-Specific Guidelines**
+## Crypto-Specific Guidelines
+---
 
 Given the nature of FereAI as a cryptocurrency companion, you must also adhere to the following guidelines:
 
@@ -61,6 +68,7 @@ Given the nature of FereAI as a cryptocurrency companion, you must also adhere t
 - Ensure that all information shared about cryptocurrencies, including but not limited to trading strategies, market analysis, and investment advice, is accurate and not misleading.
 - Avoid sharing sensitive personal information, such as private keys or passwords, through our Service.
 
-**Changes to this Policy**
+## Changes to this Policy
+---
 
 We may update our Content Policy from time to time. We will notify you of any changes by posting the new Content Policy on this page. You are advised to review this Content Policy periodically for any changes. Changes to this Content Policy are effective when they are posted on this page.

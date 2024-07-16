@@ -2,10 +2,10 @@
 sidebar_position: 1
 ---
 
-Updated on: 18 July 2024
-
 # Privacy Policy
+---
 
+Updated on: 18 July 2024
 
 Welcome to FereAI. We are committed to protecting your privacy. This Privacy Policy explains how we collect,
 use, disclose, and safeguard your information when you use our services.
@@ -19,12 +19,14 @@ persons with regard to the processing of personal data and on the free movement 
 such data (hereinafter the "GDPR").
 
 
-# 1. Who is the data controller?
+## 1. Who is the data controller?
+---
 
 The data controller is M6O9Z Foundation, an Exempted Limited Guarantee Foundation Company incorporated in the Cayman Islands with Limited Liability, having it's offices at Intershore Consult (Cayman) Ltd.
 Suite 303, George Town Financial Center, 90 Fort Street, George Town, Grand Cayman, Cayman Islands.
 
-# 2. What data we collect
+## 2. What data we collect
+---
 
 Personal data is a data that identifies an individual directly or indirectly, in particular by reference
 to an identifier such as a name.
@@ -40,7 +42,8 @@ We may collect the following personal data:
 We inform you, when collecting your personal data, whether some of these data are mandatory or optional. Mandatory
 data are indicated with an asterisk.
 
-# 3. On what legal basis, for what purposes and for how long do we keep your personal data?
+## 3. On what legal basis, for what purposes and for how long do we keep your personal data?
+---
 
 | Purpose  | Legal Basis  | Data Retention period  |
 |:----------|:----------|:----------|
@@ -54,13 +57,15 @@ data are indicated with an asterisk.
 | | | If you exercise your right to object to direct marketing: we keep this information for 3 years. |
 
 
-# 4. Who are the recipients of your personal data?
+## 4. Who are the recipients of your personal data?
+---
 
 - Selected staff of our company, based on our internal data access policy.
  - Our processors: hosting provider, CRM tool, mailing provider, form creation provider, payment ervice provider.
 - If applicable: public and private organisations, exclusively to comply with our legal obligations.
 
-# 5. Are your personal data likely to be transferred outside the European Union?
+## 5. Are your personal data likely to be transferred outside the European Union?
+---
 
 Your personal data is hosted for the duration of the processing on the servers of the company Amazon Web Services and Supabase located in the United States or India or Singapore.
 
@@ -71,7 +76,8 @@ The personal data are transferred to a country whose level of data protection ha
 The personal data are transferred under the any appropriate safeguards described in Chapter V of the GDPR.
 
 
-# 5. What rights do you have regarding your personal data?
+## 6. What rights do you have regarding your personal data?
+---
 
 You have the following rights with regard to your personal data:
 
@@ -88,14 +94,16 @@ You have the following rights with regard to your personal data:
 
 You can exercise these rights by writing us using the contact details below. For this matter we may ask you to provide us with additional information or documents to prove your identity.
 
-# 6. Contact information for data privacy matters
+## 7. Contact information for data privacy matters
+---
 
 Contact email: hello@fereai.xyz
 
 Contact address: Intershore Consult (Cayman) Ltd.
 Suite 303, George Town Financial Center, 90 Fort Street, George Town, Grand Cayman, Cayman Islands.
 
-# 7. Modifications
+## 8. Modifications
+---
 
 We may modify this privacy policy at any time, in particular in order to comply with any regulatory, jurisprudential, editorial or technical change. These modifications will apply on the date of entry into force of the modified version. Please regularly consult the latest version of this privacy policy. You will be kept posted of any significant change of the privacy policy.
 

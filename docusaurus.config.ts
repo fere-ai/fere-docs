@@ -107,7 +107,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} FereAi.xyz, Inc.`,
+      copyright: `Copyright © ${new Date().getFullYear()} FereAi.xyz`,
     },
     prism: {
       theme: prismThemes.github,
