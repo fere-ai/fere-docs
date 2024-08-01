@@ -64,8 +64,8 @@
   --ifm-color-primary-lighter: #000000;
   --ifm-color-primary-lightest: #000000;
   --ifm-background-color: #ebebeb;
-  --ifm-font-family-base: 'Spartan Regular', sans-serif;
-  --ifm-font-family-monospace: "Spartan Regular";
+  /* --ifm-font-family-base: 'Spartan Regular', sans-serif; */
+  /* --ifm-font-family-monospace: "Spartan Regular"; */
 }
 
 /* For readability concerns, you should choose a lighter palette in dark mode. */
