@@ -64,7 +64,7 @@ const config: Config = {
       title: 'FereAI.xyz',
       logo: {
         alt: 'FereAi.xyz Logo',
-        src: 'img/logo.svg',
+        src: 'img/icon_white_small.png',
       },
       items: [
         {
