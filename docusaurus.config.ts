@@ -8,22 +8,15 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: 'https://docs.fereai.xyz',
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
   organizationName: 'merokudao', // Usually your GitHub org/user name.
   projectName: 'fere_docs', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -34,19 +27,16 @@ const config: Config = {
       'classic',
       {
         docs: {
+          routeBasePath: '/',
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-            // 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          exclude: ['README.md'],
+          lastVersion: 'current',
+          versions: {
+            current: {
+              label: 'v1',
+            },
+          },
         },
-        // blog: {
-        //   showReadingTime: true,
-        //   // Please change this to your repo.
-        //   // Remove this to remove the "edit this page" links.
-        //   // editUrl:
-        //     // 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        // },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -58,13 +48,40 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
+    metadata: [
+      { name: 'og:image',
+        content: 'https://d17amglcmpxxe9.cloudfront.net/assets/logo/gradient.png'
+      },
+      {
+        name: 'twitter:domain',
+        content: 'docs.fereai.xyz',
+      },
+      {
+        name: 'twitter:creator',
+        content: 'fere_ai',
+      },
+      {
+        name: 'twitter:site',
+        content: '@fere_ai',
+      },
+      {
+        name: 'og:type',
+        content: 'website',
+      },
+      {
+        name: 'og:site_name',
+        content: 'FereAI Docs',
+      },
+    ],
     navbar: {
+      hideOnScroll: true,
       title: 'FereAI.xyz',
       logo: {
         alt: 'FereAi.xyz Logo',
         src: 'img/icon_white_small.png',
+        href: '/',
+        target: '_self',
       },
       items: [
         {

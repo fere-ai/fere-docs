@@ -1,5 +1,5 @@
 {
-  "label": "Chat with Agents",
+  "label": "Standard Agents",
   "position": 5,
   "link": {
     "type": "generated-index"

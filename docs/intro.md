@@ -20,29 +20,6 @@ FereAI is designed to provide you with accurate and reliable information. Any ma
 
 If you find an answer to be incorrect, please provide feedback by using the "Thumbs down" button at the end of the chat.
 
-### Who can view my conversations?
-
-As part of our commitment to safe and responsible AI, we regularly review conversations to improve our systems and ensure that the content complies with our policies and safety requirements. This ongoing review process helps us maintain high standards of accuracy, reliability, and user safety.
-
-By continuously refining our AI, we aim to provide you with the best possible experience, assisting you in making informed decisions in the ever-evolving cryptocurrency landscape. Your trust and safety are our top priorities, and we are dedicated to upholding these values in every interaction.
-
-### Will you use my conversations for training?
-
-When you use our services, we may use your content to train our models, enhancing the overall performance and accuracy of FereAI. However, we respect your privacy and offer you the option to opt out of this training process. You can do so through our privacy portal by clicking on “Do Not Train on My Content.” Alternatively, to turn off training for your ChatGPT conversations, follow the instructions in our Data Controls FAQ.
-
-Once you opt out, any new conversations will not be used to train our models. Your privacy and trust are of utmost importance to us, and we are committed to providing you with transparent and secure options to control your data. By opting out, you can continue to enjoy the benefits of FereAI with the assurance that your new conversations will remain private.
-
-### Can you delete my data?
-
-Yes, we understand the importance of your privacy and data security. To delete your data, please follow our [data deletion process](#). This process is designed to ensure that your personal information is securely and thoroughly removed from our systems.
-
-If you have any questions or need further assistance, our customer support team is always here to help. We value your trust and are committed to providing you with the highest level of privacy and security.
-
-### Can you delete specific prompts?
-
-Unfortunately, we are not able to delete specific prompts from your history. To ensure your privacy and security, we kindly ask that you refrain from sharing any sensitive information in your conversations.
-
-At FereAI, we prioritize your trust and safety. While we work to provide a seamless and beneficial experience, it is crucial to keep your personal information secure. If you have any concerns about your data, please refer to our privacy policies or contact our support team for further guidance.
 
 ### Can I see my history of threads? How can I save a conversation I’ve had?
 

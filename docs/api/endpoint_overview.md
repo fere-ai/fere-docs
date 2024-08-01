@@ -6,4 +6,5 @@ sidebar_position: 4
 
 |Type | Description | Endpoint |
 |---|---|---|
-|Pro| The production endpoint is used for production purposes. | `https://api.fereai.xyz` |
+|REST| For RESTful JSON APIs | `https://api.fereai.xyz` |
+|WebSocket| For real-time data | `wss://api.fereai.xyz` |
