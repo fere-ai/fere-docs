@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import path from 'path';
 
 const config: Config = {
   title: 'FereAI.xyz',
@@ -37,13 +38,29 @@ const config: Config = {
           },
         },
         theme: {
-          customCss: './src/css/custom.css',
+          customCss: [
+            require.resolve('./node_modules/modern-normalize/modern-normalize.css'),
+            require.resolve('./node_modules/@ionic-internal/ionic-ds/dist/tokens/tokens.css'),
+            require.resolve('./src/styles/custom.scss'),
+          ],
         },
       } satisfies Preset.Options,
     ],
   ],
   plugins: [
-    require.resolve('docusaurus-lunr-search')
+    require.resolve('docusaurus-lunr-search'),
+    'docusaurus-plugin-sass',
+    [
+      'docusaurus-plugin-module-alias',
+      {
+        alias: {
+          'styled-components': path.resolve(__dirname, './node_modules/styled-components'),
+          react: path.resolve(__dirname, './node_modules/react'),
+          'react-dom': path.resolve(__dirname, './node_modules/react-dom'),
+          '@components': path.resolve(__dirname, './src/components'),
+        },
+      },
+    ]
   ],
 
   themeConfig: {
@@ -75,10 +92,10 @@ const config: Config = {
     ],
     navbar: {
       hideOnScroll: true,
-      title: 'FereAI.xyz',
       logo: {
         alt: 'FereAi.xyz Logo',
-        src: 'img/icon_white_small.png',
+        srcDark: 'img/black_small.png',
+        src: 'img/white_small.png',
         href: '/',
         target: '_self',
       },
