@@ -5,10 +5,11 @@ sidebar_position: 2
 # Market Analyzer Agent
 
 The Market Analyzer Agent has two interesting use cases. It can
-(a) Generate summary about the market based on last `X` hours of social chatter and news.
-(b) Can answer questions from the social chatter and news based on last `X` hours.
 
-`X` can be `12`, `24` or `48` hours.
+- Generate summary about the market based on last `X` hours of social chatter and news.
+- Answer questions from the social chatter and news based on last `X` hours.
+
+`X` can be `1`, `2`, `4`, `12` or `24` hours.
 
 ## Generate Market Summary
 
@@ -18,7 +19,7 @@ The Market Analyzer Agent has two interesting use cases. It can
 
 ### Message
 
-The MarketAnalyzer Agent can generate summary based on the latest data from `12`, `24` and `48` hours.
+The MarketAnalyzer Agent can generate summary based on the latest data from `1`, `2`, `4`, `12` and `24` hours.
 You need to pass the hours as `x_hours` in the message.
 
 ```json
