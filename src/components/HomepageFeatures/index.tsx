@@ -10,37 +10,33 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Simple & Effective',
+    title: 'Docs',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        FereAI is built to be simple to use and effective in its purpose. It
-        provides a simple interface to interact with the AI. It's ability to
-        process tons of pricing data, historical trends, social media and news
-        data, and much more, makes it a powerful tool for any investor.
+        Explore how to use FereAI to it's max potential. Do Your Crypto Research
+        in a matter of minutes. Analyze Market Chatter. Or Invest your crypto
+        via Investment Agent. These docs will help you get started.
       </>
     ),
   },
   {
-    title: 'A.I. (Accurate Information)',
+    title: 'Build',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        FereAI is connected to internet and various other data providers, which
-        allows it to provide accurate information and predictions. It's
-        algorithms are constantly learning and improving, which makes it
-        extremely accurate.
+        Super charge your app with our APIs. Use our powerful APIs to build
+        your own crypto research assistant. Or customize it to work with your
+        own trading bot or platform. The possibilities are endless.
       </>
     ),
   },
   {
-    title: 'Features you\'ll love',
+    title: 'Support',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Pin your chats to build your own powerful dashboard. Or share them with
-        your friends to get input on your decisions. FereAI is a powerful tool
-        that you'll love to use.
+        Get Support on product usage or API integration. We are here to help you.
       </>
     ),
   },

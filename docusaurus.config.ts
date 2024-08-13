@@ -4,9 +4,9 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 
 const config: Config = {
-  title: 'FereAI.xyz',
-  tagline: 'Your all in one crypto assistant',
-  favicon: 'img/favicon.ico',
+  title: 'FereAI',
+  tagline: 'Your ultimate crypto assistant',
+  favicon: 'img/icon.ico',
 
   // Set the production url of your site here
   url: 'https://docs.fereai.xyz',
@@ -72,6 +72,9 @@ const config: Config = {
       isCloseable: false,
     },
     metadata: [
+      { name: 'keywords',
+        content: 'AI for Crypto, FereAI'
+      },
       { name: 'og:image',
         content: 'https://d17amglcmpxxe9.cloudfront.net/assets/logo/gradient.png'
       },
@@ -120,7 +123,7 @@ const config: Config = {
         },
         {
           href: 'https://discord.gg/gJ8vC3wE7P',
-          label: 'Discord',
+          label: 'Support',
           position: 'right',
         },
       ],
@@ -142,7 +145,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'Community',
+          // title: 'Community',
           items: [
             {
               label: 'Discord',
@@ -155,7 +158,7 @@ const config: Config = {
           ],
         },
         {
-          title: 'Legal',
+          // title: 'Legal',
           items: [
             {
               label: 'Privacy Policy',
@@ -172,7 +175,7 @@ const config: Config = {
           ],
         }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()}, Fere AI`,
+      copyright: `Fere AI. Made with 💙💙 by 🐵🐵 and 🤖🤖`,
     },
     prism: {
       theme: prismThemes.github,
