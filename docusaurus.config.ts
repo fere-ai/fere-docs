@@ -122,7 +122,7 @@ const config: Config = {
           label: 'Developers',
         },
         {
-          href: 'https://discord.gg/gJ8vC3wE7P',
+          href: 'https://discord.com/invite/3fsm5XJNW8',
           label: 'Support',
           position: 'right',
         },
@@ -149,7 +149,7 @@ const config: Config = {
           items: [
             {
               label: 'Discord',
-              href: 'https://discord.gg/gJ8vC3wE7P',
+              href: 'https://discord.com/invite/3fsm5XJNW8',
             },
             {
               label: 'Twitter',
