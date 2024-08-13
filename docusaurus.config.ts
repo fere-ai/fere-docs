@@ -65,6 +65,12 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/docusaurus-social-card.jpg',
+    announcementBar: {
+      id: 'announcement-bar',
+      content:
+        '<a href="https://www.fereai.xyz/" target="_blank" rel="noopener"><span>Join <strong>FereAI</strong> now and get 200 FREE credits. →</span></a>',
+      isCloseable: false,
+    },
     metadata: [
       { name: 'og:image',
         content: 'https://d17amglcmpxxe9.cloudfront.net/assets/logo/gradient.png'
@@ -104,7 +110,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
           position: 'left',
-          label: 'Documentation',
+          label: 'Docs',
         },
         {
           type: 'docSidebar',
@@ -123,12 +129,16 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          // title: 'Docs',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Docs',
               to: '/docs/intro',
             },
+            {
+              label: 'Developers',
+              to: '/docs/api/api-introduction',
+            }
           ],
         },
         {
