@@ -54,6 +54,7 @@ const sidebars: SidebarsConfig = {
       'dirName': 'legal'
     }
   ]
+
 };
 
 export default sidebars;

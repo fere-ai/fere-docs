@@ -144,8 +144,25 @@ const config: Config = {
             },
           ],
         },
+        {
+          title: 'Legal',
+          items: [
+            {
+              label: 'Privacy Policy',
+              to: '/docs/legal/privacy-policy',
+            },
+            {
+              label: 'Terms of Service',
+              to: '/docs/legal/terms-of-service',
+            },
+            {
+              label: 'Content Policy',
+              to: '/docs/legal/content-policy',
+            }
+          ],
+        }
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} FereAi.xyz`,
+      copyright: `Copyright © ${new Date().getFullYear()}, Fere AI`,
     },
     prism: {
       theme: prismThemes.github,
