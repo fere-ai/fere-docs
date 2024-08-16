@@ -10,7 +10,9 @@ Let's discover FereAI in less than 5 minutes.🤝
 
 [FereAI](https://www.fereai.xyz) is not your typical crypto analysis tool. It's a revolutionary platform powered by a team of specialized AI agents. Think of it like having a whole team of crypto experts working for you, 24/7. Each agent has its own unique skills and expertise, and they all work together to provide you with the most comprehensive and insightful market analysis available.
 
-Instead of relying on static data or limited language models, FereAI's agents are autonomous. They can write code, use APIs, browse the internet, and make inferences in real-time. This means they can access the latest information, analyze trends, and provide you with up-to-the-minute insights.
+Our Agents are live and autonomous. They have access to real time world events as it happens.
+They can read news, tweets, farcaster, youtube, tiktok and even browse the internet to get the latest information.
+They can also write code, use APIs, and make inferences in real-time. This means they can provide you with up-to-the-minute insights and analysis.
 
 ### Who is FereAI for?
 

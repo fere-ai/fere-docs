@@ -13,15 +13,9 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 const sidebars: SidebarsConfig = {
   tutorialSidebar: [
     {
-      type: 'category',
+      type: 'doc',
+      id: 'intro',
       label: 'Introduction',
-      link: {
-        type: 'doc',
-        id: 'intro'
-      },
-      items: ['intro'],
-      collapsible: false,
-      collapsed: false,
     },
     {
       type: 'category',
