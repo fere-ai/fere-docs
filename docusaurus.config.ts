@@ -64,7 +64,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/fere_logo_black.png',
     announcementBar: {
       id: 'announcement-bar',
       content:
