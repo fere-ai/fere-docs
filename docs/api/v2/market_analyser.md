@@ -2,9 +2,9 @@
 sidebar_position: 2
 ---
 
-# Market Analyzer Agent
+# Market Pulse Agent
 
-The Market Analyzer Agent has two interesting use cases. It can
+The Market Pulse Agent has two interesting use cases. It can
 
 - Generate summary about the market based on last `X` hours of social chatter and news.
 - Answer questions from the social chatter and news based on last `X` hours.
@@ -19,7 +19,7 @@ The Market Analyzer Agent has two interesting use cases. It can
 
 ### Message
 
-The MarketAnalyzer Agent can generate summary based on the latest data from `1`, `2`, `4`, `12` and `24` hours.
+The Market Pulse Agent can generate summary based on the latest data from `1`, `2`, `4`, `12` and `24` hours.
 You need to pass the hours as `x_hours` in the message.
 
 ```json
