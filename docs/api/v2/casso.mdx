@@ -1,0 +1,190 @@
+---
+sidebar_position: 3
+---
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Casso Agent
+
+Casso agent can draw images. Using this agent costs `1` AI credit per call.
+
+## Endpoint
+
+`POST /chat/casso/`
+
+## Request
+
+A post request to casso agent endpoint looks like below
+
+
+```json
+{
+  "user": "1a5b4a29-9d95-44c8-aef3-05a8e515f43e",
+  "query": "A beautiful indian woman sitting near river in traditional indian wear",
+  "image_size": "square_hd",
+  "num_images": 1,
+  "num_inference_steps": 4,
+  "seed": 0
+}
+```
+
+<Tabs>
+  <TabItem value="curl" label="Shell" default>
+
+```
+curl -X 'POST' \
+  'https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/' \
+  -H 'accept: application/json' \
+  -H 'X-FRIDAY-KEY: YOUR_API_KEY' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "user": "1a5b4a29-9d95-44c8-aef3-05a8e515f43e",
+  "query": "A beautiful indian woman sitting near river in traditional indian wear",
+  "image_size": "square_hd",
+  "num_images": 1,
+  "num_inference_steps": 4,
+  "seed": 0
+}'
+```
+  </TabItem>
+  <TabItem value="python" label="Python">
+
+```
+# Python example using requests library
+import requests
+import json
+
+url = "https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/"
+
+headers = {
+    "accept": "application/json",
+    "X-FRIDAY-KEY": "YOUR_API_KEY",
+    "Content-Type": "application/json"
+}
+
+payload = {
+    "user": "1a5b4a29-9d95-44c8-aef3-05a8e515f43e",
+    "query": "A beautiful indian woman sitting near river in traditional indian wear",
+    "image_size": "square_hd",
+    "num_images": 1,
+    "num_inference_steps": 4,
+    "seed": 0
+}
+
+response = requests.post(url, headers=headers, json=payload, timeout=20)
+
+print(response.status_code)
+print(response.json())
+```
+
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+
+```
+# JavaScript example using fetch API
+const url = 'https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/';
+
+const headers = {
+  'accept': 'application/json',
+  'X-FRIDAY-KEY': 'YOUR_API_KEY',
+  'Content-Type': 'application/json'
+};
+
+const payload = {
+  user: '1a5b4a29-9d95-44c8-aef3-05a8e515f43e',
+  query: 'A beautiful indian woman sitting near river in traditional indian wear',
+  image_size: 'square_hd',
+  num_images: 1,
+  num_inference_steps: 4,
+  seed: 0
+};
+
+fetch(url, {
+  method: 'POST',
+  headers: headers,
+  body: JSON.stringify(payload)
+})
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.error('Error:', error));
+```
+
+
+  </TabItem>
+</Tabs>
+
+1. **user**: The Unique ID of the user making the request
+2. **query**: A prompt of what image needs to be generated.
+3. **image_size**: Size of the image. It can be either one of `default`, `square`, `portrait_4_3`,
+      `portrait_16_9`,
+      `lanscape_4_3`,
+      `landscape_16_9`,
+      `square_hd`,
+      `portrait_hd`,
+      `landscape_hd`. You can also provide a custom image size using the `heightxwidth` string. For example
+      to generate an image of height 64 and width 128, pass the image_size as `64x128`.
+4. **num_images**: The number of images to generate. Defaults to `1`.
+5. **num_inference_steps**: The number of inference steps to do. Defaults to `4`.
+6. **seed**: This is the seed value. It can be left empty or provided. Providing seed helps in generating same output with the same prompt. If not provided, a random value is picked everytime.
+
+The python pydantic class for request object is below.
+
+```python
+class CassoRequest(BaseModel):
+  user: UUID
+  query: str
+  image_size: str | None = "square_hd"
+  num_images: int = 1
+  num_inference_steps: int = 4
+  seed: int | None = None
+  ```
+
+## Response
+
+The response looks like below.
+
+```json
+{
+  "images": [
+    {
+      "url": "https://d3ujbsew0vyagw.cloudfront.net/i/H_agpUIE76QvyaF1uo-ff.jpeg",
+      "width": 1024,
+      "height": 1024,
+      "content_type": "image/jpeg"
+    }
+  ],
+  "timings": {
+    "inference": 0.36515445448458195
+  },
+  "seed": 10735814125180008000,
+  "has_nsfw_concepts": [
+    false
+  ],
+  "prompt": "A beautiful indian woman sitting near river in traditional indian wear",
+  "credits_available": 8200
+}
+```
+
+The python pydantic class for response schema are below
+
+```python
+class Image(BaseModel):
+  url: HttpUrl
+  width: int
+  height: int
+  content_type: str
+
+
+class Timings(BaseModel):
+  inference: float
+
+
+class CassoResponse(BaseModel):
+  images: list[Image]
+  timings: Timings
+  seed: int
+  has_nsfw_concepts: list[bool]
+  prompt: str
+  credits_available: int
+
+```
