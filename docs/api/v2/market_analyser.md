@@ -15,6 +15,8 @@ The Market Pulse Agent has two interesting use cases. It can
 
 ### Endpoint
 
+This agent can only be accessed on websocket.
+
 `/ws/generate_summary/{user_id}`
 
 ### Message

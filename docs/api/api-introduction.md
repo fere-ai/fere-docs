@@ -31,6 +31,7 @@ We have the following agents:
 |---|---|---|---|
 |Pro Agent| A Ninja Agent for Crypto Markets Research and Actions | `ProAgent` | 15|
 |Market Agent| AI agent to streamline your crypto technical analysis and boost your trading decisions. | `MarketAnalyzerAgent` | 70|
+|Casso Agent|An agent to draw super fast images| `CassoAgent`| 1|
 
 ## API Requests
 
