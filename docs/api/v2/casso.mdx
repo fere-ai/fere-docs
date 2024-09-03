@@ -35,7 +35,7 @@ A post request to casso agent endpoint looks like below
 
 ```
 curl -X 'POST' \
-  'https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/' \
+  'https://api.fereai.xyz/chat/casso/' \
   -H 'accept: application/json' \
   -H 'X-FRIDAY-KEY: YOUR_API_KEY' \
   -H 'Content-Type: application/json' \
@@ -56,7 +56,7 @@ curl -X 'POST' \
 import requests
 import json
 
-url = "https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/"
+url = "https://api.fereai.xyz/chat/casso/"
 
 headers = {
     "accept": "application/json",
@@ -84,7 +84,7 @@ print(response.json())
 
 ```
 # JavaScript example using fetch API
-const url = 'https://p8080-zf4e9e073-z05e8ff33-gtw.ze927b9f8.helpers.sh/chat/casso/';
+const url = 'https://api.fereai.xyz/chat/casso/';
 
 const headers = {
   'accept': 'application/json',
