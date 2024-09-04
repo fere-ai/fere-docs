@@ -6,6 +6,36 @@
 }
 
 .featureSvg {
-  height: 200px;
-  width: 200px;
+  height: 100px;
+  width: 100px;
+}
+
+.herocard {
+  flex: 1;
+  /* border: solid 1px #cbbaba; */
+  box-sizing: border-box;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.herocard:hover {
+  transform: translateY(-5px);
+}
+
+.featureRow {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: -1rem;
+  /* gap: 0.1rem; */
+}
+
+@media screen and (max-width: 966px) {
+  .featureRow {
+    flex-direction: column;
+  }
+
+  .herocard {
+    margin-bottom: 2rem;
+  }
 }
