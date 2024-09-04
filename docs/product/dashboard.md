@@ -27,6 +27,13 @@ We capture and organize this info into Events and Tokens.
 
 ### Trending Tokens
 
+<img
+  src="/img/product/alpha_dashboard_tokens.png"
+  alt="Alpha Dashboard Trending Tokens"
+  title="Alpha Dashboard Trending Tokens"
+  className="custom-class"
+/>
+
 This list showcases cryptocurrencies currently making waves in the market, as determined by our advanced AI analysis. Here's what makes our Trending Tokens feature unique:
 
 - Comprehensive Analysis: Our AI agents evaluates each token based on market volume, social media activity, performance against Bitcoin, and overall social engagement.
@@ -36,14 +43,16 @@ This list showcases cryptocurrencies currently making waves in the market, as de
 - Holistic View: By combining multiple metrics, we offer a balanced perspective on each token's current standing and potential for growth.
 - Market Comparison: See how trending tokens perform not just in isolation, but in comparison to the broader cryptocurrency marketplace.
 
-Remember: Tokens frequently appearing in the top rankings may warrant attention, as they demonstrate consistent strength across multiple key indicators. This is not financial advice. DYOR.
+#### Why It Matters:
+The cryptocurrency market moves rapidly, with new opportunities emerging constantly. Our real-time analysis helps you stay informed about which tokens are generating significant interest and activity.
 
-<img
-  src="/img/product/alpha_dashboard_tokens.png"
-  alt="Alpha Dashboard Trending Tokens"
-  title="Alpha Dashboard Trending Tokens"
-  className="custom-class"
-/>
+:::info[Key Insight]
+
+Pay special attention to tokens that consistently appear in our top rankings. This persistence indicates strength across multiple key indicators – a potential signal of robust market presence and community support.
+
+:::
+
+
 
 ### Events
 
@@ -53,3 +62,10 @@ Remember: Tokens frequently appearing in the top rankings may warrant attention,
   title="Alpha Dashboard Recent Events"
   className="custom-class"
 />
+
+
+
+---
+
+
+Remember: While our AI provides valuable insights, it's important to conduct your own research before making any investment decisions. Use this information as a starting point for deeper exploration into promising cryptocurrencies.
