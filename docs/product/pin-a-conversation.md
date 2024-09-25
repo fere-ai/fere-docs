@@ -8,7 +8,10 @@ sidebar_position: 4
 
 Crypto investing can feel like a full-time job, requiring daily research and constant market updates. Additionally, there are specific datasets and charts you may need to review regularly.
 
-With Fere AI, you can easily pin your favorite queries and refresh them whenever you need, saving valuable time. This feature allows you to keep your preferred queries at your fingertips and quickly access them whenever you need to research the markets.
+With Fere AI, you can easily pin your favorite queries and refresh the answer whenever you need, saving valuable time.
+This feature allows you to keep your preferred queries at your fingertips and quickly access them whenever you need to research the markets.
+With refreshed answer, we also show you a side by side comparison of the last answer and the latest one.
+You also get a summary of the key differences between both. This allows you to compare the change in market.
 
 Our goal is to save you time and make your crypto journey smoother and more efficient.
 
