@@ -17,7 +17,7 @@ The Market Pulse Agent has two interesting use cases. It can
 
 This agent can only be accessed on websocket.
 
-`/ws/generate_summary/{user_id}`
+`/ws/generate_summary/{user_id}?X-FRIDAY-KEY=YOUR_API_KEY`
 
 ### Message
 
@@ -61,7 +61,7 @@ please refer to [this doc](../chat_response.md)
 
 ### Endpoint
 
-URL: `/chat/v1/ws/{user_id}`
+URL: `/chat/v1/ws/{user_id}?X-FRIDAY-KEY=YOUR_API_KEY`
 
 The MarketAnalyzer Agent can chat based on the latest data from `12`, `24` and `48` hours.
 You need to pass the hours as `x_hours` in the message.

@@ -37,7 +37,7 @@ Ex: "What's the latest in /farcaster"
 ## Endpoint
 
 This agent can only be accessed on websocket.
-Endpoint: `/chat/v2/ws/{user_id}`
+Endpoint: `/chat/v2/ws/{user_id}?X-FRIDAY-KEY=YOUR_API_KEY`
 
 ## Message
 
@@ -284,67 +284,6 @@ please refer to [this doc](../chat_response.md)
                                 "is_anomaly": false,
                                 "is_stale": false,
                                 "trade_url": "https://www.bybit.com/trade/spot/TON/USDT",
-                                "coin_id": "the-open-network",
-                                "target_coin_id": "tether"
-                            },
-                            {
-                                "base": "TON",
-                                "target": "EUR",
-                                "market": {
-                                    "name": "Bybit",
-                                    "identifier": "bybit_spot",
-                                    "has_trading_incentive": false
-                                },
-                                "last": 6.39,
-                                "volume": 1048.94,
-                                "converted_last": {
-                                    "btc": 0.00010654,
-                                    "eth": 0.00215692,
-                                    "usd": 6.9
-                                },
-                                "converted_volume": {
-                                    "btc": 0.10997745,
-                                    "eth": 2.226606,
-                                    "usd": 7120.73
-                                },
-                                "trust_score": "yellow",
-                                "bid_ask_spread_percentage": 0.112902,
-                                "timestamp": "2024-08-01T12:28:18+00:00",
-                                "last_traded_at": "2024-08-01T12:28:18+00:00",
-                                "last_fetch_at": "2024-08-01T12:28:18+00:00",
-                                "is_anomaly": false,
-                                "is_stale": false,
-                                "trade_url": "https://www.bybit.com/trade/spot/TON/EUR",
-                                "coin_id": "the-open-network"
-                            },
-                            {
-                                "base": "TON",
-                                "target": "USDT",
-                                "market": {
-                                    "name": "HTX",
-                                    "identifier": "huobi",
-                                    "has_trading_incentive": false
-                                },
-                                "last": 6.8683,
-                                "volume": 3381770.427278586,
-                                "converted_last": {
-                                    "btc": 0.00010602,
-                                    "eth": 0.00214639,
-                                    "usd": 6.86
-                                },
-                                "converted_volume": {
-                                    "btc": 354.411,
-                                    "eth": 7175,
-                                    "usd": 22947140
-                                },
-                                "trust_score": "green",
-                                "bid_ask_spread_percentage": 0.0131,
-                                "timestamp": "2024-08-01T12:28:27+00:00",
-                                "last_traded_at": "2024-08-01T12:28:27+00:00",
-                                "last_fetch_at": "2024-08-01T12:28:27+00:00",
-                                "is_anomaly": false,
-                                "is_stale": false,
-                                "trade_url": "https://www.huobi.com/en-us/exchange/ton_usdt",
                                 "coin_id": "the-open-network",
                                 "target_coin_id": "tether"
                             }
