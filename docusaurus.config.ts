@@ -10,8 +10,8 @@ const config: Config = {
 
   // Set the production url of your site here
   url: 'https://docs.fereai.xyz',
-  baseUrl: '/doc',
-  
+  baseUrl: '/',
+
   organizationName: 'merokudao', // Usually your GitHub org/user name.
   projectName: 'fere_docs', // Usually your repo name.
 
