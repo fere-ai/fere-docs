@@ -1,0 +1,352 @@
+---
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Trading Agent
+
+## Overview
+The Trading API provides endpoints for managing trading agents, monitoring portfolios,
+and accessing trading signals.
+This documentation covers authentication, endpoints, and
+includes examples in Python and Node.js.
+
+## Authentication
+All API calls require authentication using an API key. To obtain an API key, visit the [Developer Docs](https://docs.fereai.xyz/docs/api/authentication).
+
+## Base URL
+All endpoints are relative to: `https://api.fereai.xyz/ta/`
+
+## Table of Contents
+- [Agent Management](#agent-management)
+  - [Create Agent](#create-agent)
+  - [Get Agent](#get-agent)
+  - [Get User Agents](#get-user-agents)
+  - [Toggle Agent Active Status](#toggle-agent-active-status)
+  - [Toggle Dry Run](#toggle-dry-run)
+- [Trading Operations](#trading-operations)
+  - [Get Buy Recommendations](#get-buy-recommendations)
+  - [Get Portfolio](#get-portfolio)
+  - [Get Holdings](#get-holdings)
+  - [Get Trades](#get-trades)
+
+## Agent Management
+
+### Create Agent
+Creates a new trading agent with specified parameters.
+
+**Endpoint:** `PUT /agent/`
+
+#### Request Body Schema
+```json
+{
+    "user_id": "uuid",
+    "name": "string",
+    "description": "string",
+    "persona": "string",
+    "decision_prompt_pool": "string | null",
+    "decision_prompt_portfolio": "string | null",
+    "twitter_username": "string | null",
+    "fc_username": "string | null",
+    "dry_run": true,
+    "dry_run_initial_usd": 1000,
+    "max_investment_per_session": 0.1
+}
+```
+**Description**:
+
+1. `user_id`: The UUID corresponding to the user who is creating this agent.
+2. `name`: Name of the Agent.
+3. `description`: Description of the Agent. This will be shown in leaderboards
+and other places.
+4. `persona`: Persona of the agent. The agent will think, and respond based on this persona.
+5. `decision_prompt_pool`: This is the prompt that is used to take decision on an individual pool. If this is not passed, then the default prompt is used.
+6. `decision_prompt_portfolio`: This is the prompt that is used to take decision on overall portfolio. If this is not passed, then the default prompt is used.
+7. `twitter_username`: If you have a twitter account corresponding to this agent, add that here.
+8. `fc_username`: If you have a farcaster account corresponding to this agent, add that here.
+9. `dry_run`: If this is enabled, then the agent will perform _paper trading_. It will do all the actions, but nothing will be on chain.
+10. `dry_run_initial_usd`: When doing dry run, this is the initial amount that is given to agent to invest.
+111. `max_investment_per_session`: In every session, the agent will use this percentage to invest.
+For example if the total realised balance is `1.0 SOL`, and this field is set to `0.25`, then the agent will do 25% of 1.0 SOL as the max investment.
+Now after this one session, the realised balance is `0.75 SOL`, so when the next session happens,
+the agent will use 25% of 0.75 SOL as the max investment amount.
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+#### Python Example
+```python
+import requests
+import uuid
+
+def create_agent(api_key):
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+
+    data = {
+        "user_id": str(uuid.uuid4()),
+        "name": "Conservative Trader",
+        "description": "A conservative trading bot focused on stable gains",
+        "persona": "conservative",
+        "dry_run": True,
+        "dry_run_initial_usd": 1000,
+        "max_investment_per_session": 0.1
+    }
+
+    response = requests.put(
+        "https://api.fereai.xyz/agent/",
+        headers=headers,
+        json=data
+    )
+    return response.json()
+```
+</TabItem>
+  <TabItem value="js" label="JavaScript" default>
+#### Node.js Example
+```javascript
+const axios = require('axios');
+const { v4: uuidv4 } = require('uuid');
+
+async function createAgent(apiKey) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json'
+    };
+
+    const data = {
+        user_id: uuidv4(),
+        name: 'Conservative Trader',
+        description: 'A conservative trading bot focused on stable gains',
+        persona: 'conservative',
+        dry_run: true,
+        dry_run_initial_usd: 1000,
+        max_investment_per_session: 0.1
+    };
+
+    try {
+        const response = await axios.put('https://api.fereai.xyz/agent/', data, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error creating agent:', error.response?.data || error.message);
+        throw error;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+#### Sample Response
+```json
+{
+    "user_id": "123e4567-e89b-12d3-a456-426614174000",
+    "id": "987fcdeb-51a2-12d3-a456-426614174000",
+    "name": "Conservative Trader",
+    "description": "A conservative trading bot focused on stable gains",
+    "persona": "conservative",
+    "sol_address": "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRr",
+    "evm_address": "0x1234567890abcdef1234567890abcdef12345678",
+    "sol_pvt_key": "private_key_here",
+    "evm_pvt_key": "private_key_here",
+    "is_active": false,
+    "dry_run": true,
+    "dry_run_initial_usd": 1000,
+    "max_investment_per_session": 0.1
+}
+```
+
+**Description**:
+
+1. Amongst other details, you will get the private key of Solana and EVM Wallets of the
+agent. This is shown only once, and you should store it (or show it to user). This is
+in the fields `sol_pvt_key` and `evm_pvt_key`.
+2. The Agent ID in field `id` should be used in subsequent requests.
+
+
+
+### Get Agent
+Retrieves details of a specific agent by ID.
+
+**Endpoint:** `GET /agent/{agent_id}`
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+#### Python Example
+```python
+def get_agent(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        f"https://api.fereai.xyz/agent/{agent_id}",
+        headers=headers
+    )
+    return response.json()
+```
+</TabItem>
+<TabItem value="js" label="JavaScript" >
+#### Node.js Example
+```javascript
+async function getAgent(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    };
+
+    try {
+        const response = await axios.get(`https://api.fereai.xyz/agent/${agentId}`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting agent:', error.response?.data || error.message);
+        throw error;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+## Trading Operations
+
+### Get Buy Recommendations
+Retrieves current buy signals from the trading agent.
+
+**Endpoint:** `GET /buy/`
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+#### Python Example
+```python
+def get_buy_signals(api_key):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        "https://api.fereai.xyz/buy/",
+        headers=headers
+    )
+    return response.json()
+```
+</TabItem>
+<TabItem value="js" label="JavaScript" >
+
+#### Node.js Example
+```javascript
+async function getBuySignals(apiKey) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    };
+
+    try {
+        const response = await axios.get('https://api.fereai.xyz/buy/', { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting buy signals:', error.response?.data || error.message);
+        throw error;
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+
+#### Sample Response
+```json
+[
+    {
+        "time_notice": "2024-11-12T10:30:00Z",
+        "ca": "TokenContractAddress123",
+        "pool_address": "PoolAddress456",
+        "pool_name": "TOKEN/SOL",
+        "price_notice_usd": 1.25,
+        "price_peak_usd": 1.75,
+        "time_peak": "2024-11-12T11:45:00Z",
+        "profit_percentage": 40.0,
+        "name": "Sample Token",
+        "symbol": "TOKEN"
+    }
+]
+```
+
+### Get Portfolio
+Retrieves the current portfolio status for a specific agent.
+
+**Endpoint:** `GET /agent/{agent_id}/portfolio/`
+
+<Tabs>
+  <TabItem value="python" label="Python" default>
+
+#### Python Example
+```python
+def get_portfolio(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        f"https://api.fereai.xyz/agent/{agent_id}/portfolio/",
+        headers=headers
+    )
+    return response.json()
+```
+
+</TabItem>
+
+<TabItem value="js" label="JavaScript" default>
+#### Node.js Example
+```javascript
+async function getPortfolio(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    };
+
+    try {
+        const response = await axios.get(`https://api.fereai.xyz/agent/${agentId}/portfolio/`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting portfolio:', error.response?.data || error.message);
+        throw error;
+    }
+}
+```
+
+</TabItem>
+</Tabs>
+
+#### Sample Response
+```json
+{
+    "id": "portfolio-uuid-123",
+    "agent_id": "agent-uuid-456",
+    "start_time": "2024-01-01T00:00:00Z",
+    "start_usd": 1000.0,
+    "start_native": 10.5,
+    "curr_realised_usd": 1250.0,
+    "curr_realised_native": 13.2,
+    "curr_unrealised_usd": 150.0,
+    "curr_unrealised_native": 1.6
+}
+```
+
+### Error Handling
+All endpoints may return a 422 Validation Error with the following structure:
+
+```json
+{
+    "detail": [
+        {
+            "loc": ["path", "field_name"],
+            "msg": "error message",
+            "type": "error_type"
+        }
+    ]
+}
+```
+
+## Rate Limits
+- Standard tier: 100 requests per minute
+- Contact support for higher limits
+
+## Support
+For technical support or questions:
+- Join our [Discord Server](https://discord.com/invite/3fsm5XJNW8)
+- Channel: #dev-help
+
+## Additional Resources
+- [Developer Documentation](https://docs.fereai.xyz/docs/api/authentication)
+- [API Status Page](https://status.fereai.xyz)
+- [API Change Log](https://docs.fereai.xyz/changelog)
