@@ -132,7 +132,7 @@ def create_agent(api_key):
     return response.json()
 ```
 </TabItem>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js1" label="JavaScript" default>
 #### Node.js Example
 ```javascript
 const axios = require('axios');
@@ -230,7 +230,7 @@ def get_agent(api_key, agent_id):
     return response.json()
 ```
 </TabItem>
-<TabItem value="js" label="JavaScript" >
+<TabItem value="js2" label="JavaScript" >
 #### Node.js Example
 ```javascript
 async function getAgent(apiKey, agentId) {
@@ -357,7 +357,7 @@ async function fetchAgentData(userId) {
 ```
 ### Toggle Agent Active Status
 
-Toggles the active status of a specific agent. When activated, the agent automatically runs every few minutes 
+Toggles the active status of a specific agent. When activated, the agent automatically runs every few minutes
 
 **Endpoint:** `PUT /agent/{agent_id}/active/toggle`
 
@@ -378,7 +378,7 @@ def toggle_agent_status(api_key, agent_id):
         f"https://api.fereai.xyz/agent/{agent_id}/active/toggle",
         headers=headers
     )
-    return response.json()   
+    return response.json()
 ```
 </TabItem>
 <TabItem value="javascript" label="JavaScript">
@@ -419,7 +419,7 @@ Toggles the dry run status of a specific agent.
 
 **Endpoint:** `PUT /agent/{agent_id}/dry-run/toggle`
 
-<<Tabs>
+<Tabs>
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'PUT' \
@@ -427,9 +427,10 @@ curl -X 'PUT' \
   -H 'accept: application/json'
 
 ```
-<<Tabs>
+</TabItem>
 <TabItem value="python" label="Python">
 #### Python Example
+
 ```python
 def toggle_dry_run(api_key, agent_id):
     headers = {"Authorization": f"Bearer {api_key}"}
@@ -442,17 +443,22 @@ def toggle_dry_run(api_key, agent_id):
     else:
         return response.json()
 ```
+
 </TabItem>
+
 <TabItem value="javascript" label="JavaScript">
+
 ```javascript
 async function toggleAgentStatus(apiKey, agentId) {
     const headers = {
         'Authorization': `Bearer ${apiKey}`
     }
 }
+```
 
 </TabItem>
 </Tabs>
+
 #### Sample Response
 
 ```json
@@ -477,64 +483,6 @@ async function toggleAgentStatus(apiKey, agentId) {
 
 ## Trading Operations
 
-### Get Buy Recommendations
-Retrieves current buy signals from the trading agent.
-
-**Endpoint:** `GET /buy/`
-
-<Tabs>
-  <TabItem value="python" label="Python" default>
-
-#### Python Example
-```python
-def get_buy_signals(api_key):
-    headers = {"Authorization": f"Bearer {api_key}"}
-    response = requests.get(
-        "https://api.fereai.xyz/buy/",
-        headers=headers
-    )
-    return response.json()
-```
-</TabItem>
-<TabItem value="js" label="JavaScript" >
-
-#### Node.js Example
-```javascript
-async function getBuySignals(apiKey) {
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`
-    };
-
-    try {
-        const response = await axios.get('https://api.fereai.xyz/buy/', { headers });
-        return response.data;
-    } catch (error) {
-        console.error('Error getting buy signals:', error.response?.data || error.message);
-        throw error;
-    }
-}
-```
-</TabItem>
-</Tabs>
-
-
-#### Sample Response
-```json
-[
-    {
-        "time_notice": "2024-11-12T10:30:00Z",
-        "ca": "TokenContractAddress123",
-        "pool_address": "PoolAddress456",
-        "pool_name": "TOKEN/SOL",
-        "price_notice_usd": 1.25,
-        "price_peak_usd": 1.75,
-        "time_peak": "2024-11-12T11:45:00Z",
-        "profit_percentage": 40.0,
-        "name": "Sample Token",
-        "symbol": "TOKEN"
-    }
-]
-```
 
 ### Get Trades
 Gets the trading history for a specific agent. Results are paginated with 100 trades per page, defaults to 1.
@@ -566,14 +514,24 @@ def get_agent_trades(api_key, agent_id, page=1):
         return response.json()
 ```
 </TabItem>
-<TabItem value="js" label="JavaScript">
+<TabItem value="js4" label="JavaScript">
 #### Node.js Example
 ```javascript
-async function getAgentTrades(apiKey, agentId, page = 1) {
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`
-    }
+const axios = require('axios');
 
+async function getAgentTrades(apiKey, agentId, page = 1) {
+    const url = `https://api.fereai.xyz/agent/${agentId}/trades/?page=${page}`;
+    const headers = {
+        'accept': 'application/json',
+        'Authorization': `Bearer ${apiKey}`  // Include this if authentication is needed
+    };
+
+    try {
+        const response = await axios.get(url, { headers });
+        console.log(response.data);
+    } catch (error) {
+        console.error('Error fetching agent trades:', error.response?.data || error.message);
+    }
 }
 ```
 </TabItem>
@@ -581,7 +539,7 @@ async function getAgentTrades(apiKey, agentId, page = 1) {
 
 #### Sample Response
 ```json
-[ 
+[
   {
     "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
     "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
@@ -629,7 +587,7 @@ def get_agent_holdings(api_key, agent_id):
         return response.json()
 ```
 </TabItem>
-<TabItem value="js" label="JavaScript">
+<TabItem value="js5" label="JavaScript">
 #### Node.js Example
 ```javascript
 async function getAgentHoldings(apiKey, agentId) {
@@ -695,23 +653,45 @@ def get_agent_buy_recommendations(api_key, agent_id):
         return response.json()
 ```
 </TabItem>
-<TabItem value="js" label="JavaScript">
+<TabItem value="js6" label="JavaScript">
 #### Node.js Example
 ```javascript
-async function getAgentBuyRecommendations(apiKey, agentId) {
+
+async function getBuySignals(apiKey, agent_id) {
     const headers = {
         'Authorization': `Bearer ${apiKey}`
+    };
+
+    try {
+        const response = await axios.get(`https://api.fereai.xyz/agents/{agent_id}buy/`, { headers });
+        return response.data;
+    } catch (error) {
+        console.error('Error getting buy signals:', error.response?.data || error.message);
+        throw error;
     }
 }
+
+```
 </TabItem>
 </Tabs>
 
 #### Sample Response:
 ```json
-{ 
-    "string"
-}
-'''
+[
+    {
+        "time_notice": "2024-11-12T10:30:00Z",
+        "ca": "TokenContractAddress123",
+        "pool_address": "PoolAddress456",
+        "pool_name": "TOKEN/SOL",
+        "price_notice_usd": 1.25,
+        "price_peak_usd": 1.75,
+        "time_peak": "2024-11-12T11:45:00Z",
+        "profit_percentage": 40.0,
+        "name": "Sample Token",
+        "symbol": "TOKEN"
+    }
+]
+```
 
 ### Get Portfolio
 Retrieves the current portfolio status for a specific agent.
@@ -734,8 +714,9 @@ def get_portfolio(api_key, agent_id):
 
 </TabItem>
 
-<TabItem value="js" label="JavaScript" default>
+<TabItem value="js7" label="JavaScript" default>
 #### Node.js Example
+
 ```javascript
 async function getPortfolio(apiKey, agentId) {
     const headers = {
