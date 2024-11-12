@@ -28,6 +28,7 @@ All endpoints are relative to: `https://api.fereai.xyz/ta/`
   - [Toggle Dry Run](#toggle-dry-run)
 - [Trading Operations](#trading-operations)
   - [Get Buy Recommendations](#get-buy-recommendations)
+  - [Get Agent Buy Recommendations](#get-agent-buy)
   - [Get Portfolio](#get-portfolio)
   - [Get Holdings](#get-holdings)
   - [Get Trades](#get-trades)
@@ -354,6 +355,125 @@ async function fetchAgentData(userId) {
   }
 ]
 ```
+### Toggle Agent Active Status
+
+Toggles the active status of a specific agent. When activated, the agent automatically runs every few minutes 
+
+**Endpoint:** `PUT /agent/{agent_id}/active/toggle`
+
+
+<Tabs>
+<TabItem value="curl" label="cURL" default>
+```bash
+curl -X 'PUT' \
+  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/active/toggle' \
+  -H 'accept: application/json'
+```
+</TabItem>
+<TabItem value="python" label="Python">
+```python
+def toggle_agent_status(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.put(
+        f"https://api.fereai.xyz/agent/{agent_id}/active/toggle",
+        headers=headers
+    )
+    return response.json()   
+```
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+```javascript
+async function toggleAgentStatus(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+#### Sample Response:
+
+```json
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "string",
+  "description": "string",
+  "persona": "string",
+  "decision_prompt_pool": "string",
+  "decision_prompt_portfolio": "string",
+  "twitter_username": "string",
+  "fc_username": "string",
+  "dry_run": true,
+  "dry_run_initial_usd": 1000,
+  "sol_address": "string",
+  "evm_address": "string",
+  "is_active": true,
+  "max_investment_per_session": 0.1
+}
+```
+### Toggle Dry Run
+
+Toggles the dry run status of a specific agent.
+
+**Endpoint:** `PUT /agent/{agent_id}/dry-run/toggle`
+
+<<Tabs>
+<TabItem value="curl" label="cURL" default>
+```bash
+curl -X 'PUT' \
+  'https://api.fereai.xyz/agent/edb296ad-3a7e-40e9-9e88-274e9c229010/dry-run/toggle' \
+  -H 'accept: application/json'
+
+```
+<<Tabs>
+<TabItem value="python" label="Python">
+#### Python Example
+```python
+def toggle_dry_run(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.put(
+        f"https://api.fereai.xyz/agent/{agent_id}/dry-run/toggle",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.json()
+```
+</TabItem>
+<TabItem value="javascript" label="JavaScript">
+```javascript
+async function toggleAgentStatus(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    }
+}
+
+</TabItem>
+</Tabs>
+#### Sample Response
+
+```json
+{
+  "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "name": "SmartNERD",
+  "description": "A Nerd doing memecoins",
+  "persona": "You are angry, coding nerd. Who works in daytime in a reputed software firm.",
+  "decision_prompt_pool": "string",
+  "decision_prompt_portfolio": "string",
+  "twitter_username": "string",
+  "fc_username": "string",
+  "dry_run": true,
+  "dry_run_initial_usd": 1000,
+  "sol_address": "string",
+  "evm_address": "string",
+  "is_active": true,
+  "max_investment_per_session": 0.1
+}
+```
 
 ## Trading Operations
 
@@ -415,6 +535,183 @@ async function getBuySignals(apiKey) {
     }
 ]
 ```
+
+### Get Trades
+Gets the trading history for a specific agent. Results are paginated with 100 trades per page, defaults to 1.
+
+**Endpoint:** `GET /agent/{agent_id}/trades/`
+
+
+<Tabs>
+<TabItem value="curl" label="cURL" default>
+```bash
+curl -X 'GET' \
+  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/trades/?page=1' \
+  -H 'accept: application/json'
+```
+</TabItem>
+<TabItem value="python" label="Python" default>
+#### Python Example
+```python
+def get_agent_trades(api_key, agent_id, page=1):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        f"https://api.fereai.xyz/agent/{agent_id}/trades/",
+        params={"page": page},
+        headers=headers
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.json()
+```
+</TabItem>
+<TabItem value="js" label="JavaScript">
+#### Node.js Example
+```javascript
+async function getAgentTrades(apiKey, agentId, page = 1) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    }
+
+}
+```
+</TabItem>
+</Tabs>
+
+#### Sample Response
+```json
+[ 
+  {
+    "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "name": "SmartNERD",
+    "description": "A Nerd doing memecoins",
+    "persona": "You are angry, coding nerd. Who works in daytime in a reputed software firm.",
+    "decision_prompt_pool": "string",
+    "decision_prompt_portfolio": "string",
+    "twitter_username": "string",
+    "fc_username": "string",
+    "dry_run": true,
+    "dry_run_initial_usd": 1000,
+    "sol_address": "string",
+    "evm_address": "string",
+    "is_active": true,
+    "max_investment_per_session": 0.1
+   }
+]
+```
+
+### Get Holdings
+Gets the current holdings for a specific agent.
+
+**Endpoint:** `GET /agent/{agent_id}/holdings/`
+<Tabs>
+<TabItem value="curl" label="cURL" default>
+```bash
+curl -X 'GET' \
+  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/holdings/' \
+  -H 'accept: application/json'
+```
+</TabItem>
+<TabItem value="python" label="Python" default>
+#### Python Example
+```python
+def get_agent_holdings(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        f"https://api.fereai.xyz/agent/{agent_id}/holdings/",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.json()
+```
+</TabItem>
+<TabItem value="js" label="JavaScript">
+#### Node.js Example
+```javascript
+async function getAgentHoldings(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    }
+}
+```
+</TabItem>
+</Tabs>
+
+#### Sample Response:
+
+```json
+[
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "bought_at": "2024-11-12T16:47:05.439Z",
+    "agent_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "base_address": "string",
+    "pool_address": "string",
+    "pool_name": "string",
+    "token_name": "string",
+    "decimals": 0,
+    "tokens_bought": 0,
+    "buying_price_usd": 0,
+    "buying_price_native": 0,
+    "curr_price_usd": 0,
+    "curr_price_native": 0,
+    "profit_abs_usd": 0,
+    "profit_abs_native": 0,
+    "profit_per_usd": 0,
+    "profit_per_native": 0,
+    "is_active": true
+  }
+]
+```
+### Get Agent Buy Recommendations
+Gets buy recommendations for a specific agent.
+
+**Endpoint:** `GET /agent/{agent_id}/buy/`
+
+<Tabs>
+<TabItem value="curl" label="cURL" default>
+```bash
+curl -X 'GET' \
+  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/buy/' \
+  -H 'accept: application/json'
+```
+</TabItem>
+<TabItem value="python" label="Python" default>
+#### Python Example
+```python
+def get_agent_buy_recommendations(api_key, agent_id):
+    headers = {"Authorization": f"Bearer {api_key}"}
+    response = requests.get(
+        f"https://api.fereai.xyz/agent/{agent_id}/buy/",
+        headers=headers
+    )
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return response.json()
+```
+</TabItem>
+<TabItem value="js" label="JavaScript">
+#### Node.js Example
+```javascript
+async function getAgentBuyRecommendations(apiKey, agentId) {
+    const headers = {
+        'Authorization': `Bearer ${apiKey}`
+    }
+}
+</TabItem>
+</Tabs>
+
+#### Sample Response:
+```json
+{ 
+    "string"
+}
+'''
 
 ### Get Portfolio
 Retrieves the current portfolio status for a specific agent.
