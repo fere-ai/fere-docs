@@ -7,6 +7,16 @@ import TabItem from '@theme/TabItem';
 
 # Trading Agent
 
+A trading agent is a sentient agent that performs trades autonomously. This
+agent is in charge of the decisions it takes.
+You can provide prompts and personas which defines its character and trading
+decisions.
+
+:::tip
+We recommend doing a simulation of your agents (by enabling it in `dry run` mode)
+before making it perform on chain trades
+:::
+
 ## Overview
 The Trading API provides endpoints for managing trading agents, monitoring portfolios,
 and accessing trading signals.
@@ -18,6 +28,12 @@ All API calls require authentication using an API key. To obtain an API key, vis
 
 ## Base URL
 All endpoints are relative to: `https://api.fereai.xyz/ta/`
+
+:::info
+
+Since right now the RC1 of the SDK is available, the API endpoint is
+https://stag-api.fereai.xyz/ta
+:::
 
 ## Table of Contents
 - [Agent Management](#agent-management)
@@ -63,9 +79,13 @@ Creates a new trading agent with specified parameters.
 3. `description`: Description of the Agent. This will be shown in leaderboards
 and other places.
 4. `persona`: Persona of the agent. The agent will think, and respond based on this persona.
-5. `data_source`: This can be either "trending" or "latest". If this is set to trending, the
+5. `data_source`: This can be either `trending` or `latest`. If this is set to trending, the
 Agent will pick up the trending tokens. If this is set to latest, it will pick the latest tokens
 that have been listed on a DEX. The default value is "trending".
+
+    - trending: Only top pools on Solana will be picked based on their on chain activity.
+    - latest: Latest pools on Solana will be picked. Their on chain activity (as available) will be sent to agent to make a decision.
+
 5. `decision_prompt_pool`: This is the prompt that is used to take decision on an individual pool. If this is not passed, then the default prompt is used.
 6. `decision_prompt_portfolio`: This is the prompt that is used to take decision on overall portfolio. If this is not passed, then the default prompt is used.
 7. `twitter_username`: If you have a twitter account corresponding to this agent, add that here.
@@ -81,9 +101,10 @@ the agent will use 25% of 0.75 SOL as the max investment amount.
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'PUT' \
-  'https://api.fereai.xyz/agent/' \
+  'https://api.fereai.xyz/ta/agent/' \
   -H 'accept: application/json' \
   -H 'Content-Type: application/json' \
+  -H "X-FRIDAY-KEY: YOUR_API_KEY" \
   -d '{
   "user_id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
   "name": "SmartNERD",
@@ -108,7 +129,7 @@ import uuid
 
 def create_agent(api_key):
     headers = {
-        "Authorization": f"Bearer {api_key}",
+        "X-FRIDAY-KEY": api_key",
         "Content-Type": "application/json"
     }
 
@@ -125,7 +146,7 @@ def create_agent(api_key):
     }
 
     response = requests.put(
-        "https://api.fereai.xyz/agent/",
+        "https://api.fereai.xyz/ta/agent/",
         headers=headers,
         json=data
     )
@@ -140,7 +161,7 @@ const { v4: uuidv4 } = require('uuid');
 
 async function createAgent(apiKey) {
     const headers = {
-        'Authorization': `Bearer ${apiKey}`,
+        'X-FRIDAY-KEY': apiKey,
         'Content-Type': 'application/json'
     };
 
@@ -157,7 +178,7 @@ async function createAgent(apiKey) {
     };
 
     try {
-        const response = await axios.put('https://api.fereai.xyz/agent/', data, { headers });
+        const response = await axios.put('https://api.fereai.xyz/ta/agent/', data, { headers });
         return response.data;
     } catch (error) {
         console.error('Error creating agent:', error.response?.data || error.message);
@@ -213,8 +234,9 @@ Retrieves details of a specific agent by ID.
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'GET' \
-  'https://api.fereai.xyz/agent/edb296ad-3a7e-40e9-9e88-274e9c229010' \
+  'https://api.fereai.xyz/ta/agent/edb296ad-3a7e-40e9-9e88-274e9c229010' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 
@@ -222,9 +244,9 @@ curl -X 'GET' \
 #### Python Example
 ```python
 def get_agent(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.get(
-        f"https://api.fereai.xyz/agent/{agent_id}",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}",
         headers=headers
     )
     return response.json()
@@ -235,11 +257,11 @@ def get_agent(api_key, agent_id):
 ```javascript
 async function getAgent(apiKey, agentId) {
     const headers = {
-        'Authorization': `Bearer ${apiKey}`
+        'X-FRIDAY-KEY': apiKey
     };
 
     try {
-        const response = await axios.get(`https://api.fereai.xyz/agent/${agentId}`, { headers });
+        const response = await axios.get(`https://api.fereai.xyz/ta/agent/${agentId}`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error getting agent:', error.response?.data || error.message);
@@ -281,8 +303,9 @@ agents.
 <TabItem value="curl" label="cURL" default>
 ```shell
 curl -X 'GET' \
-  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/' \
+  'https://api.fereai.xyz/ta/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 <TabItem value="python" label="python">
@@ -290,9 +313,10 @@ curl -X 'GET' \
 ```python
 import requests
 
-def fetch_agent_data(user_id):
-    url = f'https://api.fereai.xyz/agent/{user_id}'
-    headers = {'accept': 'application/json'}
+def fetch_agent_data(api_key, user_id):
+    url = f'https://api.fereai.xyz/ta/agent/{user_id}'
+    headers = {'accept': 'application/json',
+              'X-FRIDAY-KEY': api_key}
 
     response = requests.get(url, headers=headers)
 
@@ -307,14 +331,15 @@ def fetch_agent_data(user_id):
 <TabItem value="javascript" label="JavaScript">
 
 ```javascript
-async function fetchAgentData(userId) {
-    const url = `https://api.fereai.xyz/agent/${userId}`;
+async function fetchAgentData(api_key, userId) {
+    const url = `https://api.fereai.xyz/ta/agent/${userId}`;
 
     try {
         const response = await fetch(url, {
             method: 'GET',
             headers: {
-                'accept': 'application/json'
+                'accept': 'application/json',
+                'X-FRIDAY-KEY': api_key
             }
         });
 
@@ -366,16 +391,17 @@ Toggles the active status of a specific agent. When activated, the agent automat
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'PUT' \
-  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/active/toggle' \
+  'https://api.fereai.xyz/ta/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/active/toggle' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 <TabItem value="python" label="Python">
 ```python
 def toggle_agent_status(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.put(
-        f"https://api.fereai.xyz/agent/{agent_id}/active/toggle",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/active/toggle",
         headers=headers
     )
     return response.json()
@@ -384,9 +410,15 @@ def toggle_agent_status(api_key, agent_id):
 <TabItem value="javascript" label="JavaScript">
 ```javascript
 async function toggleAgentStatus(apiKey, agentId) {
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`
-    }
+    const headers = { "X-FRIDAY-KEY": apiKey };
+    const url = `https://api.fereai.xyz/ta/agent/${agentId}/active/toggle`;
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: headers
+    });
+
+    return response.json();
 }
 ```
 </TabItem>
@@ -423,8 +455,9 @@ Toggles the dry run status of a specific agent.
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'PUT' \
-  'https://api.fereai.xyz/agent/edb296ad-3a7e-40e9-9e88-274e9c229010/dry-run/toggle' \
+  'https://api.fereai.xyz/ta/agent/edb296ad-3a7e-40e9-9e88-274e9c229010/dry-run/toggle' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 
 ```
 </TabItem>
@@ -433,9 +466,9 @@ curl -X 'PUT' \
 
 ```python
 def toggle_dry_run(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.put(
-        f"https://api.fereai.xyz/agent/{agent_id}/dry-run/toggle",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/dry-run/toggle",
         headers=headers
     )
     if response.status_code == 200:
@@ -449,9 +482,19 @@ def toggle_dry_run(api_key, agent_id):
 <TabItem value="javascript" label="JavaScript">
 
 ```javascript
-async function toggleAgentStatus(apiKey, agentId) {
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`
+async function toggleDryRun(apiKey, agentId) {
+    const headers = { "X-FRIDAY-KEY": apiKey };
+    const url = `https://api.fereai.xyz/ta/agent/${agentId}/dry-run/toggle`;
+
+    const response = await fetch(url, {
+        method: "PUT",
+        headers: headers
+    });
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        return response.json();
     }
 }
 ```
@@ -494,17 +537,18 @@ Gets the trading history for a specific agent. Results are paginated with 100 tr
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'GET' \
-  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/trades/?page=1' \
+  'https://api.fereai.xyz/ta/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/trades/?page=1' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 <TabItem value="python" label="Python" default>
 #### Python Example
 ```python
 def get_agent_trades(api_key, agent_id, page=1):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.get(
-        f"https://api.fereai.xyz/agent/{agent_id}/trades/",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/trades/",
         params={"page": page},
         headers=headers
     )
@@ -520,10 +564,10 @@ def get_agent_trades(api_key, agent_id, page=1):
 const axios = require('axios');
 
 async function getAgentTrades(apiKey, agentId, page = 1) {
-    const url = `https://api.fereai.xyz/agent/${agentId}/trades/?page=${page}`;
+    const url = `https://api.fereai.xyz/ta/agent/${agentId}/trades/?page=${page}`;
     const headers = {
         'accept': 'application/json',
-        'Authorization': `Bearer ${apiKey}`  // Include this if authentication is needed
+        'X-FRIDAY-KEY': apiKey
     };
 
     try {
@@ -568,17 +612,18 @@ Gets the current holdings for a specific agent.
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'GET' \
-  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/holdings/' \
+  'https://api.fereai.xyz/ta/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/holdings/' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 <TabItem value="python" label="Python" default>
 #### Python Example
 ```python
 def get_agent_holdings(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.get(
-        f"https://api.fereai.xyz/agent/{agent_id}/holdings/",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/holdings/",
         headers=headers
     )
     if response.status_code == 200:
@@ -591,10 +636,21 @@ def get_agent_holdings(api_key, agent_id):
 #### Node.js Example
 ```javascript
 async function getAgentHoldings(apiKey, agentId) {
-    const headers = {
-        'Authorization': `Bearer ${apiKey}`
+    const headers = { "X-FRIDAY-KEY": apiKey };
+    const url = `https://api.fereai.xyz/ta/agent/${agentId}/holdings/`;
+
+    const response = await fetch(url, {
+        method: "GET",
+        headers: headers
+    });
+
+    if (response.ok) {
+        return response.json();
+    } else {
+        return response.json();
     }
 }
+
 ```
 </TabItem>
 </Tabs>
@@ -634,17 +690,18 @@ Gets buy recommendations for a specific agent.
 <TabItem value="curl" label="cURL" default>
 ```bash
 curl -X 'GET' \
-  'https://api.fereai.xyz/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/buy/' \
+  'https://api.fereai.xyz/ta/agent/3fa85f64-5717-4562-b3fc-2c963f66afa6/buy/' \
   -H 'accept: application/json'
+  -H "X-FRIDAY-KEY: YOUR_API_KEY"
 ```
 </TabItem>
 <TabItem value="python" label="Python" default>
 #### Python Example
 ```python
 def get_agent_buy_recommendations(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.get(
-        f"https://api.fereai.xyz/agent/{agent_id}/buy/",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/buy/",
         headers=headers
     )
     if response.status_code == 200:
@@ -659,11 +716,11 @@ def get_agent_buy_recommendations(api_key, agent_id):
 
 async function getBuySignals(apiKey, agent_id) {
     const headers = {
-        'Authorization': `Bearer ${apiKey}`
+        'X-FRIDAY-KEY': apiKey
     };
 
     try {
-        const response = await axios.get(`https://api.fereai.xyz/agents/{agent_id}buy/`, { headers });
+        const response = await axios.get(`https://api.fereai.xyz/ta/agents/{agent_id}buy/`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error getting buy signals:', error.response?.data || error.message);
@@ -699,14 +756,21 @@ Retrieves the current portfolio status for a specific agent.
 **Endpoint:** `GET /agent/{agent_id}/portfolio/`
 
 <Tabs>
+<TabItem value="curl" label="cURL">
+```bash
+curl -X GET "https://api.fereai.xyz/ta/agent/AGENT_ID/portfolio/" \
+-H "X-FRIDAY-KEY: YOUR_API_KEY"
+```
+
+</TabItem>
   <TabItem value="python" label="Python" default>
 
 #### Python Example
 ```python
 def get_portfolio(api_key, agent_id):
-    headers = {"Authorization": f"Bearer {api_key}"}
+    headers = {"X-FRIDAY-KEY": api_key}
     response = requests.get(
-        f"https://api.fereai.xyz/agent/{agent_id}/portfolio/",
+        f"https://api.fereai.xyz/ta/agent/{agent_id}/portfolio/",
         headers=headers
     )
     return response.json()
@@ -720,11 +784,11 @@ def get_portfolio(api_key, agent_id):
 ```javascript
 async function getPortfolio(apiKey, agentId) {
     const headers = {
-        'Authorization': `Bearer ${apiKey}`
+        'X-FRIDAY-KEY': apiKey
     };
 
     try {
-        const response = await axios.get(`https://api.fereai.xyz/agent/${agentId}/portfolio/`, { headers });
+        const response = await axios.get(`https://api.fereai.xyz/ta/agent/${agentId}/portfolio/`, { headers });
         return response.data;
     } catch (error) {
         console.error('Error getting portfolio:', error.response?.data || error.message);
