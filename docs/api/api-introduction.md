@@ -55,4 +55,4 @@ These agents will help you make trades on various platforms.
 Our trade agent's root is called `0xMONK`. It's our first Sentient Autonomous Agent
 that can trade in tokens.
 
-To know more about `0xMONK``, please visit [here](/docs/api/Monk/fere-api).
+To know more about `0xMONK``, please visit [here](./Monk/0-xmonk.info.mdx).
