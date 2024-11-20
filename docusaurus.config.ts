@@ -1,7 +1,9 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+import type * as Plugin from "@docusaurus/types/src/plugin";
 import path from 'path';
+import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
 
 const config: Config = {
   title: 'FereAI',
@@ -29,6 +31,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
+          docItemComponent: "@theme/ApiItem",
           exclude: ['README.md'],
           lastVersion: 'current',
           versions: {
@@ -60,9 +63,28 @@ const config: Config = {
           '@components': path.resolve(__dirname, './src/components'),
         },
       },
-    ]
+    ],
+    [
+    'docusaurus-plugin-openapi-docs',
+    {
+      id: "monk", // plugin id
+      docsPluginId: "classic", // configured for preset-classic
+      config: {
+        monk: {
+          specPath: "static/monk.json",
+          outputDir: "docs/api/Monk",
+          proxy: "https://api.fereai.xyz/ta",
+          baseUrl: "https://api.fereai.xyz/ta",
+          sidebarOptions: {
+            groupPathsBy: "tagGroup",
+            categoryLinkSource: "auto",
+          },
+          hideSendButton: false,
+        } satisfies OpenApiPlugin.Options,
+      }
+    }],
   ],
-
+  themes: ["docusaurus-theme-openapi-docs"],
   themeConfig: {
     image: 'img/fere_logo_black.png',
     announcementBar: {
@@ -181,6 +203,23 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
     },
+    languageTabs: [
+      {
+        highlight: "python",
+        language: "python",
+        logoClass: "python",
+      },
+      {
+        highlight: "bash",
+        language: "curl",
+        logoClass: "bash",
+      },
+      {
+        highlight: "javascript",
+        language: "nodejs",
+        logoClass: "nodejs",
+      },
+    ]
   } satisfies Preset.ThemeConfig,
 };
 

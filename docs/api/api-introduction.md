@@ -6,13 +6,19 @@ sidebar_position: 1
 
 # The most reliable & comprehensive web3 AI API.
 
-Started in 2024, FereAI is leading in AI x Web3 space.
+Started in 2024, FereAI is leading in Autonomous AI x Web3 space.
 Our AI Agents have the most up to date data across CEX, DEX, Social Platforms, NFTs, DeFi, News and more.
 
-FereAI offers the most advanced AI Agents for your daily crypro research and alpha discovery
+FereAI offers the most advanced Autonomous AI Agents for your daily crypro research, alpha discovery and trade
 through our RESTful and Websocket JSON endpoints.
 
+Our Agents are broadly in two categories:
 
+1. Research and Dicovery
+2. Trade Agents
+
+
+## Research and Discovery
 
 Here are some of the common use cases for clients who use FereAI's Agentic APIs:
 
@@ -23,7 +29,7 @@ Here are some of the common use cases for clients who use FereAI's Agentic APIs:
 5. Summary and Q&A over latest market data and chatter. What has happened in last 12 hours and more.
 
 
-## Agents
+### Agents
 
 We have the following agents:
 
@@ -33,7 +39,7 @@ We have the following agents:
 |Market Agent| AI agent to streamline your crypto technical analysis and boost your trading decisions. | `MarketAnalyzerAgent` | 70|
 |Casso Agent|An agent to draw super fast images| `CassoAgent`| 1|
 
-## API Requests
+### API Requests
 
 The request to each agents is done over websockets. This is because
 
@@ -41,3 +47,12 @@ The request to each agents is done over websockets. This is because
 2. We want to provide a true token-by-token streaming experience, where every token
 streamed from the Agents is shown on UI.
 
+## Trade Agents
+
+After building a strong foundation in Research and Discovery, we are now moving towards Trade Agents.
+These agents will help you make trades on various platforms.
+
+Our trade agent's root is called `0xMONK`. It's our first Sentient Autonomous Agent
+that can trade in tokens.
+
+To know more about `0xMONK``, please visit [here](/docs/api/Monk/fere-api).

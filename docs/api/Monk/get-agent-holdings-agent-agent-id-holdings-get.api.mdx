@@ -1,0 +1,72 @@
+---
+id: get-agent-holdings-agent-agent-id-holdings-get
+title: "Get agent's holdings"
+description: "Get agent's holdings"
+sidebar_label: "Get agent's holdings"
+hide_title: true
+hide_table_of_contents: true
+api: eJytV99v2zYQ/lcO14e1gGanxZ705q5FV6xNg9TZMMSBQ4tniQ1FqiSVRTP0vw9HSbYcO0m79cmWeD+/u/uO2mAQucf0EkVOJuBVgrYiJ4Ky5r3EFHMKy3i0LKyWyuS+f+x/lFzuTpY5BUywEk6UFMix4Q0aURKmOMhjgspgipUIBSbo6GutHElMg6spQZ8VVApMNxiaivV8cMrkmODaulIETLGuo5WggmaBGRuG9xLb9ort+coaT55NvDo54R9JPnOq4qQwxc91lpH361rDeS+MCWbWBEYg3aCoKq2yiMH0i2edzWFYwjnRcC6ByuircoxcUJ1nJb8nBQ4+wZWt8yIsRXhUVYpAPwdV0kj/ddSEWWAzW6D/E4YJroSnpZDSkffHbGydCk8w6+XaBCtr9bfonVmrD/S6JnlC6ZSF2gSDvSHzpMqcpbY6kjJVCj2OTJlAObmRyptBaHDil11RRlqmLld7StGPh64GEcC6USZfVk5ltKy9fEz5dZSFM5aFCy8P9I0I6pa+2cRpJ94mmNXOfVsMv9bO7Ucw0n3a/0h9571ydq3CUqz84F2Y5tM6EsK+oTYZvdEaeYi3VY9WYLbyQ2Qju7vI/qfpg6grcj8g6jNy96Jmuz8kaja9i1r5pcjuVWllrSZhxhzjYZYNKtI1S1ebRxXeuAbOa4MtD0MnZFdfKAt7rH2JkUh23JWMmX6PS+5RxHjy92Z6NKz3x/DIcB2fl4P+P9bUY+h2mIzg/q3bbNs10e6OhnfwjgJ09NlL+/4RBlKF3QlLY9sypL+8enW4m/4QWsm4eeCtc9Z9z2LaX0CSglA6rqLjG0rbbO/0oB17Qh2140CY7dWuJYY9OODywXYBMlalzx8j6I/kvcg7VKPIw6IRDJjz6VPtyHl1rnu5UT138HboPpzGmw6+Y862zTGfnx0Y7Gq7X1TukDgTP3kY7kocIoXC9neseGsKBaY4jZLTzTBE7XRQmWKCntztcK+qnWb5IGKJuqcihMqn06mo1GRNjoSa3DX/sMz9oM6clXUWO+1zNBp5Rpm1jXXoczy5+/jp9PcD5RkEJzioLi9QHgR4MkHxU/cuFCJARY6vHD7KkwdRB2tsaWuvmwnMC+UXZmtCGcgK4XICu4ZQEDANeGWNBxUgiBvyk4X5y9aQCQOVs7dKEv+WVfAgjGR33hrh4e9CZQVIWitDrO2jZZEFclGwD39hti4mC7MwaZoGVS3MnwSOMluWZCRIGxMFr8pad7Np19DY2nWZeni+aoCMWGkWVIETuZauAVebayitpBcLs6K1dQSluOmFemjAxqyV6SGKQXAs84Jg3qM8O3s/5OuBjKysYr9r66AURuQss1cRn0BpjQqW5wgq68LaamV9sjCcvog34LGWV7kRmlHgooC0WV2SCV26meWm4+IVXONuwJNdIAljujDKZLqOEd6JstIUK3rWhMKaCPqplTT50iH97BnE++PF+YeFmWk9yko4Rl9HioZgU7h+sKun1wsDAJggB9j15svJyeRld6/0oRSRJPtPkAcGca+3txwU6C5MKy1UpLI4Xpt+SIevpQTT0a4bWWTOKawPLLrZ8BK8cLpt+fXXmlyD6eVVgrfCKbHiObvcoFSe/0tM10J7Oohquwbw+XnPdi8Ak+PRDqRmmNJuha75CRO8oWb8JRZ5vCAhycUYuuNZllEVRooHa4eZYste797OsW3/BbrH9Cw=
+sidebar_class_name: "get api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get agent's holdings"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agent/{agent_id}/holdings/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get agent's holdings
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Agent Id"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"array","items":{"properties":{"id":{"type":"string","format":"uuid","title":"Id"},"bought_at":{"type":"string","format":"date-time","title":"Bought At"},"agent_id":{"type":"string","format":"uuid","title":"Agent Id"},"base_address":{"type":"string","title":"Base Address"},"pool_address":{"type":"string","title":"Pool Address"},"pool_name":{"type":"string","title":"Pool Name"},"token_name":{"type":"string","title":"Token Name"},"decimals":{"type":"integer","title":"Decimals"},"tokens_bought":{"type":"number","title":"Tokens Bought"},"buying_price_usd":{"type":"number","title":"Buying Price Usd"},"buying_price_native":{"type":"number","title":"Buying Price Native"},"curr_price_usd":{"type":"number","title":"Curr Price Usd"},"curr_price_native":{"type":"number","title":"Curr Price Native"},"profit_abs_usd":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Profit Abs Usd"},"profit_abs_native":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Profit Abs Native"},"profit_per_usd":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Profit Per Usd"},"profit_per_native":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Profit Per Native"},"is_active":{"type":"boolean","title":"Is Active"},"dry_run":{"type":"boolean","title":"Dry Run"}},"type":"object","required":["id","bought_at","agent_id","base_address","pool_address","pool_name","token_name","decimals","tokens_bought","buying_price_usd","buying_price_native","curr_price_usd","curr_price_native","is_active","dry_run"],"title":"HoldingResponse"},"title":"Response Get Agent Holdings Agent  Agent Id  Holdings  Get"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

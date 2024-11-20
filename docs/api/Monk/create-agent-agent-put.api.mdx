@@ -1,0 +1,82 @@
+---
+id: create-agent-agent-put
+title: "Create an agent"
+description: "Creates an agent and it's portfolio. The response contains the"
+sidebar_label: "Create an agent"
+hide_title: true
+hide_table_of_contents: true
+api: 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
+sidebar_class_name: "put api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Create an agent"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"put"}
+  path={"/agent/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Creates an agent and it's portfolio. The response contains the
+  agent's details including private keys for Solana and EVM. This should be
+  shown to frontend or stored securely. This won't be shown again.
+
+  **NOTE**:
+  1. The percentages are represented as a floating value between 0 and 1. Both
+  inclusive. This applies to following fields
+    - `max_investment_per_session`
+    - `stop_loss`
+    - `trailing_stop_loss`
+    - `take_profit`
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={undefined}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={{"content":{"application/json":{"schema":{"properties":{"user_id":{"type":"string","format":"uuid","title":"Your UUID at FereAI.","description":"Your UUID at FereAI. You will get this in the response to your API Request."},"name":{"type":"string","title":"Name of the Agent.","description":"Name of the Agent."},"description":{"type":"string","title":"Description of the Agent.","description":"Description of the Agent."},"persona":{"type":"string","title":"Persona of the Agent.","description":"Persona of the Agent."},"data_source":{"type":"string","title":"Data Source of the Agent.","description":"Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."},"decision_prompt_pool":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Instructions for taking decision on a token.","description":"Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "},"decision_prompt_portfolio":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Instructions for taking decision on a portfolio.","description":"Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "},"twitter_username":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Your Bot's Username.","description":"Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "},"fc_username":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Your FereAI Username.","description":"Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "},"dry_run":{"type":"boolean","title":"Dry Run Mode.","description":"If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ","default":true},"dry_run_initial_usd":{"type":"number","title":"Initial USD for Dry Run.","description":"Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ","default":1000},"max_investment_per_session":{"type":"number","title":"Max Investment per Session.","description":"Maximum amount of USD your agent can invest in a single session.\n    ","default":0.1},"stop_loss":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Stop Loss Percentage.","description":"If the profit goes below this percentage, the agent will sell the token.\n    "},"trailing_stop_loss":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Trailing Stop Loss Percentage.","description":"If the profit goes below this percentage from the peak, the agent will sell the token.\n    "},"take_profit":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Take Profit Percentage.","description":"If the profit goes above this percentage, the agent will sell the token.\n    "}},"type":"object","title":"AgentCreateRequest"}}},"required":true}}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"properties":{"user_id":{"type":"string","format":"uuid","title":"Your UUID at FereAI.","description":"Your UUID at FereAI. You will get this in the response to your API Request."},"name":{"type":"string","title":"Name of the Agent.","description":"Name of the Agent."},"description":{"type":"string","title":"Description of the Agent.","description":"Description of the Agent."},"persona":{"type":"string","title":"Persona of the Agent.","description":"Persona of the Agent."},"data_source":{"type":"string","title":"Data Source of the Agent.","description":"Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."},"decision_prompt_pool":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Instructions for taking decision on a token.","description":"Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "},"decision_prompt_portfolio":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Instructions for taking decision on a portfolio.","description":"Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "},"twitter_username":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Your Bot's Username.","description":"Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "},"fc_username":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"Your FereAI Username.","description":"Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "},"dry_run":{"type":"boolean","title":"Dry Run Mode.","description":"If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ","default":true},"dry_run_initial_usd":{"type":"number","title":"Initial USD for Dry Run.","description":"Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ","default":1000},"max_investment_per_session":{"type":"number","title":"Max Investment per Session.","description":"Maximum amount of USD your agent can invest in a single session.\n    ","default":0.1},"stop_loss":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Stop Loss Percentage.","description":"If the profit goes below this percentage, the agent will sell the token.\n    "},"trailing_stop_loss":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Trailing Stop Loss Percentage.","description":"If the profit goes below this percentage from the peak, the agent will sell the token.\n    "},"take_profit":{"anyOf":[{"type":"number"},{"type":"null"}],"title":"Take Profit Percentage.","description":"If the profit goes above this percentage, the agent will sell the token.\n    "},"id":{"type":"string","format":"uuid","title":"Agent ID.","description":"Agent ID."},"sol_address":{"type":"string","title":"Solana Address.","description":"Solana Address of the Agent."},"evm_address":{"type":"string","title":"EVM Address.","description":"EVM Address of the Agent."},"sol_pvt_key":{"type":"string","title":"Solana Private Key.","description":"Solana Private Key of the Agent."},"evm_pvt_key":{"type":"string","title":"EVM Private Key.","description":"EVM Private Key of the Agent."},"is_active":{"type":"boolean","title":"Is Active.","description":"Is Active.","default":true},"mnemonic":{"type":"string","title":"Mnemonic.","description":"Mnemonic of the Agent. This mnemonic is used to generate the Solana and EVM keys."}},"type":"object","title":"AgentCreateResponse"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

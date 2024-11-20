@@ -5,6 +5,7 @@
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
+    "api-gen": "docusaurus gen-api-docs",
     "build": "docusaurus build",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
@@ -15,28 +16,30 @@
     "typecheck": "tsc"
   },
   "dependencies": {
-    "@docusaurus/core": "3.3.2",
-    "@docusaurus/preset-classic": "3.3.2",
-    "@docusaurus/theme-classic": "^3.4.0",
+    "@docusaurus/core": "3.6.2",
+    "@docusaurus/preset-classic": "3.6.2",
+    "@docusaurus/theme-classic": "^3.6.2",
     "@ionic-internal/ionic-ds": "^8.0.0",
-    "@mdx-js/react": "^3.0.0",
-    "@prismicio/react": "^2.8.0",
-    "clsx": "^2.0.0",
-    "docusaurus-lunr-search": "^3.4.0",
+    "@mdx-js/react": "^3.1.0",
+    "@prismicio/react": "^2.9.1",
+    "clsx": "^2.1.1",
+    "docusaurus-lunr-search": "^3.5.0",
     "docusaurus-plugin-module-alias": "^0.0.2",
+    "docusaurus-plugin-openapi-docs": "^4.2.0",
     "docusaurus-plugin-sass": "^0.2.5",
-    "modern-normalize": "^2.0.0",
-    "prism-react-renderer": "^2.3.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
+    "docusaurus-theme-openapi-docs": "^4.2.0",
+    "modern-normalize": "^3.0.1",
+    "prism-react-renderer": "^2.4.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-player": "^2.16.0",
-    "sass": "^1.77.8"
+    "sass": "^1.81.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.3.2",
-    "@docusaurus/tsconfig": "3.3.2",
-    "@docusaurus/types": "3.3.2",
-    "typescript": "~5.2.2"
+    "@docusaurus/module-type-aliases": "3.6.2",
+    "@docusaurus/tsconfig": "3.6.2",
+    "@docusaurus/types": "3.6.2",
+    "typescript": "~5.6.3"
   },
   "browserslist": {
     "production": [

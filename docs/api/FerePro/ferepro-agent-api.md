@@ -130,7 +130,7 @@ ws.on('error', function error(err) {
 ## Intermediate Streaming Response
 
 To understand more on the intermediate streaming response,
-please refer to [this doc](../chat_response.md)
+please refer to [this doc](./chat_response.md)
 
 ## Final Response
 

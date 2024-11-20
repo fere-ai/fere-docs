@@ -35,7 +35,7 @@ You need to pass the hours as `x_hours` in the message.
 ### Intermediate Streaming Response
 
 To understand more on the intermediate streaming response,
-please refer to [this doc](../chat_response.md)
+please refer to [this doc](../FerePro/chat_response.md)
 
 ### Final Response
 
@@ -80,7 +80,7 @@ You need to pass the hours as `x_hours` in the message.
 ### Intermediate Streaming Response
 
 To understand more on the intermediate streaming response,
-please refer to [this doc](../chat_response.md)
+please refer to [this doc](../FerePro/chat_response.md)
 
 ### Final Answer
 
