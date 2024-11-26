@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
       "title": "0xMONK",
-      "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n   ",
+      "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
       "version": "1.0.2"
   },
   "servers": [
@@ -595,7 +595,7 @@
                   "task"
               ],
               "summary": "Get status of a task",
-              "description": "Get the status of a task using the task ID",
+              "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }\n  ```",
               "operationId": "get_task_status_task_status__task_id___get",
               "parameters": [
                   {
