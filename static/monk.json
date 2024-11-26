@@ -3,7 +3,7 @@
   "info": {
       "title": "0xMONK",
       "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n   ",
-      "version": "1.0.1"
+      "version": "1.0.2"
   },
   "servers": [
       {
@@ -527,7 +527,7 @@
                   "agent"
               ],
               "summary": "Create a trade",
-              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.",
+              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n\n\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.\n\n  This call simply _schedules_ the sell. The actual sell will be executed\n  asynchronously. The response will contain the task ID which can be used to\n  check the status of the task.\n\n  To check status of the task, use the `/task/status/{task_id}/` endpoint.",
               "operationId": "sell_tokens_agent__agent_id__sell__holding_id___quantity___post",
               "parameters": [
                   {
@@ -572,9 +572,48 @@
                       "description": "Successful Response",
                       "content": {
                           "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
                               "schema": {
-                                  "$ref": "#/components/schemas/TradeResponse"
+                                  "$ref": "#/components/schemas/HTTPValidationError"
                               }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/task/status/{task_id}/": {
+          "get": {
+              "tags": [
+                  "task"
+              ],
+              "summary": "Get status of a task",
+              "description": "Get the status of a task using the task ID",
+              "operationId": "get_task_status_task_status__task_id___get",
+              "parameters": [
+                  {
+                      "name": "task_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "Task Id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
                           }
                       }
                   },

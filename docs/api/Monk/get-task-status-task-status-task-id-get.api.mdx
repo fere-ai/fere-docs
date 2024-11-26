@@ -1,0 +1,72 @@
+---
+id: get-task-status-task-status-task-id-get
+title: "Get status of a task"
+description: "Get the status of a task using the task ID"
+sidebar_label: "Get status of a task"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVdtu3DYQ/ZXB5CUBhF3X6JPeXCRIjeZiJJsWhWXYs+JIoi2RCjlyrS7078VQsndt1wHyJJE8MzxzOJcdCtUR83MUijd4kaHhWAbbi/UOc3zPAtIwRCEZIvgKCBQJQ7SuTkdpefoWM/Q9B1LDU4M51iyXenY52z76nxfWXF5e1iyYYU+BOhYOymWHjjrGHBcUZmiVTE/SYIaBvw82sMFcwsAZxrLhjjDfoYy9mkUJ1tWYoVhpdWOTKBqcpgs1j713kaNaHB8d6edx0F+HsuQYq6GFLwsYMyy9E3aicOr71pYp1PV1VJvdnsU0TVOGvx4fP3f8J7XWJDN4F4IPP+EV+6Dyip15Gxayrf5Z4S4+B7S+fHRKbvxcJW0fizRlDzvWCdcccLqYsvs9CoHGAyU/+JkgThl2sf6R6B85RqoZH5y9DE1iwEZPp/3dfnvNpTx68PMU13z1grvYu9nLO6v7chhvZ/n+77J7yO+bzdkzh/PbdiyNX1I85a40mONas3U9J/h6t6TutMYMI4fb+8weQjtjk/LzqhHpY75eU29XFQcmu7ob/1XM03I8C94MZUqgr8kpakZbV/kk70L96O7j509/PDM+AQlktGypZidgIxBEdmJ1Ne9JQwI9h8qHLiY8R6BBvPOdH2I7rmDT2Fi4BxfWQdlQqFmbg/YDw6WN1rsIVkDohuOqcH/7AUpy0Ad/aw3rt+slAjmj10XvKMI/jS0bMFxZx2odk2cqhUMCLvQL93DFqnCFy/NcbF+4vxgCl77r2BkwPgUK0XZDO5ecr2D0Q5gjjfB6OwI72rYKtKKBXJkwQhjcFXTe8JvCbbnygaGjmwW0SAM+RW3dIlEioVw2DcNmUfnk7PQ+3gjsTO+t3lv5AB05qlMDPXyRmEHnnRWv5QG9D1L51vqYFU7Dp9SVDq2irR21qoI+ChhfDh07mcMtvSadPl6jbzzXbbYnkqmmhbOubIfE8I66vuX0omejNN4l0T95w6vrWelXr+A3igzfvnwo3EnbHkRFQdVXpW8ZxOdw9WJWr68KBwCYoRKcc/OX1dHqWAu291E6Sr1vGQI6gp6On6e5vdv30Z8bWUv1C9/Jum/JpsaWqnK31PUyGTOc/WGG+X4safdpfBSF7XZbivwttNOk298HDiPm5xcZ3lKwtNXSPN+hsVH/DeYVtZF/EMjrL0vfewMvMb1vb06b2y21g64wwxseD8ZnaugNk+GQKMynJ2XJvRzYPZs/2lseet37dxucpv8AahLb0w==
+sidebar_class_name: "get api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get status of a task"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/task/status/{task_id}/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get the status of a task using the task ID
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"task_id","in":"path","required":true,"schema":{"type":"string","title":"Task Id"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
