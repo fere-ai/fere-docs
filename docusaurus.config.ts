@@ -212,7 +212,7 @@ const config: Config = {
       {
         highlight: "bash",
         language: "curl",
-        logoClass: "bash",
+        logoClass: "curl",
       },
       {
         highlight: "javascript",

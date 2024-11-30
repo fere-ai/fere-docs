@@ -2,7 +2,7 @@
   "openapi": "3.1.0",
   "info": {
       "title": "0xMONK",
-      "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
+      "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Examples Repo\n\nComplete working examples in Python and TypeScript are available on\n[fere-ai/agentic-examples](https://github.com/fere-ai/agentic-examples).\nClone and use them for a quick start.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
       "version": "1.0.2"
   },
   "servers": [
@@ -23,15 +23,26 @@
               "summary": "Create an agent",
               "description": "Creates an agent and it's portfolio. The response contains the\n  agent's details including private keys for Solana and EVM. This should be\n  shown to frontend or stored securely. This won't be shown again.\n\n  **NOTE**:\n  1. The percentages are represented as a floating value between 0 and 1. Both\n  inclusive. This applies to following fields\n    - `max_investment_per_session`\n    - `stop_loss`\n    - `trailing_stop_loss`\n    - `take_profit`",
               "operationId": "create_agent_agent__put",
+              "parameters": [
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
               "requestBody": {
+                  "required": true,
                   "content": {
                       "application/json": {
                           "schema": {
                               "$ref": "#/components/schemas/AgentCreateRequest"
                           }
                       }
-                  },
-                  "required": true
+                  }
               },
               "responses": {
                   "200": {
@@ -74,6 +85,15 @@
                           "type": "string",
                           "format": "uuid",
                           "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -127,6 +147,15 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
                   }
               ],
               "responses": {
@@ -169,6 +198,15 @@
                           "type": "string",
                           "format": "uuid",
                           "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -215,6 +253,15 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
                   }
               ],
               "responses": {
@@ -258,6 +305,15 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
                   }
               ],
               "responses": {
@@ -300,6 +356,15 @@
                           "type": "string",
                           "format": "uuid",
                           "title": "User Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -348,6 +413,15 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
                   }
               ],
               "responses": {
@@ -388,6 +462,15 @@
                           "type": "string",
                           "format": "uuid",
                           "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -431,6 +514,15 @@
                           "type": "string",
                           "format": "uuid",
                           "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -490,6 +582,15 @@
                           "minimum": 1,
                           "default": 1,
                           "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
                       }
                   }
               ],
@@ -565,6 +666,15 @@
                           ],
                           "title": "Quantity"
                       }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
                   }
               ],
               "responses": {
@@ -595,7 +705,7 @@
                   "task"
               ],
               "summary": "Get status of a task",
-              "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }\n  ```",
+              "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }```\n\n  Output of a sell task that succeeded:\n\n  ```json\n  {\n  \"task_id\": \"335612b9-b495-4925-8c51-775ceeaf1d92\",\n  \"status\": \"SUCCESS\",\n  \"result\": \"{\"created_at\":\"2024-11-26T07:12:40\",\"agent_id\":\"72a4fdae-6825-4896-be90-4bf9ed8e6261\",\"base_address\":\"KENJSUYLASHUMfHyy5o4Hp2FdNqZg1AsUPhfH2kYvEP\",\"pool_name\":\"GRIFFAIN / SOL\",\"decision\":0,\"price_usd\":0.00719506860116107,\"price_sol\":0.0000303826727689711,\"in_amount\":592788488.0,\"out_amount\":17945779.0,\"gas_fee\":127000.0,\"jito_fee\":80000.0,\"other_amount_threshold\":17856051.0,\"reason\":\"Sell decision executed manually.\",\"future_action\":\"Re-evaluate if there's an entry criteria\",\"profit_sol\":-0.040081023001594954,\"profit_usd\":-10.962148394048281,\"profit_percentage\":-68.99633864046619,\"txn\":\"https://solscan.io/tx/627nNaCEJ2jqBUpdrkgHvqmMm9DHexTkrY98E5pMMe9GvUeZMkND1Rf5GnYqCMjazypA3TAg36PqEBkSyq4rHSPH\",\"dry_run\":true}\"\n}\n  ```",
               "operationId": "get_task_status_task_status__task_id___get",
               "parameters": [
                   {
@@ -650,7 +760,12 @@
                           }
                       }
                   }
-              }
+              },
+              "security": [
+                  {
+                      "APIKeyHeader": []
+                  }
+              ]
           }
       }
   },
@@ -659,8 +774,15 @@
           "AgentCreateRequest": {
               "properties": {
                   "user_id": {
-                      "type": "string",
-                      "format": "uuid",
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "format": "uuid"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Your UUID at FereAI.",
                       "description": "Your UUID at FereAI. You will get this in the response to your API Request."
                   },
@@ -793,8 +915,15 @@
           "AgentCreateResponse": {
               "properties": {
                   "user_id": {
-                      "type": "string",
-                      "format": "uuid",
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "format": "uuid"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Your UUID at FereAI.",
                       "description": "Your UUID at FereAI. You will get this in the response to your API Request."
                   },
@@ -1759,6 +1888,13 @@
                   "type"
               ],
               "title": "ValidationError"
+          }
+      },
+      "securitySchemes": {
+          "APIKeyHeader": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "X-FRIDAY-KEY"
           }
       }
   }
