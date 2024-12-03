@@ -699,6 +699,74 @@
               }
           }
       },
+      "/agent/{agent_id}/decisions/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's decisions",
+              "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
+              "operationId": "get_decisions_agent__agent_id__decisions__get",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/TradeRecommendationsResponse"
+                                  },
+                                  "title": "Response Get Decisions Agent  Agent Id  Decisions  Get"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
       "/task/status/{task_id}/": {
           "get": {
               "tags": [
@@ -1720,6 +1788,79 @@
                   "dry_run"
               ],
               "title": "PortfolioResponse"
+          },
+          "TradeRecommendationsResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Created At"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "decision": {
+                      "type": "integer",
+                      "title": "Decision"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_native": {
+                      "type": "number",
+                      "title": "Price Native"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "id",
+                  "agent_id",
+                  "created_at",
+                  "pool_address",
+                  "decision",
+                  "price_usd",
+                  "price_native",
+                  "dry_run"
+              ],
+              "title": "TradeRecommendationsResponse"
           },
           "TradeResponse": {
               "properties": {
