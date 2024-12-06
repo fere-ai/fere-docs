@@ -5,19 +5,6 @@ import type * as Plugin from "@docusaurus/types/src/plugin";
 import path from "path";
 import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
 
-function reverseSidebarItems(items) {
-  // Reverse items in categories
-  const result = items.map((item) => {
-    if (item.type === "category") {
-      return { ...item, items: reverseSidebarItems(item.items) };
-    }
-    return item;
-  });
-  // Reverse items at current level
-  result.reverse();
-  return result;
-}
-
 const config: Config = {
   title: "FereAI",
   tagline: "Your ultimate crypto assistant",
@@ -99,11 +86,6 @@ const config: Config = {
             sidebarOptions: {
               groupPathsBy: "tagGroup",
               categoryLinkSource: "auto",
-              sidebarGenerators: {
-                createDocItem: () => {
-                  console.log("HII");
-                },
-              },
             },
             hideSendButton: false,
           } satisfies OpenApiPlugin.Options,
