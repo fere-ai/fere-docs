@@ -17,10 +17,10 @@
   "paths": {
     "/agent/": {
       "put": {
-        "tags": ["agent"],
+        "tags": ["agent"], 
         "summary": "Create an agent",
         "description": "Creates an agent and it's portfolio. The response contains the\n  agent's details including private keys for Solana and EVM. This should be\n  shown to frontend or stored securely. This won't be shown again.\n\n  **NOTE**:\n  1. The percentages are represented as a floating value between 0 and 1. Both\n  inclusive. This applies to following fields\n    - `max_investment_per_session`\n    - `stop_loss`\n    - `trailing_stop_loss`\n    - `take_profit`",
-        "operationId": "create_agent_agent__put",
+        "operationId": "1_create_agent_agent__put",
         "parameters": [
           {
             "name": "x-fere-userid",
@@ -76,7 +76,7 @@
         "tags": ["agent"],
         "summary": "Update an agent",
         "description": "Update an agent. The agent's details can be updated using this endpoint.\n    The agent's ID should be provided in the path parameter and the details to be updated\n    should be provided in the request body. The agent's ID cannot be updated.\n    Every field is optional, only those fields which have a value will be updated.\n\n    **NOTE**:\n    1. The percentages are represented as a floating value between 0 and 1. Both\n    inclusive. This applies to following fields\n      - `max_investment_per_session`\n      - `stop_loss`\n      - `trailing_stop_loss`\n      - `take_profit`",
-        "operationId": "update_agent_agent__agent_id___patch",
+        "operationId": "2_update_agent_agent__agent_id___patch",
         "parameters": [
           {
             "name": "agent_id",
@@ -140,7 +140,7 @@
         "tags": ["agent"],
         "summary": "Delete an agent",
         "description": "Delete an agent. The agent's ID should be provided in the path parameter.\n  This will delete the agent and all related data including trades, holdings, and portfolio",
-        "operationId": "delete_agent_agent__agent_id___delete",
+        "operationId": "3_delete_agent_agent__agent_id___delete",
         "parameters": [
           {
             "name": "agent_id",
@@ -194,7 +194,7 @@
         "tags": ["agent"],
         "summary": "Activate an agent",
         "description": "This method is deprecated. Use the `PATCH /agent_id instead\n  Toggle the active status of an agent. If the agent is active, it will be\n  deactivated and vice versa. The agent's ID should be provided in the path parameter",
-        "operationId": "activate_agent_agent__agent_id__active_toggle_put",
+        "operationId": "4_activate_agent_agent__agent_id__active_toggle_put",
         "deprecated": true,
         "parameters": [
           {
@@ -251,7 +251,7 @@
         "tags": ["agent"],
         "summary": "Toggle the dry run",
         "description": "This method is deprecated. Use the `PATCH /agent_id instead",
-        "operationId": "toggle_dry_run_agent__agent_id__dry_run_toggle_put",
+        "operationId": "5_toggle_dry_run_agent__agent_id__dry_run_toggle_put",
         "deprecated": true,
         "parameters": [
           {
@@ -307,7 +307,7 @@
       "get": {
         "tags": ["agent"],
         "summary": "Get an agent by it's ID",
-        "operationId": "get_agent_agent__agent_id__get",
+        "operationId": "6_get_agent_agent__agent_id__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -362,7 +362,7 @@
       "get": {
         "tags": ["agent"],
         "summary": "Get all agents of a user",
-        "operationId": "get_agents_agent__user_id___get",
+        "operationId": "7_get_agents_agent__user_id___get",
         "parameters": [
           {
             "name": "user_id",
@@ -421,7 +421,7 @@
       "get": {
         "tags": ["agent"],
         "summary": "Get agent's Buy recommendations",
-        "operationId": "get_agent_buy_recos_agent__agent_id__buy__get",
+        "operationId": "8_get_agent_buy_recos_agent__agent_id__buy__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -474,7 +474,7 @@
       "get": {
         "tags": ["agent"],
         "summary": "Get agent's portfolio",
-        "operationId": "get_agent_portfolio_agent__agent_id__portfolio__get",
+        "operationId": "9_get_agent_portfolio_agent__agent_id__portfolio__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -529,7 +529,7 @@
       "get": {
         "tags": ["agent"],
         "summary": "Get agent's holdings",
-        "operationId": "get_agent_holdings_agent__agent_id__holdings__get",
+        "operationId": "10_get_agent_holdings_agent__agent_id__holdings__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -589,7 +589,7 @@
         "tags": ["agent"],
         "summary": "Get agent's trades",
         "description": "Gets the trades of agent. The trades are paginated\n            and the page number can be specified using the query parameter\n            `page`. The default page number is 1. Each page will have 100 trades",
-        "operationId": "get_agent_trades_agent__agent_id__trades__get",
+        "operationId": "11_get_agent_trades_agent__agent_id__trades__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -660,7 +660,7 @@
         "tags": ["agent"],
         "summary": "Create a trade",
         "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n\n\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.\n\n  This call simply _schedules_ the sell. The actual sell will be executed\n  asynchronously. The response will contain the task ID which can be used to\n  check the status of the task.\n\n  To check status of the task, use the `/task/status/{task_id}/` endpoint.",
-        "operationId": "sell_tokens_agent__agent_id__sell__holding_id___quantity___post",
+        "operationId": "12_sell_tokens_agent__agent_id__sell__holding_id___quantity___post",
         "parameters": [
           {
             "name": "agent_id",
@@ -740,7 +740,7 @@
         "tags": ["agent"],
         "summary": "Get agent's decisions",
         "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
-        "operationId": "get_decisions_agent__agent_id__decisions__get",
+        "operationId": "13_get_decisions_agent__agent_id__decisions__get",
         "parameters": [
           {
             "name": "agent_id",
@@ -811,7 +811,7 @@
         "tags": ["task"],
         "summary": "Get status of a task",
         "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }```\n\n  Output of a sell task that succeeded:\n\n  ```json\n  {\n  \"task_id\": \"335612b9-b495-4925-8c51-775ceeaf1d92\",\n  \"status\": \"SUCCESS\",\n  \"result\": \"{\"created_at\":\"2024-11-26T07:12:40\",\"agent_id\":\"72a4fdae-6825-4896-be90-4bf9ed8e6261\",\"base_address\":\"KENJSUYLASHUMfHyy5o4Hp2FdNqZg1AsUPhfH2kYvEP\",\"pool_name\":\"GRIFFAIN / SOL\",\"decision\":0,\"price_usd\":0.00719506860116107,\"price_sol\":0.0000303826727689711,\"in_amount\":592788488.0,\"out_amount\":17945779.0,\"gas_fee\":127000.0,\"jito_fee\":80000.0,\"other_amount_threshold\":17856051.0,\"reason\":\"Sell decision executed manually.\",\"future_action\":\"Re-evaluate if there's an entry criteria\",\"profit_sol\":-0.040081023001594954,\"profit_usd\":-10.962148394048281,\"profit_percentage\":-68.99633864046619,\"txn\":\"https://solscan.io/tx/627nNaCEJ2jqBUpdrkgHvqmMm9DHexTkrY98E5pMMe9GvUeZMkND1Rf5GnYqCMjazypA3TAg36PqEBkSyq4rHSPH\",\"dry_run\":true}\"\n}\n  ```",
-        "operationId": "get_task_status_task_status__task_id___get",
+        "operationId": "14_get_task_status_task_status__task_id___get",
         "parameters": [
           {
             "name": "task_id",
@@ -854,7 +854,7 @@
       "get": {
         "summary": "Buy Signals",
         "description": "Get Buy Signals from the Sentient Trading Agent",
-        "operationId": "buy_signals_buy__get",
+        "operationId": "15_buy_signals_buy__get",
         "responses": {
           "200": {
             "description": "Successful Response",
