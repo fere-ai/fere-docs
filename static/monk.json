@@ -7,10 +7,7 @@
   },
   "servers": [
     {
-      "url": "/ta"
-    },
-    {
-      "url": "https://api.fereai.xyz/ta",
+      "url": "https://api.fereai.xyz",
       "description": "Production Server"
     }
   ],

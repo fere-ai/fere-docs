@@ -41,6 +41,11 @@ body {
   box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.1);
   transition: all 0.3s ease;
 }
+.heroLogo {
+  margin-top: -70px;
+  margin-bottom: -60px;
+  clip-path: inset(30% 20% 30% 20%);
+}
 
 .heroButtons a:hover {
   transform: translateY(-5px);
