@@ -1,41 +1,87 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--background-dark);
+}
+
+/* Feature Cards */
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
-}
-
-.featureSvg {
-  height: 100px;
-  width: 100px;
-}
-
-.herocard {
-  flex: 1;
-  /* border: solid 1px #cbbaba; */
-  box-sizing: border-box;
-  border-radius: 8px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.herocard:hover {
-  transform: translateY(-5px);
+  padding: 0rem 0rem 4rem 0rem;
+  background-color: var(--background-dark);
 }
 
 .featureRow {
-  display: flex;
-  flex-wrap: wrap;
+  display: flex;  
   justify-content: space-between;
-  margin: -1rem;
-  /* gap: 0.1rem; */
+  gap: 2rem;
 }
 
-@media screen and (max-width: 966px) {
+.cardcontainer {
+  margin: 0rem 4rem;
+}
+
+.featureCard {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  z-index: 1;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: var(--card-bg);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.featureCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #76e6c5, #ff9bda, #fad776);
+  z-index: -1;
+  border-radius: var(--ifm-global-radius);
+  padding: 2px; /* Adjust the thickness of the gradient border */
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+}
+
+.featureCard:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+}
+
+.featureCardIcon svg {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 1rem;
+  fill: var(--primary-color);
+}
+
+.featureCardTitle {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.featureCardDescription {
+  font-size: 1rem;
+}
+
+.featureCardLink {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 2rem;
+  height: 100%;
+}
+
+@media screen and (max-width: 996px) {
   .featureRow {
     flex-direction: column;
   }
 
-  .herocard {
-    margin-bottom: 2rem;
+  .heroBanner {
+    padding: 2rem;
   }
 }

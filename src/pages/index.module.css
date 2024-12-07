@@ -1,23 +1,72 @@
-/**
- * CSS files with the .module.css suffix will be treated as CSS modules
- * and scoped locally.
- */
+body {
+  font-family: "Inter", sans-serif;
+}
 
+/* Hero Section */
 .heroBanner {
-  padding: 4rem 0;
-  text-align: center;
   position: relative;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 3rem 2rem 4rem;
+}
+
+.heroBanner h1 {
+  font-size: 4.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.heroBanner p {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+}
+
+.heroButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.heroButtons a {
+  padding: 1rem 2.5rem;
+  border-radius: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: var(--text-light);
+  text-decoration: none;
+  background: linear-gradient(145deg, #eef2f3, #e0e0e0);
+  box-shadow: 0px 5px 15px rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+.heroLogo {
+  margin-top: -70px;
+  margin-bottom: -60px;
+  clip-path: inset(30% 20% 30% 20%);
+}
+
+.heroButtons a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 10px 25px rgba(255, 255, 255, 0.2);
 }
 
 @media screen and (max-width: 996px) {
   .heroBanner {
-    padding: 2rem;
+    padding: 4rem 1.5rem;
   }
-}
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .heroBanner h1 {
+    font-size: 3rem;
+  }
+
+  .heroBanner p {
+    font-size: 1.2rem;
+  }
+
+  .heroButtons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 }
