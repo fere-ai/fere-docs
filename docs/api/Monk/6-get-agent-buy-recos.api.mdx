@@ -1,0 +1,72 @@
+---
+id: 6-get-agent-buy-recos
+title: "Get agent's Buy recommendations"
+description: "Get agent's Buy recommendations"
+sidebar_label: "Get agent's Buy recommendations"
+hide_title: true
+hide_table_of_contents: true
+api: eJyVVm1v3DYM/iuc+mEt5viuwbBh/nZt0zbI2mZJuq3IBQlP5tlqbMmVqDTewf99oHzOS9Ng2Kc7S+Qj8uFDShvFWAVVnCqsyLI6y5TryCMbZ/dLVahfzivi87R5vor9uSftgspUhx5bYvLivFEWW1LFCHJuSpUpY1WhOuRaZcrTl2g8lapgHylTQdfUoio2ivtO/AJ7YyuVqbXzLbIqVIwJhQ03YrAQYNgv1TCcCV7onA0UBGJ3PpefkoL2ppPAVaGOo9YUwjo2cLQ1VpnSzrJkWWwUdl1jdMpz9jmIz+Y2rGEYhkz9vLv7EPhPbEyZ3GDPe+f/B6rqvHDLZoy7JEbTyD/D1IaHBo3T93bR9h/Wie37rA3ZzYqxTBV5NZwN2bSG3mN/h8rf3RigGjLVhup7VZhM31EIWJG6AXvcNJEBJ7I73J7tVp9J8z0FnKa8xqO3dme3MLf0juw+nsarkb7vHTaZvD05OXwAONb2flHfEEOS7o8BXsQeRORtS3Z0FLm3xLWTfqiIk/q5VoWaJafZZpL9MFvFfqYyFchfTa0RfaMKVTN3oZjNsDP5mjyhya/7f2aM6ttgDr0ro04KO04wSiQfSEdvuD8WNY36WBzuH1D/lrAkf6c02JkD6qcOrMftbOrQv3deH+2/WnzaOdj7lMgzdu2S95a0+fW7D+8PHkS1APZYGluNRIEJgBDIspGvcY1rZOjISxOHZE8BMLKzrnUxNH0OJ7UJS3sDYSzoGn1F4NbANUFJ2gThHAwD4yWFfGk/uQgaLXTeXZmS5LftOADaUo4LzmKAr7XRNZS0NpbEOyRk1Ew+GW7DX9qbI/KlXdqiKNh0S/sX3VYdSpcShWDa2IzN7tbQu+jHTAM8XfVAFleNGBqWRC5K34OP9gJaV9KzpV3R2nmCFi+3RltqwKWsjd1SlIKQWE5qgpMty4vD/SnfAGTLzhk5d+08tGixEpt7FQkZtM4adtKY0DnPa9cYF7KllfQxzcO7XsFUFhthQYoCpdOxJctjutqJfqV4tdR4nBjZbSCZcLq0xuompgivse0aShU97Ll2NpH+3pWUfx6ZfvIE9iarI+qcrL108s0EX51PLD2CI3PlOKkR0BPgFZoGVw2Bs0t7Kv20g2bsRqN3JpCzp1PXVYbruMq1a2ePGT/Ll/Zl4yylA2Mg0WObCEf4Eo2+hMDoecrlBQaCj0e/L+2iae5USOLzJKq5ImBXwMWjrT+72GItvK4Nk+boSZZ+OH1Nnhb7MDbjvX14ZbDy2N4mVz7/Fduq0W13fU2/5bpxsVx7Zzm3xDMMgTjMSqfDDAXnvHX2Mu9s9UyO2oG3pqqbHo41JkpzOIoWns+z+XwOP016187q6D1ZbvpcvP5IjHywK4de5JTDsbAzNsk3o8JCa2xkGnUAACpTIq9xsjzP5/muDPrOBW4x3ZnbYfXfc/nekLoZgUzXPOsaNOmSSwN4s53Z00MnU8Wdx8oqysCUi6h2gcVqs1lhoI++GQZZ/hLJ96o4PcvUFXojRKXhXpog/0tVrLEJ9CCgm7eBenq0vQKfgcq+H+g0wK0Ec4VNlC+VqUvq776t0uW+nesSw7i90Jo6vuP44C0i18jNPfZm70QNw79XoIBq
+sidebar_class_name: "get api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Get agent's Buy recommendations"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"get"}
+  path={"/agent/{agent_id}/buy/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Get agent's Buy recommendations
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Agent Id"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

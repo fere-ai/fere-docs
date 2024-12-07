@@ -1,2077 +1,1913 @@
 {
   "openapi": "3.1.0",
   "info": {
-    "title": "0xMONK",
-    "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Examples Repo\n\nComplete working examples in Python and TypeScript are available on\n[fere-ai/agentic-examples](https://github.com/fere-ai/agentic-examples).\nClone and use them for a quick start.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
-    "version": "1.0.2"
+      "title": "0xMONK",
+      "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Examples Repo\n\nComplete working examples in Python and TypeScript are available on\n[fere-ai/agentic-examples](https://github.com/fere-ai/agentic-examples).\nClone and use them for a quick start.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
+      "version": "1.0.2"
   },
   "servers": [
-    {
-      "url": "https://api.fereai.xyz",
-      "description": "Production Server"
-    }
+      {
+          "url": "https://api.fereai.xyz/ta",
+          "description": "Production Server"
+      }
   ],
   "paths": {
-    "/agent/": {
-      "put": {
-        "tags": ["agent"], 
-        "summary": "Create an agent",
-        "description": "Creates an agent and it's portfolio. The response contains the\n  agent's details including private keys for Solana and EVM. This should be\n  shown to frontend or stored securely. This won't be shown again.\n\n  **NOTE**:\n  1. The percentages are represented as a floating value between 0 and 1. Both\n  inclusive. This applies to following fields\n    - `max_investment_per_session`\n    - `stop_loss`\n    - `trailing_stop_loss`\n    - `take_profit`",
-        "operationId": "1_create_agent_agent__put",
-        "parameters": [
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AgentCreateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentCreateResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/": {
-      "patch": {
-        "tags": ["agent"],
-        "summary": "Update an agent",
-        "description": "Update an agent. The agent's details can be updated using this endpoint.\n    The agent's ID should be provided in the path parameter and the details to be updated\n    should be provided in the request body. The agent's ID cannot be updated.\n    Every field is optional, only those fields which have a value will be updated.\n\n    **NOTE**:\n    1. The percentages are represented as a floating value between 0 and 1. Both\n    inclusive. This applies to following fields\n      - `max_investment_per_session`\n      - `stop_loss`\n      - `trailing_stop_loss`\n      - `take_profit`",
-        "operationId": "2_update_agent_agent__agent_id___patch",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AgentUpdateRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      },
-      "delete": {
-        "tags": ["agent"],
-        "summary": "Delete an agent",
-        "description": "Delete an agent. The agent's ID should be provided in the path parameter.\n  This will delete the agent and all related data including trades, holdings, and portfolio",
-        "operationId": "3_delete_agent_agent__agent_id___delete",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/active/toggle": {
-      "put": {
-        "tags": ["agent"],
-        "summary": "Activate an agent",
-        "description": "This method is deprecated. Use the `PATCH /agent_id instead\n  Toggle the active status of an agent. If the agent is active, it will be\n  deactivated and vice versa. The agent's ID should be provided in the path parameter",
-        "operationId": "4_activate_agent_agent__agent_id__active_toggle_put",
-        "deprecated": true,
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/dry-run/toggle": {
-      "put": {
-        "tags": ["agent"],
-        "summary": "Toggle the dry run",
-        "description": "This method is deprecated. Use the `PATCH /agent_id instead",
-        "operationId": "5_toggle_dry_run_agent__agent_id__dry_run_toggle_put",
-        "deprecated": true,
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get an agent by it's ID",
-        "operationId": "6_get_agent_agent__agent_id__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/AgentResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{user_id}/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get all agents of a user",
-        "operationId": "7_get_agents_agent__user_id___get",
-        "parameters": [
-          {
-            "name": "user_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "User Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/AgentResponse"
-                  },
-                  "title": "Response Get Agents Agent  User Id   Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/buy/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get agent's Buy recommendations",
-        "operationId": "8_get_agent_buy_recos_agent__agent_id__buy__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/portfolio/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get agent's portfolio",
-        "operationId": "9_get_agent_portfolio_agent__agent_id__portfolio__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PortfolioResponse"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/holdings/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get agent's holdings",
-        "operationId": "10_get_agent_holdings_agent__agent_id__holdings__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/HoldingResponse"
-                  },
-                  "title": "Response Get Agent Holdings Agent  Agent Id  Holdings  Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/trades/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get agent's trades",
-        "description": "Gets the trades of agent. The trades are paginated\n            and the page number can be specified using the query parameter\n            `page`. The default page number is 1. Each page will have 100 trades",
-        "operationId": "11_get_agent_trades_agent__agent_id__trades__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1,
-              "title": "Page"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TradeResponse"
-                  },
-                  "title": "Response Get Agent Trades Agent  Agent Id  Trades  Get"
-                }
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/sell/{holding_id}/{quantity}/": {
-      "post": {
-        "tags": ["agent"],
-        "summary": "Create a trade",
-        "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n\n\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.\n\n  This call simply _schedules_ the sell. The actual sell will be executed\n  asynchronously. The response will contain the task ID which can be used to\n  check the status of the task.\n\n  To check status of the task, use the `/task/status/{task_id}/` endpoint.",
-        "operationId": "12_sell_tokens_agent__agent_id__sell__holding_id___quantity___post",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "holding_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Holding Id"
-            }
-          },
-          {
-            "name": "quantity",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
+      "/agent/": {
+          "put": {
+              "tags": [
+                  "agent"
               ],
-              "title": "Quantity"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/agent/{agent_id}/decisions/": {
-      "get": {
-        "tags": ["agent"],
-        "summary": "Get agent's decisions",
-        "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
-        "operationId": "13_get_decisions_agent__agent_id__decisions__get",
-        "parameters": [
-          {
-            "name": "agent_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid",
-              "title": "Agent Id"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "required": false,
-            "schema": {
-              "type": "integer",
-              "minimum": 1,
-              "default": 1,
-              "title": "Page"
-            }
-          },
-          {
-            "name": "x-fere-userid",
-            "in": "header",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "X-Fere-Userid"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TradeRecommendationsResponse"
+              "summary": "Create an agent",
+              "description": "Creates an agent and it's portfolio. The response contains the\n  agent's details including private keys for Solana and EVM. This should be\n  shown to frontend or stored securely. This won't be shown again.\n\n  **NOTE**:\n  1. The percentages are represented as a floating value between 0 and 1. Both\n  inclusive. This applies to following fields\n    - `max_investment_per_session`\n    - `stop_loss`\n    - `trailing_stop_loss`\n    - `take_profit`",
+              "operationId": "1_create_agent",
+              "parameters": [
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/AgentCreateRequest"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AgentCreateResponse"
+                              }
+                          }
+                      }
                   },
-                  "title": "Response Get Decisions Agent  Agent Id  Decisions  Get"
-                }
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
               }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
           }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/task/status/{task_id}/": {
-      "get": {
-        "tags": ["task"],
-        "summary": "Get status of a task",
-        "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }```\n\n  Output of a sell task that succeeded:\n\n  ```json\n  {\n  \"task_id\": \"335612b9-b495-4925-8c51-775ceeaf1d92\",\n  \"status\": \"SUCCESS\",\n  \"result\": \"{\"created_at\":\"2024-11-26T07:12:40\",\"agent_id\":\"72a4fdae-6825-4896-be90-4bf9ed8e6261\",\"base_address\":\"KENJSUYLASHUMfHyy5o4Hp2FdNqZg1AsUPhfH2kYvEP\",\"pool_name\":\"GRIFFAIN / SOL\",\"decision\":0,\"price_usd\":0.00719506860116107,\"price_sol\":0.0000303826727689711,\"in_amount\":592788488.0,\"out_amount\":17945779.0,\"gas_fee\":127000.0,\"jito_fee\":80000.0,\"other_amount_threshold\":17856051.0,\"reason\":\"Sell decision executed manually.\",\"future_action\":\"Re-evaluate if there's an entry criteria\",\"profit_sol\":-0.040081023001594954,\"profit_usd\":-10.962148394048281,\"profit_percentage\":-68.99633864046619,\"txn\":\"https://solscan.io/tx/627nNaCEJ2jqBUpdrkgHvqmMm9DHexTkrY98E5pMMe9GvUeZMkND1Rf5GnYqCMjazypA3TAg36PqEBkSyq4rHSPH\",\"dry_run\":true}\"\n}\n  ```",
-        "operationId": "14_get_task_status_task_status__task_id___get",
-        "parameters": [
-          {
-            "name": "task_id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "title": "Task Id"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            }
-          },
-          "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
-          }
-        ]
-      }
-    },
-    "/buy/": {
-      "get": {
-        "summary": "Buy Signals",
-        "description": "Get Buy Signals from the Sentient Trading Agent",
-        "operationId": "15_buy_signals_buy__get",
-        "responses": {
-          "200": {
-            "description": "Successful Response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "items": {
-                    "$ref": "#/components/schemas/BuyDecision"
+      },
+      "/agent/{agent_id}/": {
+          "patch": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Update an agent",
+              "description": "Update an agent. The agent's details can be updated using this endpoint.\n    The agent's ID should be provided in the path parameter and the details to be updated\n    should be provided in the request body. The agent's ID cannot be updated.\n    Every field is optional, only those fields which have a value will be updated.\n\n    **NOTE**:\n    1. The percentages are represented as a floating value between 0 and 1. Both\n    inclusive. This applies to following fields\n      - `max_investment_per_session`\n      - `stop_loss`\n      - `trailing_stop_loss`\n      - `take_profit`",
+              "operationId": "2_update_agent",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
                   },
-                  "type": "array",
-                  "title": "Response Buy Signals Buy  Get"
-                }
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/AgentUpdateRequest"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AgentResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
               }
-            }
+          },
+          "delete": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Delete an agent",
+              "description": "Delete an agent. The agent's ID should be provided in the path parameter.\n  This will delete the agent and all related data including trades, holdings, and portfolio",
+              "operationId": "3_delete_agent",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
           }
-        },
-        "security": [
-          {
-            "APIKeyHeader": []
+      },
+      "/agent/{agent_id}": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get an agent by it's ID",
+              "operationId": "4_get_agent",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AgentResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
           }
-        ]
+      },
+      "/agent/{user_id}/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get all agents of a user",
+              "operationId": "5_get_agents",
+              "parameters": [
+                  {
+                      "name": "user_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "User Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/AgentResponse"
+                                  },
+                                  "title": "Response 5 Get Agents"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/buy/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's Buy recommendations",
+              "operationId": "6_get_agent_buy_recos",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/portfolio/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's portfolio",
+              "operationId": "7_get_agent_portfolio",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PortfolioResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/holdings/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's holdings",
+              "operationId": "8_get_agent_holdings",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/HoldingResponse"
+                                  },
+                                  "title": "Response 8 Get Agent Holdings"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/trades/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's trades",
+              "description": "Gets the trades of agent. The trades are paginated\n            and the page number can be specified using the query parameter\n            `page`. The default page number is 1. Each page will have 100 trades",
+              "operationId": "9_get_agent_trades",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/TradeResponse"
+                                  },
+                                  "title": "Response 9 Get Agent Trades"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/sell/{holding_id}/{quantity}/": {
+          "post": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Create a trade",
+              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n\n\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.\n\n  This call simply _schedules_ the sell. The actual sell will be executed\n  asynchronously. The response will contain the task ID which can be used to\n  check the status of the task.\n\n  To check status of the task, use the `/task/status/{task_id}/` endpoint.",
+              "operationId": "9_sell_tokens",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "holding_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Holding Id"
+                      }
+                  },
+                  {
+                      "name": "quantity",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "integer"
+                              }
+                          ],
+                          "title": "Quantity"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "X-Fere-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/decisions/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's decisions",
+              "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
+              "operationId": "10_get_agent_decisions",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/TradeRecommendationsResponse"
+                                  },
+                                  "title": "Response 10 Get Agent Decisions"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/task/status/{task_id}/": {
+          "get": {
+              "tags": [
+                  "task"
+              ],
+              "summary": "Get status of a task",
+              "description": "Get the status of a task using the task ID.\n\n  The status can be one of\n  - PENDING\n  - FAILURE\n  - SUCCESS\n\n  Any additional details will be present in the `result` field. The frontend/caller API\n  should be polling for task results every 20 - 30s. It should also update the user\n  accordingly based on the status.https://docs.fereai.xyz/docs/api/Monk/sell-tokens-agent-agent-id-sell-holding-id-quantity-post\n\n  Output\n\n  ```json\n  {\n    \"task_id\": \"2dc1ec2a-9f48-4fb3-bf72-44b2adb9190f\",\n    \"status\": \"FAILURE\",\n    \"result\": {}\n  }```\n\n  Output of a sell task that succeeded:\n\n  ```json\n  {\n  \"task_id\": \"335612b9-b495-4925-8c51-775ceeaf1d92\",\n  \"status\": \"SUCCESS\",\n  \"result\": \"{\"created_at\":\"2024-11-26T07:12:40\",\"agent_id\":\"72a4fdae-6825-4896-be90-4bf9ed8e6261\",\"base_address\":\"KENJSUYLASHUMfHyy5o4Hp2FdNqZg1AsUPhfH2kYvEP\",\"pool_name\":\"GRIFFAIN / SOL\",\"decision\":0,\"price_usd\":0.00719506860116107,\"price_sol\":0.0000303826727689711,\"in_amount\":592788488.0,\"out_amount\":17945779.0,\"gas_fee\":127000.0,\"jito_fee\":80000.0,\"other_amount_threshold\":17856051.0,\"reason\":\"Sell decision executed manually.\",\"future_action\":\"Re-evaluate if there's an entry criteria\",\"profit_sol\":-0.040081023001594954,\"profit_usd\":-10.962148394048281,\"profit_percentage\":-68.99633864046619,\"txn\":\"https://solscan.io/tx/627nNaCEJ2jqBUpdrkgHvqmMm9DHexTkrY98E5pMMe9GvUeZMkND1Rf5GnYqCMjazypA3TAg36PqEBkSyq4rHSPH\",\"dry_run\":true}\"\n}\n  ```",
+              "operationId": "get_task_status_task_status__task_id___get",
+              "parameters": [
+                  {
+                      "name": "task_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "Task Id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/buy/": {
+          "get": {
+              "summary": "Buy Signals",
+              "description": "Get Buy Signals from the Sentient Trading Agent",
+              "operationId": "buy_signals_buy__get",
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "items": {
+                                      "$ref": "#/components/schemas/BuyDecision"
+                                  },
+                                  "type": "array",
+                                  "title": "Response Buy Signals Buy  Get"
+                              }
+                          }
+                      }
+                  }
+              },
+              "security": [
+                  {
+                      "APIKeyHeader": []
+                  }
+              ]
+          }
       }
-    }
   },
   "components": {
-    "schemas": {
-      "AgentCreateRequest": {
-        "properties": {
-          "user_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
+      "schemas": {
+          "AgentCreateRequest": {
+              "properties": {
+                  "user_id": {
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "format": "uuid"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your UUID at FereAI.",
+                      "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+                  },
+                  "name": {
+                      "type": "string",
+                      "title": "Name of the Agent.",
+                      "description": "Name of the Agent."
+                  },
+                  "description": {
+                      "type": "string",
+                      "title": "Description of the Agent.",
+                      "description": "Description of the Agent."
+                  },
+                  "persona": {
+                      "type": "string",
+                      "title": "Persona of the Agent.",
+                      "description": "Persona of the Agent."
+                  },
+                  "data_source": {
+                      "type": "string",
+                      "title": "Data Source of the Agent.",
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                  },
+                  "decision_prompt_pool": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a token.",
+                      "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
+                  },
+                  "decision_prompt_portfolio": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a portfolio.",
+                      "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "twitter_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your Bot's Username.",
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                  },
+                  "fc_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your FereAI Username.",
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run Mode.",
+                      "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
+                      "default": true
+                  },
+                  "dry_run_initial_usd": {
+                      "type": "number",
+                      "title": "Initial USD for Dry Run.",
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "default": 1000
+                  },
+                  "max_investment_per_session": {
+                      "type": "number",
+                      "title": "Max Investment per Session.",
+                      "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
+                      "default": 0.1
+                  },
+                  "stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                  },
+                  "trailing_stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Trailing Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                  },
+                  "take_profit": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Take Profit Percentage.",
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your UUID at FereAI.",
-            "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+              "type": "object",
+              "title": "AgentCreateRequest"
           },
-          "name": {
-            "type": "string",
-            "title": "Name of the Agent.",
-            "description": "Name of the Agent."
-          },
-          "description": {
-            "type": "string",
-            "title": "Description of the Agent.",
-            "description": "Description of the Agent."
-          },
-          "persona": {
-            "type": "string",
-            "title": "Persona of the Agent.",
-            "description": "Persona of the Agent."
-          },
-          "data_source": {
-            "type": "string",
-            "title": "Data Source of the Agent.",
-            "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
-          },
-          "decision_prompt_pool": {
-            "anyOf": [
-              {
-                "type": "string"
+          "AgentCreateResponse": {
+              "properties": {
+                  "user_id": {
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "format": "uuid"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your UUID at FereAI.",
+                      "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+                  },
+                  "name": {
+                      "type": "string",
+                      "title": "Name of the Agent.",
+                      "description": "Name of the Agent."
+                  },
+                  "description": {
+                      "type": "string",
+                      "title": "Description of the Agent.",
+                      "description": "Description of the Agent."
+                  },
+                  "persona": {
+                      "type": "string",
+                      "title": "Persona of the Agent.",
+                      "description": "Persona of the Agent."
+                  },
+                  "data_source": {
+                      "type": "string",
+                      "title": "Data Source of the Agent.",
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                  },
+                  "decision_prompt_pool": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a token.",
+                      "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
+                  },
+                  "decision_prompt_portfolio": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a portfolio.",
+                      "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "twitter_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your Bot's Username.",
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                  },
+                  "fc_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your FereAI Username.",
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run Mode.",
+                      "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
+                      "default": true
+                  },
+                  "dry_run_initial_usd": {
+                      "type": "number",
+                      "title": "Initial USD for Dry Run.",
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "default": 1000
+                  },
+                  "max_investment_per_session": {
+                      "type": "number",
+                      "title": "Max Investment per Session.",
+                      "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
+                      "default": 0.1
+                  },
+                  "stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                  },
+                  "trailing_stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Trailing Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                  },
+                  "take_profit": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Take Profit Percentage.",
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  },
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent ID.",
+                      "description": "Agent ID."
+                  },
+                  "sol_address": {
+                      "type": "string",
+                      "title": "Solana Address.",
+                      "description": "Solana Address of the Agent."
+                  },
+                  "evm_address": {
+                      "type": "string",
+                      "title": "EVM Address.",
+                      "description": "EVM Address of the Agent."
+                  },
+                  "sol_pvt_key": {
+                      "type": "string",
+                      "title": "Solana Private Key.",
+                      "description": "Solana Private Key of the Agent."
+                  },
+                  "evm_pvt_key": {
+                      "type": "string",
+                      "title": "EVM Private Key.",
+                      "description": "EVM Private Key of the Agent."
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active.",
+                      "description": "Is Active.",
+                      "default": true
+                  },
+                  "mnemonic": {
+                      "type": "string",
+                      "title": "Mnemonic.",
+                      "description": "Mnemonic of the Agent. This mnemonic is used to generate the Solana and EVM keys."
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a token.",
-            "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
+              "type": "object",
+              "title": "AgentCreateResponse"
           },
-          "decision_prompt_portfolio": {
-            "anyOf": [
-              {
-                "type": "string"
+          "AgentResponse": {
+              "properties": {
+                  "user_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Your UUID at FereAI.",
+                      "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+                  },
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent ID.",
+                      "description": "Agent ID."
+                  },
+                  "name": {
+                      "type": "string",
+                      "title": "Name of the Agent.",
+                      "description": "Name of the Agent."
+                  },
+                  "description": {
+                      "type": "string",
+                      "title": "Description of the Agent.",
+                      "description": "Description of the Agent."
+                  },
+                  "persona": {
+                      "type": "string",
+                      "title": "Persona of the Agent.",
+                      "description": "Persona of the Agent."
+                  },
+                  "data_source": {
+                      "type": "string",
+                      "title": "Data Source of the Agent.",
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                  },
+                  "decision_prompt_pool": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a token.",
+                      "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
+                  },
+                  "decision_prompt_portfolio": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a portfolio.",
+                      "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "twitter_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your Bot's Username.",
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                  },
+                  "fc_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your FereAI Username.",
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run Mode.",
+                      "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
+                      "default": true
+                  },
+                  "dry_run_initial_usd": {
+                      "type": "number",
+                      "title": "Initial USD for Dry Run.",
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "default": 1000
+                  },
+                  "sol_address": {
+                      "type": "string",
+                      "title": "Solana Address.",
+                      "description": "Solana Address of the Agent."
+                  },
+                  "evm_address": {
+                      "type": "string",
+                      "title": "EVM Address.",
+                      "description": "EVM Address of the Agent."
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active.",
+                      "description": "Is Active.",
+                      "default": true
+                  },
+                  "max_investment_per_session": {
+                      "type": "number",
+                      "title": "Max Investment per Session.",
+                      "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
+                      "default": 0.1
+                  },
+                  "stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                  },
+                  "trailing_stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Trailing Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                  },
+                  "take_profit": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Take Profit Percentage.",
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a portfolio.",
-            "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+              "type": "object",
+              "title": "AgentResponse"
           },
-          "twitter_username": {
-            "anyOf": [
-              {
-                "type": "string"
+          "AgentUpdateRequest": {
+              "properties": {
+                  "name": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Name of the Agent.",
+                      "description": "Name of the Agent."
+                  },
+                  "description": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Description of the Agent.",
+                      "description": "Description of the Agent."
+                  },
+                  "persona": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Persona of the Agent.",
+                      "description": "Persona of the Agent."
+                  },
+                  "data_source": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Data Source of the Agent.",
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                  },
+                  "decision_prompt_pool": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a token.",
+                      "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
+                  },
+                  "decision_prompt_portfolio": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Instructions for taking decision on a portfolio.",
+                      "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "twitter_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your Bot's Username.",
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                  },
+                  "fc_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Your FereAI Username.",
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                  },
+                  "dry_run": {
+                      "anyOf": [
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Dry Run Mode.",
+                      "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    "
+                  },
+                  "dry_run_initial_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Initial USD for Dry Run.",
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                  },
+                  "max_investment_per_session": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Max Investment per Session.",
+                      "description": "Maximum amount of USD your agent can invest in a single session.\n    "
+                  },
+                  "stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                  },
+                  "trailing_stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Trailing Stop Loss Percentage.",
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                  },
+                  "take_profit": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Take Profit Percentage.",
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your Bot's Username.",
-            "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+              "type": "object",
+              "title": "AgentUpdateRequest"
           },
-          "fc_username": {
-            "anyOf": [
-              {
-                "type": "string"
+          "BuyDecision": {
+              "properties": {
+                  "klass": {
+                      "type": "string",
+                      "title": "Klass",
+                      "default": ""
+                  },
+                  "time_notice": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Time Notice"
+                  },
+                  "ca": {
+                      "type": "string",
+                      "title": "Ca"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "price_notice_usd": {
+                      "type": "number",
+                      "title": "Price Notice Usd"
+                  },
+                  "price_peak_usd": {
+                      "type": "number",
+                      "title": "Price Peak Usd"
+                  },
+                  "time_peak": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Time Peak"
+                  },
+                  "profit_percentage": {
+                      "type": "number",
+                      "title": "Profit Percentage"
+                  },
+                  "name": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Name"
+                  },
+                  "symbol": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Symbol"
+                  },
+                  "profile_pic": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profile Pic"
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your FereAI Username.",
-            "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+              "type": "object",
+              "required": [
+                  "time_notice",
+                  "ca",
+                  "pool_address",
+                  "pool_name",
+                  "price_notice_usd",
+                  "price_peak_usd",
+                  "time_peak",
+                  "profit_percentage"
+              ],
+              "title": "BuyDecision"
           },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run Mode.",
-            "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
-            "default": true
-          },
-          "dry_run_initial_usd": {
-            "type": "number",
-            "title": "Initial USD for Dry Run.",
-            "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
-            "default": 1000
-          },
-          "max_investment_per_session": {
-            "type": "number",
-            "title": "Max Investment per Session.",
-            "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-            "default": 0.1
-          },
-          "stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
+          "HTTPValidationError": {
+              "properties": {
+                  "detail": {
+                      "items": {
+                          "$ref": "#/components/schemas/ValidationError"
+                      },
+                      "type": "array",
+                      "title": "Detail"
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+              "type": "object",
+              "title": "HTTPValidationError"
           },
-          "trailing_stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
+          "HoldingResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "bought_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Bought At"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "base_address": {
+                      "type": "string",
+                      "title": "Base Address"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "token_name": {
+                      "type": "string",
+                      "title": "Token Name"
+                  },
+                  "decimals": {
+                      "type": "integer",
+                      "title": "Decimals"
+                  },
+                  "tokens_bought": {
+                      "type": "number",
+                      "title": "Tokens Bought"
+                  },
+                  "buying_price_usd": {
+                      "type": "number",
+                      "title": "Buying Price Usd"
+                  },
+                  "buying_price_native": {
+                      "type": "number",
+                      "title": "Buying Price Native"
+                  },
+                  "curr_price_usd": {
+                      "type": "number",
+                      "title": "Curr Price Usd"
+                  },
+                  "curr_price_native": {
+                      "type": "number",
+                      "title": "Curr Price Native"
+                  },
+                  "profit_abs_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Abs Usd"
+                  },
+                  "profit_abs_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Abs Native"
+                  },
+                  "profit_per_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Per Usd"
+                  },
+                  "profit_per_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Per Native"
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trailing Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+              "type": "object",
+              "required": [
+                  "id",
+                  "bought_at",
+                  "agent_id",
+                  "base_address",
+                  "pool_address",
+                  "pool_name",
+                  "token_name",
+                  "decimals",
+                  "tokens_bought",
+                  "buying_price_usd",
+                  "buying_price_native",
+                  "curr_price_usd",
+                  "curr_price_native",
+                  "is_active",
+                  "dry_run"
+              ],
+              "title": "HoldingResponse"
           },
-          "take_profit": {
-            "anyOf": [
-              {
-                "type": "number"
+          "PortfolioResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "start_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Start Time"
+                  },
+                  "start_usd": {
+                      "type": "number",
+                      "title": "Start Usd"
+                  },
+                  "start_native": {
+                      "type": "number",
+                      "title": "Start Native"
+                  },
+                  "curr_realised_usd": {
+                      "type": "number",
+                      "title": "Curr Realised Usd"
+                  },
+                  "curr_realised_native": {
+                      "type": "number",
+                      "title": "Curr Realised Native"
+                  },
+                  "curr_unrealised_usd": {
+                      "type": "number",
+                      "title": "Curr Unrealised Usd"
+                  },
+                  "curr_unrealised_native": {
+                      "type": "number",
+                      "title": "Curr Unrealised Native"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
               },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Take Profit Percentage.",
-            "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+              "type": "object",
+              "required": [
+                  "id",
+                  "agent_id",
+                  "start_time",
+                  "start_usd",
+                  "start_native",
+                  "curr_realised_usd",
+                  "curr_realised_native",
+                  "curr_unrealised_usd",
+                  "curr_unrealised_native",
+                  "dry_run"
+              ],
+              "title": "PortfolioResponse"
+          },
+          "TradeRecommendationsResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Created At"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "decision": {
+                      "type": "integer",
+                      "title": "Decision"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_native": {
+                      "type": "number",
+                      "title": "Price Native"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "id",
+                  "agent_id",
+                  "created_at",
+                  "pool_address",
+                  "decision",
+                  "price_usd",
+                  "price_native",
+                  "dry_run"
+              ],
+              "title": "TradeRecommendationsResponse"
+          },
+          "TradeResponse": {
+              "properties": {
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Created At"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "base_address": {
+                      "type": "string",
+                      "title": "Base Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "decision": {
+                      "type": "integer",
+                      "title": "Decision"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_sol": {
+                      "type": "number",
+                      "title": "Price Sol"
+                  },
+                  "in_amount": {
+                      "type": "number",
+                      "title": "In Amount"
+                  },
+                  "out_amount": {
+                      "type": "number",
+                      "title": "Out Amount"
+                  },
+                  "gas_fee": {
+                      "type": "number",
+                      "title": "Gas Fee"
+                  },
+                  "jito_fee": {
+                      "type": "number",
+                      "title": "Jito Fee"
+                  },
+                  "other_amount_threshold": {
+                      "type": "number",
+                      "title": "Other Amount Threshold"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "profit_sol": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Sol"
+                  },
+                  "profit_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Usd"
+                  },
+                  "profit_percentage": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Percentage"
+                  },
+                  "txn": {
+                      "type": "string",
+                      "title": "Txn"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "created_at",
+                  "agent_id",
+                  "base_address",
+                  "pool_name",
+                  "decision",
+                  "price_usd",
+                  "price_sol",
+                  "in_amount",
+                  "out_amount",
+                  "gas_fee",
+                  "jito_fee",
+                  "other_amount_threshold",
+                  "txn",
+                  "dry_run"
+              ],
+              "title": "TradeResponse"
+          },
+          "ValidationError": {
+              "properties": {
+                  "loc": {
+                      "items": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "integer"
+                              }
+                          ]
+                      },
+                      "type": "array",
+                      "title": "Location"
+                  },
+                  "msg": {
+                      "type": "string",
+                      "title": "Message"
+                  },
+                  "type": {
+                      "type": "string",
+                      "title": "Error Type"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "loc",
+                  "msg",
+                  "type"
+              ],
+              "title": "ValidationError"
           }
-        },
-        "type": "object",
-        "title": "AgentCreateRequest"
       },
-      "AgentCreateResponse": {
-        "properties": {
-          "user_id": {
-            "anyOf": [
-              {
-                "type": "string",
-                "format": "uuid"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your UUID at FereAI.",
-            "description": "Your UUID at FereAI. You will get this in the response to your API Request."
-          },
-          "name": {
-            "type": "string",
-            "title": "Name of the Agent.",
-            "description": "Name of the Agent."
-          },
-          "description": {
-            "type": "string",
-            "title": "Description of the Agent.",
-            "description": "Description of the Agent."
-          },
-          "persona": {
-            "type": "string",
-            "title": "Persona of the Agent.",
-            "description": "Persona of the Agent."
-          },
-          "data_source": {
-            "type": "string",
-            "title": "Data Source of the Agent.",
-            "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
-          },
-          "decision_prompt_pool": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a token.",
-            "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
-          },
-          "decision_prompt_portfolio": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a portfolio.",
-            "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
-          },
-          "twitter_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your Bot's Username.",
-            "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
-          },
-          "fc_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your FereAI Username.",
-            "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run Mode.",
-            "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
-            "default": true
-          },
-          "dry_run_initial_usd": {
-            "type": "number",
-            "title": "Initial USD for Dry Run.",
-            "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
-            "default": 1000
-          },
-          "max_investment_per_session": {
-            "type": "number",
-            "title": "Max Investment per Session.",
-            "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-            "default": 0.1
-          },
-          "stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
-          },
-          "trailing_stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trailing Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
-          },
-          "take_profit": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Take Profit Percentage.",
-            "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent ID.",
-            "description": "Agent ID."
-          },
-          "sol_address": {
-            "type": "string",
-            "title": "Solana Address.",
-            "description": "Solana Address of the Agent."
-          },
-          "evm_address": {
-            "type": "string",
-            "title": "EVM Address.",
-            "description": "EVM Address of the Agent."
-          },
-          "sol_pvt_key": {
-            "type": "string",
-            "title": "Solana Private Key.",
-            "description": "Solana Private Key of the Agent."
-          },
-          "evm_pvt_key": {
-            "type": "string",
-            "title": "EVM Private Key.",
-            "description": "EVM Private Key of the Agent."
-          },
-          "is_active": {
-            "type": "boolean",
-            "title": "Is Active.",
-            "description": "Is Active.",
-            "default": true
-          },
-          "mnemonic": {
-            "type": "string",
-            "title": "Mnemonic.",
-            "description": "Mnemonic of the Agent. This mnemonic is used to generate the Solana and EVM keys."
+      "securitySchemes": {
+          "APIKeyHeader": {
+              "type": "apiKey",
+              "in": "header",
+              "name": "X-FRIDAY-KEY"
           }
-        },
-        "type": "object",
-        "title": "AgentCreateResponse"
-      },
-      "AgentResponse": {
-        "properties": {
-          "user_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Your UUID at FereAI.",
-            "description": "Your UUID at FereAI. You will get this in the response to your API Request."
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent ID.",
-            "description": "Agent ID."
-          },
-          "name": {
-            "type": "string",
-            "title": "Name of the Agent.",
-            "description": "Name of the Agent."
-          },
-          "description": {
-            "type": "string",
-            "title": "Description of the Agent.",
-            "description": "Description of the Agent."
-          },
-          "persona": {
-            "type": "string",
-            "title": "Persona of the Agent.",
-            "description": "Persona of the Agent."
-          },
-          "data_source": {
-            "type": "string",
-            "title": "Data Source of the Agent.",
-            "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
-          },
-          "decision_prompt_pool": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a token.",
-            "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
-          },
-          "decision_prompt_portfolio": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a portfolio.",
-            "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
-          },
-          "twitter_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your Bot's Username.",
-            "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
-          },
-          "fc_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your FereAI Username.",
-            "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run Mode.",
-            "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
-            "default": true
-          },
-          "dry_run_initial_usd": {
-            "type": "number",
-            "title": "Initial USD for Dry Run.",
-            "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
-            "default": 1000
-          },
-          "sol_address": {
-            "type": "string",
-            "title": "Solana Address.",
-            "description": "Solana Address of the Agent."
-          },
-          "evm_address": {
-            "type": "string",
-            "title": "EVM Address.",
-            "description": "EVM Address of the Agent."
-          },
-          "is_active": {
-            "type": "boolean",
-            "title": "Is Active.",
-            "description": "Is Active.",
-            "default": true
-          },
-          "max_investment_per_session": {
-            "type": "number",
-            "title": "Max Investment per Session.",
-            "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-            "default": 0.1
-          },
-          "stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
-          },
-          "trailing_stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trailing Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
-          },
-          "take_profit": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Take Profit Percentage.",
-            "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
-          }
-        },
-        "type": "object",
-        "title": "AgentResponse"
-      },
-      "AgentUpdateRequest": {
-        "properties": {
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name of the Agent.",
-            "description": "Name of the Agent."
-          },
-          "description": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Description of the Agent.",
-            "description": "Description of the Agent."
-          },
-          "persona": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Persona of the Agent.",
-            "description": "Persona of the Agent."
-          },
-          "data_source": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Data Source of the Agent.",
-            "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
-          },
-          "decision_prompt_pool": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a token.",
-            "description": "Your agent will use these instructions to take decision on a token.\n    The decisions can be `buy`, `sell`, `hold` or `pass`.\n    Make sure to keep this description as detailed and clear as possible.\n    "
-          },
-          "decision_prompt_portfolio": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Instructions for taking decision on a portfolio.",
-            "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
-          },
-          "twitter_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your Bot's Username.",
-            "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
-          },
-          "fc_username": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Your FereAI Username.",
-            "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
-          },
-          "dry_run": {
-            "anyOf": [
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Dry Run Mode.",
-            "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    "
-          },
-          "dry_run_initial_usd": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Initial USD for Dry Run.",
-            "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
-          },
-          "max_investment_per_session": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Max Investment per Session.",
-            "description": "Maximum amount of USD your agent can invest in a single session.\n    "
-          },
-          "stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
-          },
-          "trailing_stop_loss": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Trailing Stop Loss Percentage.",
-            "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
-          },
-          "take_profit": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "boolean"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Take Profit Percentage.",
-            "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
-          }
-        },
-        "type": "object",
-        "title": "AgentUpdateRequest"
-      },
-      "BuyDecision": {
-        "properties": {
-          "klass": {
-            "type": "string",
-            "title": "Klass",
-            "default": ""
-          },
-          "time_notice": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Time Notice"
-          },
-          "ca": {
-            "type": "string",
-            "title": "Ca"
-          },
-          "pool_address": {
-            "type": "string",
-            "title": "Pool Address"
-          },
-          "pool_name": {
-            "type": "string",
-            "title": "Pool Name"
-          },
-          "price_notice_usd": {
-            "type": "number",
-            "title": "Price Notice Usd"
-          },
-          "price_peak_usd": {
-            "type": "number",
-            "title": "Price Peak Usd"
-          },
-          "time_peak": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Time Peak"
-          },
-          "profit_percentage": {
-            "type": "number",
-            "title": "Profit Percentage"
-          },
-          "name": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Name"
-          },
-          "symbol": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Symbol"
-          },
-          "profile_pic": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profile Pic"
-          }
-        },
-        "type": "object",
-        "required": [
-          "time_notice",
-          "ca",
-          "pool_address",
-          "pool_name",
-          "price_notice_usd",
-          "price_peak_usd",
-          "time_peak",
-          "profit_percentage"
-        ],
-        "title": "BuyDecision"
-      },
-      "HTTPValidationError": {
-        "properties": {
-          "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
-            "type": "array",
-            "title": "Detail"
-          }
-        },
-        "type": "object",
-        "title": "HTTPValidationError"
-      },
-      "HoldingResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
-          "bought_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Bought At"
-          },
-          "agent_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent Id"
-          },
-          "base_address": {
-            "type": "string",
-            "title": "Base Address"
-          },
-          "pool_address": {
-            "type": "string",
-            "title": "Pool Address"
-          },
-          "pool_name": {
-            "type": "string",
-            "title": "Pool Name"
-          },
-          "token_name": {
-            "type": "string",
-            "title": "Token Name"
-          },
-          "decimals": {
-            "type": "integer",
-            "title": "Decimals"
-          },
-          "tokens_bought": {
-            "type": "number",
-            "title": "Tokens Bought"
-          },
-          "buying_price_usd": {
-            "type": "number",
-            "title": "Buying Price Usd"
-          },
-          "buying_price_native": {
-            "type": "number",
-            "title": "Buying Price Native"
-          },
-          "curr_price_usd": {
-            "type": "number",
-            "title": "Curr Price Usd"
-          },
-          "curr_price_native": {
-            "type": "number",
-            "title": "Curr Price Native"
-          },
-          "profit_abs_usd": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Abs Usd"
-          },
-          "profit_abs_native": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Abs Native"
-          },
-          "profit_per_usd": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Per Usd"
-          },
-          "profit_per_native": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Per Native"
-          },
-          "is_active": {
-            "type": "boolean",
-            "title": "Is Active"
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "bought_at",
-          "agent_id",
-          "base_address",
-          "pool_address",
-          "pool_name",
-          "token_name",
-          "decimals",
-          "tokens_bought",
-          "buying_price_usd",
-          "buying_price_native",
-          "curr_price_usd",
-          "curr_price_native",
-          "is_active",
-          "dry_run"
-        ],
-        "title": "HoldingResponse"
-      },
-      "PortfolioResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
-          "agent_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent Id"
-          },
-          "start_time": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Start Time"
-          },
-          "start_usd": {
-            "type": "number",
-            "title": "Start Usd"
-          },
-          "start_native": {
-            "type": "number",
-            "title": "Start Native"
-          },
-          "curr_realised_usd": {
-            "type": "number",
-            "title": "Curr Realised Usd"
-          },
-          "curr_realised_native": {
-            "type": "number",
-            "title": "Curr Realised Native"
-          },
-          "curr_unrealised_usd": {
-            "type": "number",
-            "title": "Curr Unrealised Usd"
-          },
-          "curr_unrealised_native": {
-            "type": "number",
-            "title": "Curr Unrealised Native"
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "agent_id",
-          "start_time",
-          "start_usd",
-          "start_native",
-          "curr_realised_usd",
-          "curr_realised_native",
-          "curr_unrealised_usd",
-          "curr_unrealised_native",
-          "dry_run"
-        ],
-        "title": "PortfolioResponse"
-      },
-      "TradeRecommendationsResponse": {
-        "properties": {
-          "id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Id"
-          },
-          "agent_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent Id"
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          },
-          "pool_address": {
-            "type": "string",
-            "title": "Pool Address"
-          },
-          "decision": {
-            "type": "integer",
-            "title": "Decision"
-          },
-          "price_usd": {
-            "type": "number",
-            "title": "Price Usd"
-          },
-          "price_native": {
-            "type": "number",
-            "title": "Price Native"
-          },
-          "reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reason"
-          },
-          "future_action": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Future Action"
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run"
-          }
-        },
-        "type": "object",
-        "required": [
-          "id",
-          "agent_id",
-          "created_at",
-          "pool_address",
-          "decision",
-          "price_usd",
-          "price_native",
-          "dry_run"
-        ],
-        "title": "TradeRecommendationsResponse"
-      },
-      "TradeResponse": {
-        "properties": {
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "title": "Created At"
-          },
-          "agent_id": {
-            "type": "string",
-            "format": "uuid",
-            "title": "Agent Id"
-          },
-          "base_address": {
-            "type": "string",
-            "title": "Base Address"
-          },
-          "pool_name": {
-            "type": "string",
-            "title": "Pool Name"
-          },
-          "decision": {
-            "type": "integer",
-            "title": "Decision"
-          },
-          "price_usd": {
-            "type": "number",
-            "title": "Price Usd"
-          },
-          "price_sol": {
-            "type": "number",
-            "title": "Price Sol"
-          },
-          "in_amount": {
-            "type": "number",
-            "title": "In Amount"
-          },
-          "out_amount": {
-            "type": "number",
-            "title": "Out Amount"
-          },
-          "gas_fee": {
-            "type": "number",
-            "title": "Gas Fee"
-          },
-          "jito_fee": {
-            "type": "number",
-            "title": "Jito Fee"
-          },
-          "other_amount_threshold": {
-            "type": "number",
-            "title": "Other Amount Threshold"
-          },
-          "reason": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Reason"
-          },
-          "future_action": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Future Action"
-          },
-          "profit_sol": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Sol"
-          },
-          "profit_usd": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Usd"
-          },
-          "profit_percentage": {
-            "anyOf": [
-              {
-                "type": "number"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "title": "Profit Percentage"
-          },
-          "txn": {
-            "type": "string",
-            "title": "Txn"
-          },
-          "dry_run": {
-            "type": "boolean",
-            "title": "Dry Run"
-          }
-        },
-        "type": "object",
-        "required": [
-          "created_at",
-          "agent_id",
-          "base_address",
-          "pool_name",
-          "decision",
-          "price_usd",
-          "price_sol",
-          "in_amount",
-          "out_amount",
-          "gas_fee",
-          "jito_fee",
-          "other_amount_threshold",
-          "txn",
-          "dry_run"
-        ],
-        "title": "TradeResponse"
-      },
-      "ValidationError": {
-        "properties": {
-          "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
-            "type": "array",
-            "title": "Location"
-          },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          }
-        },
-        "type": "object",
-        "required": ["loc", "msg", "type"],
-        "title": "ValidationError"
       }
-    },
-    "securitySchemes": {
-      "APIKeyHeader": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "X-FRIDAY-KEY"
-      }
-    }
   }
 }
