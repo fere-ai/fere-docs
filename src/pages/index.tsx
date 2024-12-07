@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
@@ -12,14 +13,20 @@ import Logo from "@theme/Logo";
 const HomepageHeader = () => {
   const { siteConfig } = useDocusaurusContext();
   const { colorMode } = useColorMode();
-  
+  const [savedTheme, setSavedTheme] = useState(null);
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    setSavedTheme(storedTheme);
+  }, [colorMode]);
+
   return (
     <header className={clsx(styles.heroBanner)}>
       <div className="container">
-        {colorMode === "light" ? (
-          <WhiteSVG className={clsx(styles.heroLogo)} />
-        ) : (
+        {savedTheme === "dark" ? (
           <BlackSVG className={clsx(styles.heroLogo)} />
+        ) : (
+          <WhiteSVG className={clsx(styles.heroLogo)} />
         )}
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className="heroButtons">
