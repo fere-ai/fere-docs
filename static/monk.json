@@ -302,6 +302,41 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "sort_column",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "string",
+                          "description": "The column to sort by. Available options are `noticed_at`, `peaked_at`, `profit_per_usd`, `profit_per_native`",
+                          "default": "profit_per_usd",
+                          "title": "Sort Column"
+                      },
+                      "description": "The column to sort by. Available options are `noticed_at`, `peaked_at`, `profit_per_usd`, `profit_per_native`"
+                  },
+                  {
+                      "name": "sort_order",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "string",
+                          "description": "Sort order. Available options are `desc` and `asc`",
+                          "default": "desc",
+                          "title": "Sort Order"
+                      },
+                      "description": "Sort order. Available options are `desc` and `asc`"
                   }
               ],
               "responses": {
