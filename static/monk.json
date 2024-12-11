@@ -291,6 +291,7 @@
                   "agent"
               ],
               "summary": "Get agent's Buy recommendations",
+              "description": "Get the buy recommendations for an agent. This endpoint lists\nthe tokens for which this agent made a BUY call. It keeps a track of the peak\nthat happened after the agent made this call. This endpoint is useful to know\nthe maximum potential profit that could have been made on this buy call.",
               "operationId": "6_get_agent_buy_recos",
               "parameters": [
                   {
@@ -337,6 +338,18 @@
                           "title": "Sort Order"
                       },
                       "description": "Sort order. Available options are `desc` and `asc`"
+                  },
+                  {
+                      "name": "page_size",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "description": "Number of records per page. Default is 100. Max is 100.",
+                          "default": 100,
+                          "title": "Page Size"
+                      },
+                      "description": "Number of records per page. Default is 100. Max is 100."
                   }
               ],
               "responses": {
@@ -344,7 +357,9 @@
                       "description": "Successful Response",
                       "content": {
                           "application/json": {
-                              "schema": {}
+                              "schema": {
+                                  "$ref": "#/components/schemas/PaginatedBuyDecisionsResponse"
+                              }
                           }
                       }
                   },
@@ -712,34 +727,6 @@
                       }
                   }
               }
-          }
-      },
-      "/buy/": {
-          "get": {
-              "summary": "Buy Signals",
-              "description": "Get Buy Signals from the Sentient Trading Agent",
-              "operationId": "buy_signals_buy__get",
-              "responses": {
-                  "200": {
-                      "description": "Successful Response",
-                      "content": {
-                          "application/json": {
-                              "schema": {
-                                  "items": {
-                                      "$ref": "#/components/schemas/BuyDecision"
-                                  },
-                                  "type": "array",
-                                  "title": "Response Buy Signals Buy  Get"
-                              }
-                          }
-                      }
-                  }
-              },
-              "security": [
-                  {
-                      "APIKeyHeader": []
-                  }
-              ]
           }
       }
   },
@@ -1491,6 +1478,115 @@
               ],
               "title": "BuyDecision"
           },
+          "BuyDecisionsResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "base_address": {
+                      "type": "string",
+                      "title": "Base Address"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "token_name": {
+                      "type": "string",
+                      "title": "Token Name"
+                  },
+                  "symbol": {
+                      "type": "string",
+                      "title": "Symbol"
+                  },
+                  "profile_pic": {
+                      "type": "string",
+                      "title": "Profile Pic"
+                  },
+                  "noticed_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Noticed At"
+                  },
+                  "peaked_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Peaked At"
+                  },
+                  "notice_price_usd": {
+                      "type": "number",
+                      "title": "Notice Price Usd"
+                  },
+                  "notice_price_native": {
+                      "type": "number",
+                      "title": "Notice Price Native"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_native": {
+                      "type": "number",
+                      "title": "Price Native"
+                  },
+                  "profit_per_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Per Usd"
+                  },
+                  "profit_per_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Per Native"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "id",
+                  "agent_id",
+                  "base_address",
+                  "pool_address",
+                  "pool_name",
+                  "token_name",
+                  "symbol",
+                  "profile_pic",
+                  "noticed_at",
+                  "peaked_at",
+                  "notice_price_usd",
+                  "notice_price_native",
+                  "price_usd",
+                  "price_native",
+                  "dry_run"
+              ],
+              "title": "BuyDecisionsResponse"
+          },
           "HTTPValidationError": {
               "properties": {
                   "detail": {
@@ -1633,6 +1729,27 @@
                   "dry_run"
               ],
               "title": "HoldingResponse"
+          },
+          "PaginatedBuyDecisionsResponse": {
+              "properties": {
+                  "total_count": {
+                      "type": "integer",
+                      "title": "Total Count"
+                  },
+                  "buy_deicions": {
+                      "items": {
+                          "$ref": "#/components/schemas/BuyDecisionsResponse"
+                      },
+                      "type": "array",
+                      "title": "Buy Deicions"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "total_count",
+                  "buy_deicions"
+              ],
+              "title": "PaginatedBuyDecisionsResponse"
           },
           "PortfolioResponse": {
               "properties": {
