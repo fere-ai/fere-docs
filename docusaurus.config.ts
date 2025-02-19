@@ -4,6 +4,7 @@ import type * as Preset from "@docusaurus/preset-classic";
 import type * as Plugin from "@docusaurus/types/src/plugin";
 import path from "path";
 import type * as OpenApiPlugin from "docusaurus-plugin-openapi-docs";
+import WhiteLogo from "./static/img/white.svg";
 
 const config: Config = {
   title: "FereAI",
@@ -148,7 +149,7 @@ const config: Config = {
         },
         {
           type: "docSidebar",
-          position: "right",
+          position: "left",
           sidebarId: "developers",
           label: "Developers",
         },
@@ -163,7 +164,7 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          // title: 'Docs',
+          title: 'Docs',
           items: [
             {
               label: "Docs",
@@ -176,7 +177,7 @@ const config: Config = {
           ],
         },
         {
-          // title: 'Community',
+          title: 'Community',
           items: [
             {
               label: "Discord",
@@ -186,10 +187,14 @@ const config: Config = {
               label: "Twitter",
               href: "https://x.com/fere_ai",
             },
+            {
+              label: "Telegram",
+              href: "https://t.me/@fere_ai",
+            },
           ],
         },
         {
-          // title: 'Legal',
+          title: 'Legal',
           items: [
             {
               label: "Privacy Policy",
@@ -206,8 +211,9 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Fere AI. Made with 💙💙 by 🐵🐵 and 🤖🤖`,
+      copyright: `© 2025 desinged by Fere AI. Made with 💙💙 by 🐵🐵 and 🤖🤖`,
     },
+
     prism: {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
