@@ -1,0 +1,72 @@
+---
+id: 12-sync-agent-onchain
+title: "Sync onchain data for the agent"
+description: "Triggers onchain data sync for Solana agents. Currently only supports Solana chain."
+sidebar_label: "Sync onchain data for the agent"
+hide_title: true
+hide_table_of_contents: true
+api: eJy1Vttu3DYQ/ZUp8xKjirQ2ChTV29ZJEaNJ7Xo3LQqvYc+SsxJjilRIyrG62H8vhpK8vsQF+tAnSdRw5syZ61ZErIIoLwRWZKO4zISiIL1uo3ZWlGLpdVWRD+CsrFFbUBgRQm8lbJyHhTNoEdLlkMNx5z3ZaHpw1vQQurZ1PoZJLGnIRSZcSx7ZwokSpTg8umKFV0nL1WhIZKJFjw1F8gxwKyw2JMoB6JVWIhOaEbYYa5EJT1867UmJMvqOMhFkTQ2Kciti3/K9EL22lcjExvkGoyhF1yUtUUfDAnNWDCdK7HaXrC+0zgYKrOJoNuPHY2oWnZQUwqYzcD4Ki0xIZyMzWW4Ftq3RMvlZfA58Z/scllt/JhlFJlApzaJozjzzE/Vg+zH83R7vZBQOj2DBARkcOB352+12u0z8cHT0HPkfaLRKuOCd987/F9jtI3CKImrDbzpSE54LGCcf/UXbn25SOJ/6dX+ibaSKvNhdsrPDGXqP/YNYfXADQOajCdW3wjyJfqQQsCJxr+xl0UQGLPnvbm/7PkL7FLtIfg2mR7nLvZo9vQO7L7vxdqDvW8YmkffL5dkzhUNsG4q1U0MJyDoVTKxFKYpUIsV2qpRdweVViEwE8rdTOXXeiFLUMbahLApsdb4hT6jzu/7vIqJ42gnOvFOdTEmzSGoEl4m2G5coHeHO7j6e/vbrs8tziB6VttXQKkAHQAhko+av4SzWGKElz/UZkjwFwC466xrXBdPnsKx1WNl7FdpyS/EVgdtArAkUSR20swF0hIg3FPKV/ct1INFC692tVsTPpo0B0Co2F5zFAF9rLWtQtNGW+HZImlFG8klwhL+y9ybylV3Zsiyjblf2TwJP0jUNWQXKJUch6KYzQ5m5DfSu82OjhNfrHsji2rCgjuzItfI9+M5eQ+MUHazsmjbOEzR4MwqN1ICzQyMdKUogGMuyJliOLM/PTiZ/A5BVrdNsl1t2gxYrlnkUkZBB46yOjksCuGtvnNEuZCvL7mNqdQ9vBV1ZNMwCBwWUk11DNg7uSsdpxsGrOcZDrWZ7IBlzurLaStMlhHfYtIZSRM/6WDubSP/NKco/D0y/egXvJqlzah2fHTv+jgRfnU8svaCHK3qRshHQE+AtaoNrQ+Dsyl5w2r9BPVSNlm8mJZevp+KodKy7dS5dU7wkfJCv7LFxlpLBLhDnY5MIR/jSaXkDIaKPky8/YyD4dP5hZefGPIgQ4/PEWXNLEF0J1y9WaHE96pp7WetIMnae+Oi7i1/I0/wEhmJ89B/eaqw8Nnvn1OGP2FRGNu3dHf2US+M6tfHOxtxSLDAEiqFQToYCWc9V4+xN3trqgE29gfe6qk0PC4mJ0hzOOwuHs2w2m8H3U75LZ+W0GuR86/fEyKldO/ScTjksmJ2hSJ60CguNtl2kIQ8AQGSC02voLIf5LD/iFtu6EBtM02rcFNJQfLS3cDi4TwzLzpMmtd0Pwf9p7Rl7fKS7WLQmDels6MPbsXdPe1gmygd7DtsVmeAZU7sQWWy7XWOgT97sdnz8pSPfi/LiMhO36DVHIjV5pQO/K1Fu0AT6F49fn4/T7QBeQjoNMcsj7BZNx18iEzfUP9zL0tyuCRX5hGH4PZeS2vjg4rM1g8fJ/Ug7my+P34vd7h9klLz6
+sidebar_class_name: "patch api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Sync onchain data for the agent"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"patch"}
+  path={"/agent/{agent_id}/sync/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Triggers onchain data sync for Solana agents. Currently only supports Solana chain.
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Agent Id"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{"type":"object","additionalProperties":{"type":"string"},"title":"Response 12 Sync Agent Onchain"}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      

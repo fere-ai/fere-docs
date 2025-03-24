@@ -1,5 +1,5 @@
 {
-  "openapi": "3.1.0",
+  "openapi": "3.1.2",
   "info": {
       "title": "0xMONK",
       "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Examples Repo\n\nComplete working examples in Python and TypeScript are available on\n[fere-ai/agentic-examples](https://github.com/fere-ai/agentic-examples).\nClone and use them for a quick start.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
@@ -24,10 +24,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -87,10 +110,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -148,10 +194,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -161,6 +230,176 @@
                       "content": {
                           "application/json": {
                               "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/parents/": {
+          "patch": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Add parent(s) to an agent",
+              "description": "A helper endpoint to add parents to an agent. This will only add new parent(s)\n  and will not do any changes to the existing parent(s). If a parent passed here already\n  exists, it will have no impact on that.",
+              "operationId": "2_update_agent_parents",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
+                      }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/UpdateParentRequest"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AgentResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "delete": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Remove parent(s) from an agent",
+              "description": "A helper endpoint to remove parent(s) from an agent. This will only remove the\n  parent(s) passed here and will not do any changes to the existing parent(s). If a parent passed\n  here doesn't exist, it will have no impact on that.",
+              "operationId": "2_update_agent_parents",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
+                      }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/UpdateParentRequest"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/AgentResponse"
+                              }
                           }
                       }
                   },
@@ -198,10 +437,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -242,18 +504,48 @@
                       "in": "path",
                       "required": true,
                       "schema": {
-                          "type": "string",
-                          "format": "uuid",
+                          "anyOf": [
+                              {
+                                  "type": "string",
+                                  "format": "uuid"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "User Id"
                       }
                   },
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -292,7 +584,8 @@
               ],
               "summary": "Get agent's Buy recommendations",
               "description": "Get the buy recommendations for an agent. This endpoint lists\nthe tokens for which this agent made a BUY call. It keeps a track of the peak\nthat happened after the agent made this call. This endpoint is useful to know\nthe maximum potential profit that could have been made on this buy call.",
-              "operationId": "6_get_agent_buy_recos",
+              "operationId": "11_get_agent_buy_recos",
+              "deprecated": true,
               "parameters": [
                   {
                       "name": "agent_id",
@@ -350,6 +643,275 @@
                           "title": "Page Size"
                       },
                       "description": "Number of records per page. Default is 100. Max is 100."
+                  },
+                  {
+                      "name": "noticed_at_threshold_hrs",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "description": "Filter by noticed_at threshold in hours. If specified, only\n    those calls that have been made in last `noticed_at_threshold_hrs` hours will be returned",
+                          "title": "Noticed At Threshold Hrs"
+                      },
+                      "description": "Filter by noticed_at threshold in hours. If specified, only\n    those calls that have been made in last `noticed_at_threshold_hrs` hours will be returned"
+                  },
+                  {
+                      "name": "peaked_at_threshold_hrs",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "description": "Filter by peaked_at threshold in hours. If specified, only\n    those calls that have been peaked in last `peaked_at_threshold_hrs` hours will be returned",
+                          "title": "Peaked At Threshold Hrs"
+                      },
+                      "description": "Filter by peaked_at threshold in hours. If specified, only\n    those calls that have been peaked in last `peaked_at_threshold_hrs` hours will be returned"
+                  },
+                  {
+                      "name": "sort_by_latest_signal",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "boolean",
+                          "description": "If true, sorts the results based on the latest holding's bought_at timestamp.\n    Decisions with more recent holdings will appear first.",
+                          "default": true,
+                          "title": "Sort By Latest Signal"
+                      },
+                      "description": "If true, sorts the results based on the latest holding's bought_at timestamp.\n    Decisions with more recent holdings will appear first."
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/PaginatedBuyDecisionsResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          },
+          "post": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Create a Buy for the agent",
+              "description": "Creates a buy instruction for the agent.",
+              "operationId": "10_buy_tokens",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
+                      }
+                  }
+              ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/AgentBuyRequest"
+                          }
+                      }
+                  }
+              },
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/calls/": {
+          "get": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Get agent's calls",
+              "description": "Get the calls for an agent. This endpoint lists\nthe tokens for which this agent made a BUY call. It keeps a track of the peak\nthat happened after the agent made this call. This endpoint is useful to know\nthe maximum potential profit that could have been made on this buy call.",
+              "operationId": "6_get_agent_calls",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "minimum": 1,
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "sort_column",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "string",
+                          "description": "The column to sort by. Available options are `noticed_at`, `peaked_at`, `profit_per_usd`, `profit_per_native`",
+                          "default": "profit_per_usd",
+                          "title": "Sort Column"
+                      },
+                      "description": "The column to sort by. Available options are `noticed_at`, `peaked_at`, `profit_per_usd`, `profit_per_native`"
+                  },
+                  {
+                      "name": "sort_order",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "string",
+                          "description": "Sort order. Available options are `desc` and `asc`",
+                          "default": "desc",
+                          "title": "Sort Order"
+                      },
+                      "description": "Sort order. Available options are `desc` and `asc`"
+                  },
+                  {
+                      "name": "page_size",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "description": "Number of records per page. Default is 100. Max is 100.",
+                          "default": 100,
+                          "title": "Page Size"
+                      },
+                      "description": "Number of records per page. Default is 100. Max is 100."
+                  },
+                  {
+                      "name": "noticed_at_threshold_hrs",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "description": "Filter by noticed_at threshold in hours. If specified, only\n    those calls that have been made in last `noticed_at_threshold_hrs` hours will be returned",
+                          "title": "Noticed At Threshold Hrs"
+                      },
+                      "description": "Filter by noticed_at threshold in hours. If specified, only\n    those calls that have been made in last `noticed_at_threshold_hrs` hours will be returned"
+                  },
+                  {
+                      "name": "peaked_at_threshold_hrs",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "description": "Filter by peaked_at threshold in hours. If specified, only\n    those calls that have been peaked in last `peaked_at_threshold_hrs` hours will be returned",
+                          "title": "Peaked At Threshold Hrs"
+                      },
+                      "description": "Filter by peaked_at threshold in hours. If specified, only\n    those calls that have been peaked in last `peaked_at_threshold_hrs` hours will be returned"
+                  },
+                  {
+                      "name": "sort_by_latest_signal",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "boolean",
+                          "description": "If true, sorts the results based on the latest holding's bought_at timestamp.\n    Decisions with more recent holdings will appear first.",
+                          "default": true,
+                          "title": "Sort By Latest Signal"
+                      },
+                      "description": "If true, sorts the results based on the latest holding's bought_at timestamp.\n    Decisions with more recent holdings will appear first."
                   }
               ],
               "responses": {
@@ -397,10 +959,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -449,10 +1034,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -490,7 +1098,7 @@
                   "agent"
               ],
               "summary": "Get agent's trades",
-              "description": "Gets the trades of agent. The trades are paginated\n            and the page number can be specified using the query parameter\n            `page`. The default page number is 1. Each page will have 100 trades",
+              "description": "Gets the trades of agent. The trades are paginated\n    and the page number can be specified using the query parameter\n    `page`. The default page number is 1. Each page will have 100 trades",
               "operationId": "9_get_agent_trades",
               "parameters": [
                   {
@@ -517,10 +1125,33 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
@@ -530,10 +1161,20 @@
                       "content": {
                           "application/json": {
                               "schema": {
-                                  "type": "array",
-                                  "items": {
-                                      "$ref": "#/components/schemas/TradeResponse"
-                                  },
+                                  "anyOf": [
+                                      {
+                                          "type": "array",
+                                          "items": {
+                                              "$ref": "#/components/schemas/SolanaTradeResponse"
+                                          }
+                                      },
+                                      {
+                                          "type": "array",
+                                          "items": {
+                                              "$ref": "#/components/schemas/EvmTradeResponse"
+                                          }
+                                      }
+                                  ],
                                   "title": "Response 9 Get Agent Trades"
                               }
                           }
@@ -552,13 +1193,13 @@
               }
           }
       },
-      "/agent/{agent_id}/sell/{holding_id}/{quantity}/": {
+      "/agent/{agent_id}/sell/{ca}/{quantity}/": {
           "post": {
               "tags": [
                   "agent"
               ],
-              "summary": "Create a trade",
-              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n  provided in the path parameter. Along with the `holding_id` and the `quantity` to be sold.\n\n\n  `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n  to sell (in lamports or wei). If `all` is provided, all tokens will be sold.\n\n  This call simply _schedules_ the sell. The actual sell will be executed\n  asynchronously. The response will contain the task ID which can be used to\n  check the status of the task.\n\n  To check status of the task, use the `/task/status/{task_id}/` endpoint.",
+              "summary": "Perform a Sell",
+              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n    provided in the path parameter. Along with the `ca` (contract address) and the `quantity` to be sold.\n\n    `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n    to sell (in lamports for Solana or wei for Base). If `all` is provided, all tokens will be sold.\n\n    This call simply _schedules_ the sell. The actual sell will be executed\n    asynchronously. The response will contain the task ID which can be used to\n    check the status of the task.\n\n    To check status of the task, use the `/task/status/{task_id}/` endpoint.",
               "operationId": "9_sell_tokens",
               "parameters": [
                   {
@@ -572,13 +1213,12 @@
                       }
                   },
                   {
-                      "name": "holding_id",
+                      "name": "ca",
                       "in": "path",
                       "required": true,
                       "schema": {
                           "type": "string",
-                          "format": "uuid",
-                          "title": "Holding Id"
+                          "title": "Ca"
                       }
                   },
                   {
@@ -600,19 +1240,58 @@
                   {
                       "name": "x-fere-userid",
                       "in": "header",
-                      "required": true,
+                      "required": false,
                       "schema": {
-                          "type": "string",
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
                           "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
                       }
                   }
               ],
+              "requestBody": {
+                  "required": true,
+                  "content": {
+                      "application/json": {
+                          "schema": {
+                              "$ref": "#/components/schemas/AgentSellRequest"
+                          }
+                      }
+                  }
+              },
               "responses": {
                   "200": {
                       "description": "Successful Response",
                       "content": {
                           "application/json": {
-                              "schema": {}
+                              "schema": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                      "type": "string"
+                                  },
+                                  "title": "Response 9 Sell Tokens"
+                              }
                           }
                       }
                   },
@@ -636,7 +1315,7 @@
               ],
               "summary": "Get agent's decisions",
               "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
-              "operationId": "10_get_agent_decisions",
+              "operationId": "11_get_agent_decisions",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -670,7 +1349,55 @@
                                   "items": {
                                       "$ref": "#/components/schemas/TradeRecommendationsResponse"
                                   },
-                                  "title": "Response 10 Get Agent Decisions"
+                                  "title": "Response 11 Get Agent Decisions"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/agent/{agent_id}/sync/": {
+          "patch": {
+              "tags": [
+                  "agent"
+              ],
+              "summary": "Sync onchain data for the agent",
+              "description": "Triggers onchain data sync for Solana agents. Currently only supports Solana chain.",
+              "operationId": "12_sync_agent_onchain",
+              "parameters": [
+                  {
+                      "name": "agent_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "Agent Id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                      "type": "string"
+                                  },
+                                  "title": "Response 12 Sync Agent Onchain"
                               }
                           }
                       }
@@ -728,10 +1455,107 @@
                   }
               }
           }
+      },
+      "/hero-agents/": {
+          "get": {
+              "tags": [
+                  "Monk"
+              ],
+              "summary": "Get Agents",
+              "description": "Get all Monk Autonomous Agents",
+              "operationId": "1_get_autonomous_agents",
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "items": {
+                                      "$ref": "#/components/schemas/HeroAgentsResponse"
+                                  },
+                                  "type": "array",
+                                  "title": "Response 1 Get Autonomous Agents"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
       }
   },
   "components": {
       "schemas": {
+          "AgentBuyRequest": {
+              "properties": {
+                  "send_notification": {
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "enum": [
+                                  "telegram",
+                                  "mail"
+                              ]
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Send Notification.",
+                      "description": "Send Notification to the user. This can be either `telegram` or `mail`.\n    "
+                  },
+                  "ca": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Contract Address.",
+                      "description": "Contract Address of the token to buy. When this is provided\n    we will find the pool which has the pair with native currency of the chain\n    and use that pool to buy from."
+                  },
+                  "value_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Value in USD.",
+                      "description": "Value in USD to buy the tokens. If this is provided then\n    the `quantity` will be calculated based on this value.\n    "
+                  },
+                  "slippage": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Slippage.",
+                      "description": "Slippage tolerance for the trade. This is the maximum\n    percentage by which the trade can deviate from the current price.\n    ",
+                      "default": 2
+                  },
+                  "rebuy": {
+                      "anyOf": [
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Rebuy.",
+                      "description": "If True, the agent will rebuy the token even if it's already\n    bought. This is useful when the agent wants to increase the holding of the token.or when the user is manually rebuying again."
+                  }
+              },
+              "type": "object",
+              "title": "AgentBuyRequest"
+          },
           "AgentCreateRequest": {
               "properties": {
                   "user_id": {
@@ -748,24 +1572,52 @@
                       "description": "Your UUID at FereAI. You will get this in the response to your API Request."
                   },
                   "name": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Name of the Agent.",
-                      "description": "Name of the Agent."
+                      "description": "Name of the Agent. If none is provided, a default name will be generated"
                   },
                   "description": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Description of the Agent.",
                       "description": "Description of the Agent."
                   },
                   "persona": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Persona of the Agent.",
                       "description": "Persona of the Agent."
                   },
                   "data_source": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Data Source of the Agent.",
-                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional is agent is in COPY_TRADE mode."
                   },
                   "decision_prompt_pool": {
                       "anyOf": [
@@ -790,6 +1642,12 @@
                       ],
                       "title": "Instructions for taking decision on a portfolio.",
                       "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "chain": {
+                      "type": "string",
+                      "title": "Blockchain Network",
+                      "description": "The blockchain network to use for trading.\n    Can be either 'SOLANA','BASE' or 'ARBITRUM'. SOLANA is the default network.\n    - SOLANA: Use Solana blockchain for trading\n    - ARBITRUM: Use Arbitrum blockchain for trading\n    - BASE: Use Base blockchain for trading",
+                      "default": "solana"
                   },
                   "twitter_username": {
                       "anyOf": [
@@ -822,16 +1680,41 @@
                       "default": true
                   },
                   "dry_run_initial_usd": {
-                      "type": "number",
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Initial USD for Dry Run.",
-                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
-                      "default": 1000
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                  },
+                  "dry_run_initial_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Initial Native Token for Dry Run.",
+                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    "
                   },
                   "max_investment_per_session": {
-                      "type": "number",
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Max Investment per Session.",
                       "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-                      "default": 0.1
+                      "deprecated": true
                   },
                   "stop_loss": {
                       "anyOf": [
@@ -868,6 +1751,62 @@
                       ],
                       "title": "Take Profit Percentage.",
                       "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  },
+                  "mode": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "integer"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Mode of the Agent.",
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
+                      "default": "MANUAL"
+                  },
+                  "parent_ids": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "type": "string",
+                                  "format": "uuid"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Parent Agents.",
+                      "description": "List of Parent Agents. This is used when the agent is in COPY_TRADE mode.\n    The agent will copy the trades of these parent agents.\n    "
+                  },
+                  "investment_for_buy": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in Native currency (SOL or ETH)",
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                  },
+                  "investment_for_buy_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in USD",
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
                   }
               },
               "type": "object",
@@ -889,24 +1828,52 @@
                       "description": "Your UUID at FereAI. You will get this in the response to your API Request."
                   },
                   "name": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Name of the Agent.",
-                      "description": "Name of the Agent."
+                      "description": "Name of the Agent. If none is provided, a default name will be generated"
                   },
                   "description": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Description of the Agent.",
                       "description": "Description of the Agent."
                   },
                   "persona": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Persona of the Agent.",
                       "description": "Persona of the Agent."
                   },
                   "data_source": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Data Source of the Agent.",
-                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins."
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional is agent is in COPY_TRADE mode."
                   },
                   "decision_prompt_pool": {
                       "anyOf": [
@@ -931,6 +1898,12 @@
                       ],
                       "title": "Instructions for taking decision on a portfolio.",
                       "description": "Your agent will use these instructions to revise the deicsions\n    it made on a token.\n    This should be broader set of instructions to guide agent.\n\n    NOTE: This is currently not implemented.\n    "
+                  },
+                  "chain": {
+                      "type": "string",
+                      "title": "Blockchain Network",
+                      "description": "The blockchain network to use for trading.\n    Can be either 'SOLANA','BASE' or 'ARBITRUM'. SOLANA is the default network.\n    - SOLANA: Use Solana blockchain for trading\n    - ARBITRUM: Use Arbitrum blockchain for trading\n    - BASE: Use Base blockchain for trading",
+                      "default": "solana"
                   },
                   "twitter_username": {
                       "anyOf": [
@@ -963,16 +1936,41 @@
                       "default": true
                   },
                   "dry_run_initial_usd": {
-                      "type": "number",
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Initial USD for Dry Run.",
-                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
-                      "default": 1000
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                  },
+                  "dry_run_initial_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Initial Native Token for Dry Run.",
+                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    "
                   },
                   "max_investment_per_session": {
-                      "type": "number",
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Max Investment per Session.",
                       "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-                      "default": 0.1
+                      "deprecated": true
                   },
                   "stop_loss": {
                       "anyOf": [
@@ -1010,31 +2008,72 @@
                       "title": "Take Profit Percentage.",
                       "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
                   },
+                  "mode": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "integer"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Mode of the Agent.",
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
+                      "default": "MANUAL"
+                  },
+                  "parent_ids": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "type": "string",
+                                  "format": "uuid"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Parent Agents.",
+                      "description": "List of Parent Agents. This is used when the agent is in COPY_TRADE mode.\n    The agent will copy the trades of these parent agents.\n    "
+                  },
+                  "investment_for_buy": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in Native currency (SOL or ETH)",
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                  },
+                  "investment_for_buy_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in USD",
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
+                  },
                   "id": {
                       "type": "string",
                       "format": "uuid",
                       "title": "Agent ID.",
                       "description": "Agent ID."
                   },
-                  "sol_address": {
-                      "type": "string",
-                      "title": "Solana Address.",
-                      "description": "Solana Address of the Agent."
-                  },
-                  "evm_address": {
-                      "type": "string",
-                      "title": "EVM Address.",
-                      "description": "EVM Address of the Agent."
-                  },
-                  "sol_pvt_key": {
-                      "type": "string",
-                      "title": "Solana Private Key.",
-                      "description": "Solana Private Key of the Agent."
-                  },
-                  "evm_pvt_key": {
-                      "type": "string",
-                      "title": "EVM Private Key.",
-                      "description": "EVM Private Key of the Agent."
+                  "wallet": {
+                      "$ref": "#/components/schemas/src__controllers__schema__WalletDetails",
+                      "title": "Wallet Details.",
+                      "description": "Wallet Details."
                   },
                   "is_active": {
                       "type": "boolean",
@@ -1042,10 +2081,20 @@
                       "description": "Is Active.",
                       "default": true
                   },
-                  "mnemonic": {
-                      "type": "string",
-                      "title": "Mnemonic.",
-                      "description": "Mnemonic of the Agent. This mnemonic is used to generate the Solana and EVM keys."
+                  "parents": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "$ref": "#/components/schemas/AgentCreateResponse"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Parent Agents.",
+                      "description": "List of Parent Agents. This is used when the agent is in COPY_TRADE mode.\n    The agent will copy the trades of these parent agents.\n    "
                   }
               },
               "type": "object",
@@ -1071,14 +2120,34 @@
                       "description": "Name of the Agent."
                   },
                   "description": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Description of the Agent.",
                       "description": "Description of the Agent."
                   },
                   "persona": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Persona of the Agent.",
                       "description": "Persona of the Agent."
+                  },
+                  "chain": {
+                      "type": "string",
+                      "title": "Blockchain Network",
+                      "description": "The blockchain network to use for trading.\n    Can be either 'SOLANA','BASE' or 'ARBITRUM'. BASE is the default network.\n    - SOLANA: Use Solana blockchain for trading\n    - ARBITRUM: Use Arbitrum blockchain for trading\n    - BASE: Use Base blockchain for trading",
+                      "default": "base"
                   },
                   "data_source": {
                       "type": "string",
@@ -1145,15 +2214,10 @@
                       "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
                       "default": 1000
                   },
-                  "sol_address": {
+                  "address": {
                       "type": "string",
-                      "title": "Solana Address.",
-                      "description": "Solana Address of the Agent."
-                  },
-                  "evm_address": {
-                      "type": "string",
-                      "title": "EVM Address.",
-                      "description": "EVM Address of the Agent."
+                      "title": "Address of the agent.",
+                      "description": "Onchain Address of the Agent. This is specific to the chain on which agent was created."
                   },
                   "is_active": {
                       "type": "boolean",
@@ -1162,10 +2226,16 @@
                       "default": true
                   },
                   "max_investment_per_session": {
-                      "type": "number",
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Max Investment per Session.",
-                      "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-                      "default": 0.1
+                      "description": "Maximum amount of USD your agent can invest in a single session.\n    "
                   },
                   "stop_loss": {
                       "anyOf": [
@@ -1202,10 +2272,87 @@
                       ],
                       "title": "Take Profit Percentage.",
                       "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  },
+                  "mode": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "integer"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Mode of the Agent.",
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
+                      "default": "MANUAL"
+                  },
+                  "parents": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "$ref": "#/components/schemas/AgentResponse"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Parent Agents.",
+                      "description": "List of Parent Agents. This is used when the agent is in COPY_TRADE mode.\n    The agent will copy the trades of these parent agents.\n    "
+                  },
+                  "investment_for_buy": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in Native currency (SOL or ETH)",
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                  },
+                  "investment_for_buy_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in USD",
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
                   }
               },
               "type": "object",
               "title": "AgentResponse"
+          },
+          "AgentSellRequest": {
+              "properties": {
+                  "send_notification": {
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "enum": [
+                                  "telegram",
+                                  "mail"
+                              ]
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Send Notification.",
+                      "description": "Send Notification to the user. This can be either `telegram` or `mail`.\n    "
+                  }
+              },
+              "type": "object",
+              "title": "AgentSellRequest"
           },
           "AgentUpdateRequest": {
               "properties": {
@@ -1385,98 +2532,77 @@
                       ],
                       "title": "Take Profit Percentage.",
                       "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                  },
+                  "is_active": {
+                      "anyOf": [
+                          {
+                              "type": "boolean"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Is Active.",
+                      "description": "Is Active."
+                  },
+                  "parents": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "type": "string",
+                                  "format": "uuid"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Parent Agents.",
+                      "description": "List of Parent Agents. This is used when the agent is in COPY_TRADE mode.\n    The agent will copy the trades of these parent agents.\n    "
+                  },
+                  "mode": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "integer"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Mode of the Agent.",
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    "
+                  },
+                  "investment_for_buy": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in Native currency (SOL or ETH)",
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                  },
+                  "investment_for_buy_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Investment per buy in USD",
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
                   }
               },
               "type": "object",
               "title": "AgentUpdateRequest"
-          },
-          "BuyDecision": {
-              "properties": {
-                  "klass": {
-                      "type": "string",
-                      "title": "Klass",
-                      "default": ""
-                  },
-                  "time_notice": {
-                      "type": "string",
-                      "format": "date-time",
-                      "title": "Time Notice"
-                  },
-                  "ca": {
-                      "type": "string",
-                      "title": "Ca"
-                  },
-                  "pool_address": {
-                      "type": "string",
-                      "title": "Pool Address"
-                  },
-                  "pool_name": {
-                      "type": "string",
-                      "title": "Pool Name"
-                  },
-                  "price_notice_usd": {
-                      "type": "number",
-                      "title": "Price Notice Usd"
-                  },
-                  "price_peak_usd": {
-                      "type": "number",
-                      "title": "Price Peak Usd"
-                  },
-                  "time_peak": {
-                      "type": "string",
-                      "format": "date-time",
-                      "title": "Time Peak"
-                  },
-                  "profit_percentage": {
-                      "type": "number",
-                      "title": "Profit Percentage"
-                  },
-                  "name": {
-                      "anyOf": [
-                          {
-                              "type": "string"
-                          },
-                          {
-                              "type": "null"
-                          }
-                      ],
-                      "title": "Name"
-                  },
-                  "symbol": {
-                      "anyOf": [
-                          {
-                              "type": "string"
-                          },
-                          {
-                              "type": "null"
-                          }
-                      ],
-                      "title": "Symbol"
-                  },
-                  "profile_pic": {
-                      "anyOf": [
-                          {
-                              "type": "string"
-                          },
-                          {
-                              "type": "null"
-                          }
-                      ],
-                      "title": "Profile Pic"
-                  }
-              },
-              "type": "object",
-              "required": [
-                  "time_notice",
-                  "ca",
-                  "pool_address",
-                  "pool_name",
-                  "price_notice_usd",
-                  "price_peak_usd",
-                  "time_peak",
-                  "profit_percentage"
-              ],
-              "title": "BuyDecision"
           },
           "BuyDecisionsResponse": {
               "properties": {
@@ -1532,6 +2658,17 @@
                       "type": "number",
                       "title": "Notice Price Native"
                   },
+                  "notice_mcap": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Notice Mcap"
+                  },
                   "price_usd": {
                       "type": "number",
                       "title": "Price Usd"
@@ -1539,6 +2676,50 @@
                   "price_native": {
                       "type": "number",
                       "title": "Price Native"
+                  },
+                  "peak_mcap": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Peak Mcap"
+                  },
+                  "curr_price_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Curr Price Usd"
+                  },
+                  "curr_price_native": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Curr Price Native"
+                  },
+                  "curr_mcap": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Curr Mcap"
                   },
                   "profit_per_usd": {
                       "anyOf": [
@@ -1565,6 +2746,53 @@
                   "dry_run": {
                       "type": "boolean",
                       "title": "Dry Run"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "confidence": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Confidence"
+                  },
+                  "entry_signals": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "type": "object"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Entry Signals"
                   }
               },
               "type": "object",
@@ -1587,6 +2815,342 @@
               ],
               "title": "BuyDecisionsResponse"
           },
+          "CheckUserAndGetAgentsResponse": {
+              "properties": {
+                  "user_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "User Id"
+                  },
+                  "agents": {
+                      "items": {
+                          "$ref": "#/components/schemas/AgentResponse"
+                      },
+                      "type": "array",
+                      "title": "Agents"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "user_id",
+                  "agents"
+              ],
+              "title": "CheckUserAndGetAgentsResponse"
+          },
+          "DeploymentDetails": {
+              "properties": {
+                  "name": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Name of the Deployment",
+                      "description": "Name identifying this deployment configuration"
+                  },
+                  "description": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Description",
+                      "description": "Description of this deployment configuration"
+                  },
+                  "persona": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Persona",
+                      "description": "Trading personality/style of this deployment"
+                  },
+                  "chain": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Blockchain Chain",
+                      "description": "The blockchain network this deployment runs on"
+                  },
+                  "data_source": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Data Source",
+                      "description": "Source of trading data - trending or latest"
+                  },
+                  "decision_prompt_pool": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Pool Decision Logic",
+                      "description": "Logic for making trading decisions on token pools"
+                  },
+                  "decision_prompt_portfolio": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Portfolio Decision Logic",
+                      "description": "Logic for managing the overall portfolio"
+                  },
+                  "twitter_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Twitter Username"
+                  },
+                  "fc_username": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "FereAI Username"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run Mode",
+                      "default": true
+                  },
+                  "dry_run_initial_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Initial Native Token Amount"
+                  },
+                  "max_investment_per_session": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Max Investment Per Session"
+                  },
+                  "stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Stop Loss Percentage"
+                  },
+                  "trailing_stop_loss": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Trailing Stop Loss Percentage"
+                  },
+                  "take_profit": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Take Profit Percentage"
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active",
+                      "description": "Whether this deployment is currently active",
+                      "default": true
+                  }
+              },
+              "type": "object",
+              "title": "DeploymentDetails"
+          },
+          "EvmTradeResponse": {
+              "properties": {
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Created At"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "base_address": {
+                      "type": "string",
+                      "title": "Base Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "decision": {
+                      "type": "integer",
+                      "title": "Decision"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_eth": {
+                      "type": "number",
+                      "title": "Price Eth"
+                  },
+                  "in_amount": {
+                      "type": "number",
+                      "title": "In Amount"
+                  },
+                  "out_amount": {
+                      "type": "number",
+                      "title": "Out Amount"
+                  },
+                  "gas_fee": {
+                      "type": "number",
+                      "title": "Gas Fee"
+                  },
+                  "txn": {
+                      "type": "string",
+                      "title": "Txn"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "profit_eth": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Eth"
+                  },
+                  "profit_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Usd"
+                  },
+                  "profit_percentage": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Percentage"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  },
+                  "confidence": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Confidence"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "created_at",
+                  "agent_id",
+                  "base_address",
+                  "pool_name",
+                  "decision",
+                  "price_usd",
+                  "price_eth",
+                  "in_amount",
+                  "out_amount",
+                  "gas_fee",
+                  "txn",
+                  "dry_run"
+              ],
+              "title": "EvmTradeResponse"
+          },
           "HTTPValidationError": {
               "properties": {
                   "detail": {
@@ -1599,6 +3163,34 @@
               },
               "type": "object",
               "title": "HTTPValidationError"
+          },
+          "HeroAgentsResponse": {
+              "properties": {
+                  "name": {
+                      "type": "string",
+                      "title": "Name"
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "deployment_details": {
+                      "$ref": "#/components/schemas/DeploymentDetails"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "name",
+                  "is_active",
+                  "agent_id",
+                  "deployment_details"
+              ],
+              "title": "HeroAgentsResponse"
           },
           "HoldingResponse": {
               "properties": {
@@ -1649,6 +3241,17 @@
                       "type": "number",
                       "title": "Buying Price Native"
                   },
+                  "buying_mcap_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Buying Mcap Usd"
+                  },
                   "curr_price_usd": {
                       "type": "number",
                       "title": "Curr Price Usd"
@@ -1656,6 +3259,17 @@
                   "curr_price_native": {
                       "type": "number",
                       "title": "Curr Price Native"
+                  },
+                  "curr_mcap_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Curr Mcap Usd"
                   },
                   "profit_abs_usd": {
                       "anyOf": [
@@ -1736,18 +3350,18 @@
                       "type": "integer",
                       "title": "Total Count"
                   },
-                  "buy_deicions": {
+                  "buy_decisions": {
                       "items": {
                           "$ref": "#/components/schemas/BuyDecisionsResponse"
                       },
                       "type": "array",
-                      "title": "Buy Deicions"
+                      "title": "Buy Decisions"
                   }
               },
               "type": "object",
               "required": [
                   "total_count",
-                  "buy_deicions"
+                  "buy_decisions"
               ],
               "title": "PaginatedBuyDecisionsResponse"
           },
@@ -1812,80 +3426,7 @@
               ],
               "title": "PortfolioResponse"
           },
-          "TradeRecommendationsResponse": {
-              "properties": {
-                  "id": {
-                      "type": "string",
-                      "format": "uuid",
-                      "title": "Id"
-                  },
-                  "agent_id": {
-                      "type": "string",
-                      "format": "uuid",
-                      "title": "Agent Id"
-                  },
-                  "created_at": {
-                      "type": "string",
-                      "format": "date-time",
-                      "title": "Created At"
-                  },
-                  "pool_address": {
-                      "type": "string",
-                      "title": "Pool Address"
-                  },
-                  "decision": {
-                      "type": "integer",
-                      "title": "Decision"
-                  },
-                  "price_usd": {
-                      "type": "number",
-                      "title": "Price Usd"
-                  },
-                  "price_native": {
-                      "type": "number",
-                      "title": "Price Native"
-                  },
-                  "reason": {
-                      "anyOf": [
-                          {
-                              "type": "string"
-                          },
-                          {
-                              "type": "null"
-                          }
-                      ],
-                      "title": "Reason"
-                  },
-                  "future_action": {
-                      "anyOf": [
-                          {
-                              "type": "string"
-                          },
-                          {
-                              "type": "null"
-                          }
-                      ],
-                      "title": "Future Action"
-                  },
-                  "dry_run": {
-                      "type": "boolean",
-                      "title": "Dry Run"
-                  }
-              },
-              "type": "object",
-              "required": [
-                  "id",
-                  "agent_id",
-                  "created_at",
-                  "pool_address",
-                  "decision",
-                  "price_usd",
-                  "price_native",
-                  "dry_run"
-              ],
-              "title": "TradeRecommendationsResponse"
-          },
-          "TradeResponse": {
+          "SolanaTradeResponse": {
               "properties": {
                   "created_at": {
                       "type": "string",
@@ -1999,6 +3540,17 @@
                   "dry_run": {
                       "type": "boolean",
                       "title": "Dry Run"
+                  },
+                  "confidence": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Confidence"
                   }
               },
               "type": "object",
@@ -2018,7 +3570,108 @@
                   "txn",
                   "dry_run"
               ],
-              "title": "TradeResponse"
+              "title": "SolanaTradeResponse"
+          },
+          "TradeRecommendationsResponse": {
+              "properties": {
+                  "id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Id"
+                  },
+                  "agent_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "title": "Agent Id"
+                  },
+                  "created_at": {
+                      "type": "string",
+                      "format": "date-time",
+                      "title": "Created At"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "decision": {
+                      "type": "integer",
+                      "title": "Decision"
+                  },
+                  "price_usd": {
+                      "type": "number",
+                      "title": "Price Usd"
+                  },
+                  "price_native": {
+                      "type": "number",
+                      "title": "Price Native"
+                  },
+                  "reason": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Reason"
+                  },
+                  "future_action": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Future Action"
+                  },
+                  "dry_run": {
+                      "type": "boolean",
+                      "title": "Dry Run"
+                  },
+                  "confidence": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Confidence"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "id",
+                  "agent_id",
+                  "created_at",
+                  "pool_address",
+                  "decision",
+                  "price_usd",
+                  "price_native",
+                  "dry_run"
+              ],
+              "title": "TradeRecommendationsResponse"
+          },
+          "UpdateParentRequest": {
+              "properties": {
+                  "parent_ids": {
+                      "items": {
+                          "type": "string",
+                          "format": "uuid"
+                      },
+                      "type": "array",
+                      "title": "Parent Ids"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "parent_ids"
+              ],
+              "title": "UpdateParentRequest"
           },
           "ValidationError": {
               "properties": {
@@ -2052,13 +3705,95 @@
                   "type"
               ],
               "title": "ValidationError"
-          }
-      },
-      "securitySchemes": {
-          "APIKeyHeader": {
-              "type": "apiKey",
-              "in": "header",
-              "name": "X-FRIDAY-KEY"
+          },
+          "WalletDetail": {
+              "properties": {
+                  "klass": {
+                      "type": "string",
+                      "title": "Klass",
+                      "default": ""
+                  },
+                  "chain": {
+                      "type": "string",
+                      "title": "Chain"
+                  },
+                  "wallet_address": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Wallet Address"
+                  },
+                  "private_key": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Private Key"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "chain"
+              ],
+              "title": "WalletDetail"
+          },
+          "src__controllers__schema__WalletDetails": {
+              "properties": {
+                  "address": {
+                      "type": "string",
+                      "title": "Wallet Address.",
+                      "description": "Wallet Address."
+                  },
+                  "pvt_key": {
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Private Key.",
+                      "description": "Private Key."
+                  }
+              },
+              "type": "object",
+              "title": "WalletDetails"
+          },
+          "src__schema__WalletDetails": {
+              "properties": {
+                  "klass": {
+                      "type": "string",
+                      "title": "Klass",
+                      "default": ""
+                  },
+                  "agent_name": {
+                      "type": "string",
+                      "title": "Agent Name"
+                  },
+                  "wallets": {
+                      "items": {
+                          "$ref": "#/components/schemas/WalletDetail"
+                      },
+                      "type": "array",
+                      "title": "Wallets"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "agent_name",
+                  "wallets"
+              ],
+              "title": "WalletDetails"
           }
       }
   }
