@@ -1,0 +1,73 @@
+---
+id: 5-delete-agent
+title: "Delete an agent"
+description: "Delete an agent. The agent's ID should be provided in the path parameter."
+sidebar_label: "Delete an agent"
+hide_title: true
+hide_table_of_contents: true
+api: eJzVVm1v2zYQ/is39sMaTJHdoMMwffOaDA3Wlyxx94I4SM7kWWJDkSp5SuMZ+u8DKcuOkxpYgWHAPlkmj/c8d7y7hyvBWAZRXAqjFySX0pC4yoSiIL1uWDsrCnFMhpgALWBJlnOYVtR/fhvg9BhC5VqjYE7QeHenFSnQFrgiaJAraNBjTUw+n1mAaaUDfNbGgOrd8uAM0CpAY8CTQSYFChlBW2lapW0J7FFRyKByJv4PWTrQOM8LZ7QTmXANeYykT5UoxPfXPcJ18i4ysSESA14JizWJQqTda61EJnSMNnIWmfD0qdWelCjYt5SJICuqURQrwcsmngvstS1FJhbO18iiEG2bvLBmEw0mKahTJbou26DdHy7I02EbyG8hK0JFfgd0gSbsoKJdvl8k3rv40fd6xbbGiO5qy+CPw58j2IcebJcGtlwdcvmfMZlEvGm5JXMVQULjbKAQ3R6Nx/Fnt/QuWikphEVr4HxtLDIhneV4pZFM0xgt06WPPoZ4ZrWl2nVdl4mXR0dPHf+GRqt0DE68d/4rvIrGx0Jj3fNWxKhN/NJMdXhqYJzc2f0H+dOWqSQvuqsuG9bQe1w+KK83ricoukzUofxSZQ6mbykELElsnO03TcmAadzttthu/pEk75TFZYqrh17bPbjvbXr77O4P47hP35fABpPX0+nZE4f93dbElYvN3rd6anKuRCFGqa1Hq6G7u5HIRCB/N3R/602sd+YmFKMRNjqPjYk6v1/+NWIUj4fgmXeqlalgLpKbVN/aLlxK55rq+P7t+3e/PDk8ScMrDrF+0ukACIEs6zT30hpXyNCQj+MkrIcdYMvOutq1wSzzNDtnduNCW5AV+pLALdIYVSR10M4G0AyMtxTymf3TtSDRDrM5/tYNh354kg/OYoDPlZYVKFpoS/F0SJ5RMvlkuKY/sxuIfGZntigK1s3M/k7gSbq6JqtAuRQoBF23pm8xt4Cla30faYDn8yWQxbmJhppjIDfKL8G39gZqp+hgZue0cJ6gxtu10To14FLUUWBSihKJyCWK0nSd5cnZ6RBvALKqcTriLpyHGi2Wg5xsbiRkUDur2cV22GpKyGY2qVKaQg9PBV1aNDELSdCUk21NlvtwpYtlFi+vinfc92m2JZKUa2Z7aYsM77FuDKUbPVty5WxK+junKP/YZ/rZMzgZrM6pcXHtlYv/meCz8ylLe/zEbr5I1QjoCfAOtcG5IXB2Zi+THqHuG0bLw8HJ1fOhOUrNVTvPpatH+4wP8pl9ZZylBNiGJOt1SjjCp1bLWwiMnodYfsJA8OH8zcxOjHlwQ5Ffkn99R8CugJu9HTq6WfuaeFlpJsmtp7j0zWVUvckp9M24sw/HGkuP9TY49eIHrEsj6+b+nn7MpXGtWnhnObfEIwyBOIyUk2GE0c917ext3tjyIEIdwmtdVmYJFxJTSnM4by28GGfj8Ri+G+pdOitb78myWebx1K8pI+/t3KGP5ZTDRcxO3ySPRoWFWtuWqa8DABCZiOXVT5ajfJyP43htXOAak1KtNf7Rs+3xUFptBe//88JbSwTTPY8agzqpXxrlq/XkvxRDtMWDl13UpsoFjvur1RwDffCm6+Lyp5b8UhSXV5m4Q6/jLSaBUDrE7+0LaG/2np+vVfEA9lEcxM9G6btD08Z/IhO3tHz4BE16v36DfR2HfcA9wONX54ZBfHP8eyBP3pQ7OL3VREpq+MHek7dW1NWNrh+fvDmZnoiu+xu44Gs8
+sidebar_class_name: "delete api-method"
+info_path: docs/api/Monk/0-xmonk
+custom_edit_url: null
+proxy: https://api.fereai.xyz/ta
+---
+
+import MethodEndpoint from "@theme/ApiExplorer/MethodEndpoint";
+import ParamsDetails from "@theme/ParamsDetails";
+import RequestSchema from "@theme/RequestSchema";
+import StatusCodes from "@theme/StatusCodes";
+import OperationTabs from "@theme/OperationTabs";
+import TabItem from "@theme/TabItem";
+import Heading from "@theme/Heading";
+
+<Heading
+  as={"h1"}
+  className={"openapi__heading"}
+  children={"Delete an agent"}
+>
+</Heading>
+
+<MethodEndpoint
+  method={"delete"}
+  path={"/agent/{agent_id}/"}
+  context={"endpoint"}
+>
+  
+</MethodEndpoint>
+
+
+
+Delete an agent. The agent's ID should be provided in the path parameter.
+  This will delete the agent and all related data including trades, holdings, and portfolio
+
+<Heading
+  id={"request"}
+  as={"h2"}
+  className={"openapi-tabs__heading"}
+  children={"Request"}
+>
+</Heading>
+
+<ParamsDetails
+  parameters={[{"name":"agent_id","in":"path","required":true,"schema":{"type":"string","format":"uuid","title":"Agent Id"}},{"name":"x-fere-userid","in":"header","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"X-Fere-Userid"}},{"name":"x-auth-tg-userid","in":"header","required":false,"schema":{"anyOf":[{"type":"string"},{"type":"null"}],"title":"X-Auth-Tg-Userid"}}]}
+>
+  
+</ParamsDetails>
+
+<RequestSchema
+  title={"Body"}
+  body={undefined}
+>
+  
+</RequestSchema>
+
+<StatusCodes
+  id={undefined}
+  label={undefined}
+  responses={{"200":{"description":"Successful Response","content":{"application/json":{"schema":{}}}},"422":{"description":"Validation Error","content":{"application/json":{"schema":{"properties":{"detail":{"items":{"properties":{"loc":{"items":{"anyOf":[{"type":"string"},{"type":"integer"}]},"type":"array","title":"Location"},"msg":{"type":"string","title":"Message"},"type":{"type":"string","title":"Error Type"}},"type":"object","required":["loc","msg","type"],"title":"ValidationError"},"type":"array","title":"Detail"}},"type":"object","title":"HTTPValidationError"}}}}}}
+>
+  
+</StatusCodes>
+
+
+      
