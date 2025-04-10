@@ -1,9 +1,9 @@
 {
-  "openapi": "3.1.2",
+  "openapi": "3.1.0",
   "info": {
       "title": "0xMONK",
       "description": "A trading agent is a sentient agent that performs trades autonomously. This\nagent is in charge of the decisions it takes.\nYou can provide prompts and personas which defines its character and trading\ndecisions.\n\n:::tip\nWe recommend doing a simulation of your agents (by enabling it in `dry run` mode)\nbefore making it perform on chain trades\n:::\n\nThe Trading API provides endpoints for managing trading agents, monitoring portfolios,\nand accessing trading signals.\nThis documentation covers authentication, endpoints, and\nincludes examples in Python and Node.js.\n\n## Examples Repo\n\nComplete working examples in Python and TypeScript are available on\n[fere-ai/agentic-examples](https://github.com/fere-ai/agentic-examples).\nClone and use them for a quick start.\n\n## Base URL\nAll endpoints are relative to: `https://api.fereai.xyz/ta/`\n\n## Architecture\n\n![FereAI 0xMONK Architecture Diagram](https://d17amglcmpxxe9.cloudfront.net/assets/docs/archi_monk.png)\n\n- Highly Scalable. Run 10,000 + agents concurrently.\n- Quick Onboarding. Start your trading agent in minutes.\n\n   ",
-      "version": "1.0.2"
+      "version": "2.0.0"
   },
   "servers": [
       {
@@ -15,7 +15,7 @@
       "/agent/": {
           "put": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Create an agent",
               "description": "Creates an agent and it's portfolio. The response contains the\n  agent's details including private keys for Solana and EVM. This should be\n  shown to frontend or stored securely. This won't be shown again.\n\n  **NOTE**:\n  1. The percentages are represented as a floating value between 0 and 1. Both\n  inclusive. This applies to following fields\n    - `max_investment_per_session`\n    - `stop_loss`\n    - `trailing_stop_loss`\n    - `take_profit`",
@@ -91,7 +91,7 @@
       "/agent/{agent_id}/": {
           "patch": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Update an agent",
               "description": "Update an agent. The agent's details can be updated using this endpoint.\n    The agent's ID should be provided in the path parameter and the details to be updated\n    should be provided in the request body. The agent's ID cannot be updated.\n    Every field is optional, only those fields which have a value will be updated.\n\n    **NOTE**:\n    1. The percentages are represented as a floating value between 0 and 1. Both\n    inclusive. This applies to following fields\n      - `max_investment_per_session`\n      - `stop_loss`\n      - `trailing_stop_loss`\n      - `take_profit`",
@@ -175,11 +175,11 @@
           },
           "delete": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Delete an agent",
               "description": "Delete an agent. The agent's ID should be provided in the path parameter.\n  This will delete the agent and all related data including trades, holdings, and portfolio",
-              "operationId": "3_delete_agent",
+              "operationId": "5_delete_agent",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -246,14 +246,14 @@
               }
           }
       },
-      "/agent/{agent_id}/parents/": {
+      "/agent/parents/{agent_id}/": {
           "patch": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Add parent(s) to an agent",
               "description": "A helper endpoint to add parents to an agent. This will only add new parent(s)\n  and will not do any changes to the existing parent(s). If a parent passed here already\n  exists, it will have no impact on that.",
-              "operationId": "2_update_agent_parents",
+              "operationId": "3_add_agent_parents",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -333,11 +333,11 @@
           },
           "delete": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Remove parent(s) from an agent",
               "description": "A helper endpoint to remove parent(s) from an agent. This will only remove the\n  parent(s) passed here and will not do any changes to the existing parent(s). If a parent passed\n  here doesn't exist, it will have no impact on that.",
-              "operationId": "2_update_agent_parents",
+              "operationId": "4_delete_agent_parents",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -416,13 +416,78 @@
               }
           }
       },
+      "/agent/tg": {
+          "get": {
+              "tags": [
+                  "tg"
+              ],
+              "summary": "Get all agents of a user using telegram id",
+              "operationId": "11_get_agents_using_tg_userid",
+              "parameters": [
+                  {
+                      "name": "x-fere-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Fere-Userid"
+                      }
+                  },
+                  {
+                      "name": "x-auth-tg-userid",
+                      "in": "header",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "string"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "title": "X-Auth-Tg-Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/CheckUserAndGetAgentsResponse"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
       "/agent/{agent_id}": {
           "get": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Get an agent by it's ID",
-              "operationId": "4_get_agent",
+              "operationId": "6_get_agent",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -491,13 +556,13 @@
               }
           }
       },
-      "/agent/{user_id}/": {
+      "/agent/user/{user_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Get all agents of a user",
-              "operationId": "5_get_agents",
+              "operationId": "7_get_agents",
               "parameters": [
                   {
                       "name": "user_id",
@@ -559,7 +624,7 @@
                                   "items": {
                                       "$ref": "#/components/schemas/AgentResponse"
                                   },
-                                  "title": "Response 5 Get Agents"
+                                  "title": "Response 7 Get Agents"
                               }
                           }
                       }
@@ -577,11 +642,8 @@
               }
           }
       },
-      "/agent/{agent_id}/buy/": {
+      "/agent/buy/{agent_id}/": {
           "get": {
-              "tags": [
-                  "agent"
-              ],
               "summary": "Get agent's Buy recommendations",
               "description": "Get the buy recommendations for an agent. This endpoint lists\nthe tokens for which this agent made a BUY call. It keeps a track of the peak\nthat happened after the agent made this call. This endpoint is useful to know\nthe maximum potential profit that could have been made on this buy call.",
               "operationId": "11_get_agent_buy_recos",
@@ -718,11 +780,11 @@
           },
           "post": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Create a Buy for the agent",
               "description": "Creates a buy instruction for the agent.",
-              "operationId": "10_buy_tokens",
+              "operationId": "14_buy_tokens",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -799,14 +861,14 @@
               }
           }
       },
-      "/agent/{agent_id}/calls/": {
+      "/agent/calls/{agent_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Get agent's calls",
               "description": "Get the calls for an agent. This endpoint lists\nthe tokens for which this agent made a BUY call. It keeps a track of the peak\nthat happened after the agent made this call. This endpoint is useful to know\nthe maximum potential profit that could have been made on this buy call.",
-              "operationId": "6_get_agent_calls",
+              "operationId": "8_get_agent_calls",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -938,13 +1000,13 @@
               }
           }
       },
-      "/agent/{agent_id}/portfolio/": {
+      "/agent/portfolio/{agent_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Get agent's portfolio",
-              "operationId": "7_get_agent_portfolio",
+              "operationId": "9_get_agent_portfolio",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -1013,13 +1075,13 @@
               }
           }
       },
-      "/agent/{agent_id}/holdings/": {
+      "/agent/holdings/{agent_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Get agent's holdings",
-              "operationId": "8_get_agent_holdings",
+              "operationId": "10_get_agent_holdings",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -1030,6 +1092,42 @@
                           "format": "uuid",
                           "title": "Agent Id"
                       }
+                  },
+                  {
+                      "name": "page",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "default": 1,
+                          "title": "Page"
+                      }
+                  },
+                  {
+                      "name": "page_size",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "anyOf": [
+                              {
+                                  "type": "integer"
+                              },
+                              {
+                                  "type": "null"
+                              }
+                          ],
+                          "description": "Number of records per page. Default is 100. Max is 100.",
+                          "default": 100,
+                          "title": "Page Size"
+                      },
+                      "description": "Number of records per page. Default is 100. Max is 100."
                   },
                   {
                       "name": "x-fere-userid",
@@ -1074,7 +1172,7 @@
                                   "items": {
                                       "$ref": "#/components/schemas/HoldingResponse"
                                   },
-                                  "title": "Response 8 Get Agent Holdings"
+                                  "title": "Response 10 Get Agent Holdings"
                               }
                           }
                       }
@@ -1092,14 +1190,14 @@
               }
           }
       },
-      "/agent/{agent_id}/trades/": {
+      "/agent/trades/{agent_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Get agent's trades",
-              "description": "Gets the trades of agent. The trades are paginated\n    and the page number can be specified using the query parameter\n    `page`. The default page number is 1. Each page will have 100 trades",
-              "operationId": "9_get_agent_trades",
+              "description": "Gets the trades of agent grouped by base_address. For each base_address,\n    you get the pool info, current holdings status, and all trades performed ordered by\n    time in descending order. The holdings are paginated with page_size defaulting to 100.",
+              "operationId": "11_get_agent_trades_v2",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -1121,6 +1219,20 @@
                           "default": 1,
                           "title": "Page"
                       }
+                  },
+                  {
+                      "name": "page_size",
+                      "in": "query",
+                      "required": false,
+                      "schema": {
+                          "type": "integer",
+                          "exclusiveMaximum": 100,
+                          "exclusiveMinimum": 0,
+                          "description": "Number of records per page. Default is 100. Max is 100.",
+                          "default": 30,
+                          "title": "Page Size"
+                      },
+                      "description": "Number of records per page. Default is 100. Max is 100."
                   },
                   {
                       "name": "x-fere-userid",
@@ -1161,21 +1273,11 @@
                       "content": {
                           "application/json": {
                               "schema": {
-                                  "anyOf": [
-                                      {
-                                          "type": "array",
-                                          "items": {
-                                              "$ref": "#/components/schemas/SolanaTradeResponse"
-                                          }
-                                      },
-                                      {
-                                          "type": "array",
-                                          "items": {
-                                              "$ref": "#/components/schemas/EvmTradeResponse"
-                                          }
-                                      }
-                                  ],
-                                  "title": "Response 9 Get Agent Trades"
+                                  "type": "array",
+                                  "items": {
+                                      "$ref": "#/components/schemas/GroupedTradesResponse"
+                                  },
+                                  "title": "Response 11 Get Agent Trades V2"
                               }
                           }
                       }
@@ -1193,14 +1295,14 @@
               }
           }
       },
-      "/agent/{agent_id}/sell/{ca}/{quantity}/": {
+      "/agent/sell/{agent_id}/{ca}/{quantity}/": {
           "post": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Perform a Sell",
-              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n    provided in the path parameter. Along with the `ca` (contract address) and the `quantity` to be sold.\n\n    `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n    to sell (in lamports for Solana or wei for Base). If `all` is provided, all tokens will be sold.\n\n    This call simply _schedules_ the sell. The actual sell will be executed\n    asynchronously. The response will contain the task ID which can be used to\n    check the status of the task.\n\n    To check status of the task, use the `/task/status/{task_id}/` endpoint.",
-              "operationId": "9_sell_tokens",
+              "description": "Create a sell instruction for Agent. The agent's ID (`agent_id`) should be\n     provided in the path parameter. Along with the `ca` (contract address) and the `quantity` to be sold.\n\n     `Quantity` can be either `all` or a number > 0. Quantity is the amount of tokens\n     to sell (in lamports for Solana or wei for Base). If `all` is provided, all tokens will be sold.\n\n     This call simply _schedules_ the sell. The actual sell will be executed\n     asynchronously. The response will contain the task ID which can be used to\n     check the status of the task.\n\n     To check status of the task, use the `/task/status/{task_id}/` endpoint.",
+              "operationId": "12_sell_tokens",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -1226,14 +1328,7 @@
                       "in": "path",
                       "required": true,
                       "schema": {
-                          "anyOf": [
-                              {
-                                  "type": "string"
-                              },
-                              {
-                                  "type": "integer"
-                              }
-                          ],
+                          "type": "string",
                           "title": "Quantity"
                       }
                   },
@@ -1290,7 +1385,7 @@
                                   "additionalProperties": {
                                       "type": "string"
                                   },
-                                  "title": "Response 9 Sell Tokens"
+                                  "title": "Response 12 Sell Tokens"
                               }
                           }
                       }
@@ -1308,14 +1403,14 @@
               }
           }
       },
-      "/agent/{agent_id}/decisions/": {
+      "/agent/decisions/{agent_id}/": {
           "get": {
               "tags": [
-                  "agent"
+                  "trades"
               ],
               "summary": "Get agent's decisions",
               "description": "Gets the decisions for all pools this agent has evaluated.\nThis is a paginated response. Each page has 100 entries. In response, the\n`decision` field is an enum and it means the following:\n\n- SELL = 0\n- BUY = 1\n- HOLD = 2\n- PASS = 3",
-              "operationId": "11_get_agent_decisions",
+              "operationId": "15_get_agent_decisions",
               "parameters": [
                   {
                       "name": "agent_id",
@@ -1349,7 +1444,7 @@
                                   "items": {
                                       "$ref": "#/components/schemas/TradeRecommendationsResponse"
                                   },
-                                  "title": "Response 11 Get Agent Decisions"
+                                  "title": "Response 15 Get Agent Decisions"
                               }
                           }
                       }
@@ -1367,10 +1462,10 @@
               }
           }
       },
-      "/agent/{agent_id}/sync/": {
+      "/agent/sync/{agent_id}/": {
           "patch": {
               "tags": [
-                  "agent"
+                  "lifecycle"
               ],
               "summary": "Sync onchain data for the agent",
               "description": "Triggers onchain data sync for Solana agents. Currently only supports Solana chain.",
@@ -1440,6 +1535,101 @@
                       "content": {
                           "application/json": {
                               "schema": {}
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/wallet-details/monk/tg/{auth_tg_userid}": {
+          "get": {
+              "tags": [
+                  "wallet-details"
+              ],
+              "summary": "Tg Wallet Details",
+              "description": "Get Wallet Details of the Sentient Trading Agent",
+              "operationId": "tg_wallet_details_wallet_details_monk_tg__auth_tg_userid__get",
+              "parameters": [
+                  {
+                      "name": "auth_tg_userid",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "title": "Auth Tg Userid"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                      "$ref": "#/components/schemas/src__schema__WalletDetails"
+                                  },
+                                  "title": "Response Tg Wallet Details Wallet Details Monk Tg  Auth Tg Userid  Get"
+                              }
+                          }
+                      }
+                  },
+                  "422": {
+                      "description": "Validation Error",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "$ref": "#/components/schemas/HTTPValidationError"
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+      },
+      "/wallet-details/monk/{user_id}": {
+          "get": {
+              "tags": [
+                  "wallet-details"
+              ],
+              "summary": "Wallet Details",
+              "description": "Get Wallet Details of the Sentient Trading Agent",
+              "operationId": "wallet_details_wallet_details_monk__user_id__get",
+              "parameters": [
+                  {
+                      "name": "user_id",
+                      "in": "path",
+                      "required": true,
+                      "schema": {
+                          "type": "string",
+                          "format": "uuid",
+                          "title": "User Id"
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "Successful Response",
+                      "content": {
+                          "application/json": {
+                              "schema": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                      "$ref": "#/components/schemas/src__schema__WalletDetails"
+                                  },
+                                  "title": "Response Wallet Details Wallet Details Monk  User Id  Get"
+                              }
                           }
                       }
                   },
@@ -1569,7 +1759,10 @@
                           }
                       ],
                       "title": "Your UUID at FereAI.",
-                      "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+                      "description": "Your UUID at FereAI. You will get this in the response to your API Request.",
+                      "examples": [
+                          "f7b3b3b3-4b3b-4b3b-4b3b-4b3b3b3b3b3b"
+                      ]
                   },
                   "name": {
                       "anyOf": [
@@ -1581,7 +1774,10 @@
                           }
                       ],
                       "title": "Name of the Agent.",
-                      "description": "Name of the Agent. If none is provided, a default name will be generated"
+                      "description": "Name of the Agent. If none is provided, a default name will be generated",
+                      "examples": [
+                          "My First Agent"
+                      ]
                   },
                   "description": {
                       "anyOf": [
@@ -1593,7 +1789,10 @@
                           }
                       ],
                       "title": "Description of the Agent.",
-                      "description": "Description of the Agent."
+                      "description": "Description of the Agent.",
+                      "examples": [
+                          "This is my first agent. I am excited to see how it performs."
+                      ]
                   },
                   "persona": {
                       "anyOf": [
@@ -1610,14 +1809,18 @@
                   "data_source": {
                       "anyOf": [
                           {
-                              "type": "string"
+                              "type": "string",
+                              "enum": [
+                                  "trending",
+                                  "latest"
+                              ]
                           },
                           {
                               "type": "null"
                           }
                       ],
                       "title": "Data Source of the Agent.",
-                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional is agent is in COPY_TRADE mode."
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional if agent is in COPY_TRADE mode. If set, this field has\n    no impact in COPY_TRADE mode."
                   },
                   "decision_prompt_pool": {
                       "anyOf": [
@@ -1647,7 +1850,12 @@
                       "type": "string",
                       "title": "Blockchain Network",
                       "description": "The blockchain network to use for trading.\n    Can be either 'SOLANA','BASE' or 'ARBITRUM'. SOLANA is the default network.\n    - SOLANA: Use Solana blockchain for trading\n    - ARBITRUM: Use Arbitrum blockchain for trading\n    - BASE: Use Base blockchain for trading",
-                      "default": "solana"
+                      "default": "solana",
+                      "examples": [
+                          "SOLANA",
+                          "BASE",
+                          "ARBITRUM"
+                      ]
                   },
                   "twitter_username": {
                       "anyOf": [
@@ -1659,7 +1867,10 @@
                           }
                       ],
                       "title": "Your Bot's Username.",
-                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    ",
+                      "examples": [
+                          "@my_twitter_username"
+                      ]
                   },
                   "fc_username": {
                       "anyOf": [
@@ -1671,13 +1882,20 @@
                           }
                       ],
                       "title": "Your FereAI Username.",
-                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    ",
+                      "examples": [
+                          "farcaster_username"
+                      ]
                   },
                   "dry_run": {
                       "type": "boolean",
                       "title": "Dry Run Mode.",
                       "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
-                      "default": true
+                      "default": true,
+                      "examples": [
+                          true,
+                          false
+                      ]
                   },
                   "dry_run_initial_usd": {
                       "anyOf": [
@@ -1689,7 +1907,10 @@
                           }
                       ],
                       "title": "Initial USD for Dry Run.",
-                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "examples": [
+                          1000
+                      ]
                   },
                   "dry_run_initial_native": {
                       "anyOf": [
@@ -1701,7 +1922,10 @@
                           }
                       ],
                       "title": "Initial Native Token for Dry Run.",
-                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "examples": [
+                          10
+                      ]
                   },
                   "max_investment_per_session": {
                       "anyOf": [
@@ -1714,7 +1938,10 @@
                       ],
                       "title": "Max Investment per Session.",
                       "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-                      "deprecated": true
+                      "deprecated": true,
+                      "examples": [
+                          0.8
+                      ]
                   },
                   "stop_loss": {
                       "anyOf": [
@@ -1726,7 +1953,10 @@
                           }
                       ],
                       "title": "Stop Loss Percentage.",
-                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.5
+                      ]
                   },
                   "trailing_stop_loss": {
                       "anyOf": [
@@ -1738,7 +1968,10 @@
                           }
                       ],
                       "title": "Trailing Stop Loss Percentage.",
-                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.3
+                      ]
                   },
                   "take_profit": {
                       "anyOf": [
@@ -1750,7 +1983,10 @@
                           }
                       ],
                       "title": "Take Profit Percentage.",
-                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.7
+                      ]
                   },
                   "mode": {
                       "anyOf": [
@@ -1765,8 +2001,13 @@
                           }
                       ],
                       "title": "Mode of the Agent.",
-                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
-                      "default": "MANUAL"
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will perform actions based on the buy/sell calls done by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent. This can be set by setting `parent_ids` field.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
+                      "default": "MANUAL",
+                      "examples": [
+                          "MANUAL",
+                          "COPY_TRADE",
+                          "AUTONOMOUS"
+                      ]
                   },
                   "parent_ids": {
                       "anyOf": [
@@ -1794,7 +2035,10 @@
                           }
                       ],
                       "title": "Investment per buy in Native currency (SOL or ETH)",
-                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy",
+                      "examples": [
+                          1
+                      ]
                   },
                   "investment_for_buy_usd": {
                       "anyOf": [
@@ -1806,7 +2050,10 @@
                           }
                       ],
                       "title": "Investment per buy in USD",
-                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    ",
+                      "examples": [
+                          100
+                      ]
                   }
               },
               "type": "object",
@@ -1825,7 +2072,10 @@
                           }
                       ],
                       "title": "Your UUID at FereAI.",
-                      "description": "Your UUID at FereAI. You will get this in the response to your API Request."
+                      "description": "Your UUID at FereAI. You will get this in the response to your API Request.",
+                      "examples": [
+                          "f7b3b3b3-4b3b-4b3b-4b3b-4b3b3b3b3b3b"
+                      ]
                   },
                   "name": {
                       "anyOf": [
@@ -1837,7 +2087,10 @@
                           }
                       ],
                       "title": "Name of the Agent.",
-                      "description": "Name of the Agent. If none is provided, a default name will be generated"
+                      "description": "Name of the Agent. If none is provided, a default name will be generated",
+                      "examples": [
+                          "My First Agent"
+                      ]
                   },
                   "description": {
                       "anyOf": [
@@ -1849,7 +2102,10 @@
                           }
                       ],
                       "title": "Description of the Agent.",
-                      "description": "Description of the Agent."
+                      "description": "Description of the Agent.",
+                      "examples": [
+                          "This is my first agent. I am excited to see how it performs."
+                      ]
                   },
                   "persona": {
                       "anyOf": [
@@ -1866,14 +2122,18 @@
                   "data_source": {
                       "anyOf": [
                           {
-                              "type": "string"
+                              "type": "string",
+                              "enum": [
+                                  "trending",
+                                  "latest"
+                              ]
                           },
                           {
                               "type": "null"
                           }
                       ],
                       "title": "Data Source of the Agent.",
-                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional is agent is in COPY_TRADE mode."
+                      "description": "Data Source of the Agent. It can either be `trending` or `latest`.\n    In trending mode, the agent will look for trending memecoins.\n    In latest mode, the agent will look for the latest launched memecoins.\n\n    This can be optional if agent is in COPY_TRADE mode. If set, this field has\n    no impact in COPY_TRADE mode."
                   },
                   "decision_prompt_pool": {
                       "anyOf": [
@@ -1903,7 +2163,12 @@
                       "type": "string",
                       "title": "Blockchain Network",
                       "description": "The blockchain network to use for trading.\n    Can be either 'SOLANA','BASE' or 'ARBITRUM'. SOLANA is the default network.\n    - SOLANA: Use Solana blockchain for trading\n    - ARBITRUM: Use Arbitrum blockchain for trading\n    - BASE: Use Base blockchain for trading",
-                      "default": "solana"
+                      "default": "solana",
+                      "examples": [
+                          "SOLANA",
+                          "BASE",
+                          "ARBITRUM"
+                      ]
                   },
                   "twitter_username": {
                       "anyOf": [
@@ -1915,7 +2180,10 @@
                           }
                       ],
                       "title": "Your Bot's Username.",
-                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    "
+                      "description": "Your Twitter Username. In the future this will be used so that\n    your bot can reply and interact on twitter.\n    ",
+                      "examples": [
+                          "@my_twitter_username"
+                      ]
                   },
                   "fc_username": {
                       "anyOf": [
@@ -1927,13 +2195,20 @@
                           }
                       ],
                       "title": "Your FereAI Username.",
-                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    "
+                      "description": "Your FereAI Username. In the future this will be used so that\n    your bot can reply and interact on FereAI.\n    ",
+                      "examples": [
+                          "farcaster_username"
+                      ]
                   },
                   "dry_run": {
                       "type": "boolean",
                       "title": "Dry Run Mode.",
                       "description": "If True, your agent will only simulate the trades and will not\n    actually buy or sell any tokens.\n    ",
-                      "default": true
+                      "default": true,
+                      "examples": [
+                          true,
+                          false
+                      ]
                   },
                   "dry_run_initial_usd": {
                       "anyOf": [
@@ -1945,7 +2220,10 @@
                           }
                       ],
                       "title": "Initial USD for Dry Run.",
-                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                      "description": "Initial USD amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "examples": [
+                          1000
+                      ]
                   },
                   "dry_run_initial_native": {
                       "anyOf": [
@@ -1957,7 +2235,10 @@
                           }
                       ],
                       "title": "Initial Native Token for Dry Run.",
-                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    "
+                      "description": "Initial Native Token amount for Dry Run. This will be used to simulate\n    the trades.\n    ",
+                      "examples": [
+                          10
+                      ]
                   },
                   "max_investment_per_session": {
                       "anyOf": [
@@ -1970,7 +2251,10 @@
                       ],
                       "title": "Max Investment per Session.",
                       "description": "Maximum amount of USD your agent can invest in a single session.\n    ",
-                      "deprecated": true
+                      "deprecated": true,
+                      "examples": [
+                          0.8
+                      ]
                   },
                   "stop_loss": {
                       "anyOf": [
@@ -1982,7 +2266,10 @@
                           }
                       ],
                       "title": "Stop Loss Percentage.",
-                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    "
+                      "description": "If the profit goes below this percentage, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.5
+                      ]
                   },
                   "trailing_stop_loss": {
                       "anyOf": [
@@ -1994,7 +2281,10 @@
                           }
                       ],
                       "title": "Trailing Stop Loss Percentage.",
-                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    "
+                      "description": "If the profit goes below this percentage from the peak, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.3
+                      ]
                   },
                   "take_profit": {
                       "anyOf": [
@@ -2006,7 +2296,10 @@
                           }
                       ],
                       "title": "Take Profit Percentage.",
-                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    "
+                      "description": "If the profit goes above this percentage, the agent will sell the token.\n    ",
+                      "examples": [
+                          0.7
+                      ]
                   },
                   "mode": {
                       "anyOf": [
@@ -2021,8 +2314,13 @@
                           }
                       ],
                       "title": "Mode of the Agent.",
-                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will take decisions based on the instructions provided by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
-                      "default": "MANUAL"
+                      "description": "Mode of the Agent. It can either be `MANUAL` (`0`), `COPY_TRADE` (`1`) or `AUTONOMOUS` (`2`).\n    In MANUAL mode, the agent will perform actions based on the buy/sell calls done by the user.\n    In COPY_TRADE mode, the agent will copy the trades of another agent. This can be set by setting `parent_ids` field.\n    In AUTONOMOUS mode, the agent will take decisions autonomously.\n    ",
+                      "default": "MANUAL",
+                      "examples": [
+                          "MANUAL",
+                          "COPY_TRADE",
+                          "AUTONOMOUS"
+                      ]
                   },
                   "parent_ids": {
                       "anyOf": [
@@ -2050,7 +2348,10 @@
                           }
                       ],
                       "title": "Investment per buy in Native currency (SOL or ETH)",
-                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy"
+                      "description": "The investment this agent will do per buy. It is in native amount.\n    For Solana agents, it's the SOL that will be spent. For EVM agents, its the\n    ETH that will be spent per buy",
+                      "examples": [
+                          1
+                      ]
                   },
                   "investment_for_buy_usd": {
                       "anyOf": [
@@ -2062,16 +2363,33 @@
                           }
                       ],
                       "title": "Investment per buy in USD",
-                      "description": "The investment this agent will do per buy. It is in USD amount.\n    "
+                      "description": "The investment this agent will do per buy. It is in USD amount.\n    ",
+                      "examples": [
+                          100
+                      ]
                   },
                   "id": {
-                      "type": "string",
-                      "format": "uuid",
+                      "anyOf": [
+                          {
+                              "type": "string",
+                              "format": "uuid"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Agent ID.",
                       "description": "Agent ID."
                   },
                   "wallet": {
-                      "$ref": "#/components/schemas/src__controllers__schema__WalletDetails",
+                      "anyOf": [
+                          {
+                              "$ref": "#/components/schemas/src__controllers__schema__WalletDetails"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Wallet Details.",
                       "description": "Wallet Details."
                   },
@@ -2784,6 +3102,7 @@
                       "anyOf": [
                           {
                               "items": {
+                                  "additionalProperties": true,
                                   "type": "object"
                               },
                               "type": "array"
@@ -3150,6 +3469,84 @@
                   "dry_run"
               ],
               "title": "EvmTradeResponse"
+          },
+          "GroupedTradesResponse": {
+              "properties": {
+                  "base_address": {
+                      "type": "string",
+                      "title": "Base Address"
+                  },
+                  "pool_address": {
+                      "type": "string",
+                      "title": "Pool Address"
+                  },
+                  "pool_name": {
+                      "type": "string",
+                      "title": "Pool Name"
+                  },
+                  "tokens_held": {
+                      "type": "number",
+                      "title": "Tokens Held"
+                  },
+                  "buying_price_usd": {
+                      "type": "number",
+                      "title": "Buying Price Usd"
+                  },
+                  "profit_usd": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Usd"
+                  },
+                  "profit_percentage": {
+                      "anyOf": [
+                          {
+                              "type": "number"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
+                      "title": "Profit Percentage"
+                  },
+                  "is_active": {
+                      "type": "boolean",
+                      "title": "Is Active"
+                  },
+                  "trades": {
+                      "anyOf": [
+                          {
+                              "items": {
+                                  "$ref": "#/components/schemas/SolanaTradeResponse"
+                              },
+                              "type": "array"
+                          },
+                          {
+                              "items": {
+                                  "$ref": "#/components/schemas/EvmTradeResponse"
+                              },
+                              "type": "array"
+                          }
+                      ],
+                      "title": "Trades"
+                  }
+              },
+              "type": "object",
+              "required": [
+                  "base_address",
+                  "pool_address",
+                  "pool_name",
+                  "tokens_held",
+                  "buying_price_usd",
+                  "is_active",
+                  "trades"
+              ],
+              "title": "GroupedTradesResponse"
           },
           "HTTPValidationError": {
               "properties": {
@@ -3749,7 +4146,14 @@
           "src__controllers__schema__WalletDetails": {
               "properties": {
                   "address": {
-                      "type": "string",
+                      "anyOf": [
+                          {
+                              "type": "string"
+                          },
+                          {
+                              "type": "null"
+                          }
+                      ],
                       "title": "Wallet Address.",
                       "description": "Wallet Address."
                   },
