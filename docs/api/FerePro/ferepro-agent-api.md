@@ -39,6 +39,11 @@ Ex: "What's the latest in /farcaster"
 This agent can only be accessed on websocket.
 Endpoint: `/chat/v2/ws/{user_id}?X-FRIDAY-KEY=YOUR_API_KEY`
 
+:::info
+The base url shall be `https://api.fereai.xyz/f`.
+Complete URL is `wss://api.fereai.xyz/f/chat/v2/ws/{user_id}?X-FRIDAY-KEY=YOUR_API_KEY`
+:::
+
 ## Message
 
 ```json
@@ -60,7 +65,7 @@ import json
 
 async def websocket_client():
     user = "1a5b4a29-9d95-44c8-aef3-05a8e515f43e"
-    uri = f"wss://api.fereai.xyz/chat/v2/ws/{user}"
+    uri = f"wss://api.fereai.xyz/f/chat/v2/ws/{user}"
 
     async with websockets.connect(uri) as websocket:
         # Message to send
@@ -95,7 +100,7 @@ asyncio.get_event_loop().run_until_complete(websocket_client())
 const WebSocket = require('ws');
 
 const user = "1a5b4a29-9d95-44c8-aef3-05a8e515f43e"
-const url = 'wss:/api.fereai.xyz/chat/v2/ws/' + user;
+const url = 'wss://api.fereai.xyz/f/chat/v2/ws/' + user;
 
 const ws = new WebSocket(url);
 
