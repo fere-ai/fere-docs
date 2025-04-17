@@ -5,5 +5,8 @@
     "Fere",
     "fereai",
     "Tokenomics"
-  ]
+  ],
+  "yaml.schemas": {
+    "https://www.artillery.io/schema.json": []
+  }
 }
